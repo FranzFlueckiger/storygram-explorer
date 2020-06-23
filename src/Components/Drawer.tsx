@@ -11,17 +11,17 @@ import EventIcon from '@material-ui/icons/Event';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
-import { Config } from 'storygram';
+import { Config, Storygram } from 'storygram';
 
 type MyDrawerProps = {
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
     drawerOpen: boolean,
     drawerWidth: number,
-    setConfig: React.Dispatch<React.SetStateAction<Config>>
-    config: Config,
+    storyGram: Storygram,
+    setStoryGram: React.Dispatch<React.SetStateAction<Storygram>>
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerWidth, setConfig, config }) => {
+export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerWidth, storyGram, setStoryGram }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -53,18 +53,14 @@ export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerW
         },
     }));
 
-    const [expanded, setExpanded] = React.useState<boolean | 'Data' | 'Actors' | 'Events' | 'Filtering' | 'Layout'>(false);
+    const [expandedMenu, setExpandedMenu] = React.useState<boolean | 'Data' | 'Actors' | 'Events' | 'Filtering' | 'Layout'>(false);
 
-    const handleChange = (panel: any) => (event: any, isExpanded: boolean) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleMenuChange = (panel: any) => (event: any, isExpanded: boolean) => {
+        setExpandedMenu(isExpanded ? panel : false);
     };
 
     const classes = useStyles(drawerWidth);
     const theme = useTheme();
-
-    const handleDrawerClose = () => {
-        setDrawerOpen(false);
-    };
 
     return (
         <div className={classes.root}>
@@ -78,99 +74,106 @@ export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerW
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
+                    <IconButton onClick={() => setDrawerOpen(false)}>
                         {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                     </IconButton>
                 </div>
-                
-                <ExpansionPanel expanded={expanded === 'Data'} onChange={handleChange('Data')}>
+
+                <ExpansionPanel expanded={expandedMenu === 'Data'} onChange={handleMenuChange('Data')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel1bh-content"
                         id="panel1bh-header"
                     >
-                        <DataIcon/>
+                        <DataIcon />
                         <Typography className={classes.heading}>Data</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        
+
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel expanded={expanded === 'Events'} onChange={handleChange('Events')}>
+                <ExpansionPanel expanded={expandedMenu === 'Events'} onChange={handleMenuChange('Events')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel2bh-content"
                         id="panel2bh-header"
                     >
-                        <EventIcon/>
+                        <EventIcon />
                         <Typography className={classes.heading}>Events</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        
+
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel expanded={expanded === 'Actors'} onChange={handleChange('Actors')}>
+                <ExpansionPanel expanded={expandedMenu === 'Actors'} onChange={handleMenuChange('Actors')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel3bh-content"
                         id="panel3bh-header"
                     >
-                        <PeopleAltIcon/>
+                        <PeopleAltIcon />
                         <Typography className={classes.heading}>Actors</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        
+
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel expanded={expanded === 'Filtering'} onChange={handleChange('Filtering')}>
+                <ExpansionPanel expanded={expandedMenu === 'Filtering'} onChange={handleMenuChange('Filtering')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel4bh-content"
                         id="panel4bh-header"
                     >
-                        <FilterListIcon/>
+                        <FilterListIcon />
                         <Typography className={classes.heading}>Filtering</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        
+
                         <List component="nav" aria-label="main mailbox folders">
                             <ListItem>
                                 <ListItemText primary="Event value" />
                             </ListItem>
-                            
-                            <List component="nav" aria-label="main mailbox folders"></List>
+                            <Divider />
                             <ListItem>
                                 <ListItemText primary="Group size" />
                             </ListItem>
-                        </List>
-                        <Divider />
-                        <List component="nav" aria-label="secondary mailbox folders">
+                            <Divider />
                             <ListItem>
                                 <ListItemText primary="Group amount" />
                                 <Slider
-                                    value={[config.filterGroupAmt![0] as number, config.filterGroupAmt![1] as number]}
-                                    onChange={(event, newValue) => setConfig({...config, })}
+                                    value={[
+                                        storyGram.config.filterGroupAmt![0] as number,
+                                        storyGram.config.filterGroupAmt![1] as number
+                                    ]}
+                                    min={0}
+                                    max={storyGram.processedData.actors}
+                                    onChange={(_, newValue) => {
+                                        // @ts-ignore
+                                        storyGram.setConfig({ ...storyGram.config, filterGroupAmt: newValue })
+                                        console.log(storyGram.config.filterGroupAmt)
+                                        setStoryGram(storyGram)
+                                        }
+                                    }
                                     valueLabelDisplay="auto"
                                     aria-labelledby="range-slider"
                                     getAriaValueText={(value) => String(value)}
                                 />
-                                {config.filterGroupAmt}
                             </ListItem>
                         </List>
 
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
-                <ExpansionPanel expanded={expanded === 'Layout'} onChange={handleChange('Layout')}>
+                <ExpansionPanel expanded={expandedMenu === 'Layout'} onChange={handleMenuChange('Layout')}>
                     <ExpansionPanelSummary
                         expandIcon={<ExpandMoreIcon />}
                         aria-controls="panel5bh-content"
                         id="panel5bh-header"
                     >
-                        <PhotoFilterIcon/>
+                        <PhotoFilterIcon />
                         <Typography className={classes.heading}>Layout</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>

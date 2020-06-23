@@ -1,15 +1,12 @@
 import React, { useEffect, FC, useState } from 'react';
 import { Storygram, Config } from 'storygram';
 
-type StorygramWrapperProps = {
-    data: any[];
-    config: Config;
+type StorygramDrawerProps = {
+    storyGram: Storygram
 };
 
-const StorygramWrapper: FC<StorygramWrapperProps> = ({ data, config }) => {
+const StorygramDrawer: FC<StorygramDrawerProps> = ({ storyGram }) => {
     const [isExpanded, setExpanded] = useState(false);
-
-    const storyGram = new Storygram(data, config)
 
     const root = "storygramRoot-" + Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 
@@ -17,11 +14,11 @@ const StorygramWrapper: FC<StorygramWrapperProps> = ({ data, config }) => {
         storyGram.config.root = "#" + root
         storyGram.draw();
         return () => storyGram.remove()
-    }, [config, data, root]);
+    }, [root]);
 
     return (
         <div id={root}></div>
     );
 };
 
-export default StorygramWrapper;
+export default StorygramDrawer;

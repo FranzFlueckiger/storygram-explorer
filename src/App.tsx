@@ -4,7 +4,7 @@ import { CssBaseline } from '@material-ui/core';
 import { MyShowCase } from './Components/ShowCase';
 import { MyAppBar } from './Components/AppBar';
 import { MyDrawer } from './Components/Drawer';
-import { Config } from 'storygram';
+import { Config, Storygram } from 'storygram';
 import { BlockBusterdata } from './Components/exampleData';
 
 const configBlock: Config = {
@@ -14,7 +14,7 @@ const configBlock: Config = {
   eventField: 'release_date',
   eventDescription: (l: any) =>
     (l.data.original_title + ' (' + l.data.vote_average + '/10)') as string,
-  filterGroupAmt: [2, undefined],
+  filterGroupAmt: [2, 20],
   filterEventValue: ['1 Jan 2000', '1 Jan 2008'],
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
   eventValueScaling: 0.003,
@@ -33,7 +33,7 @@ function App() {
   const drawerWidth = 300;
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const [config, setConfig] = React.useState<Config>(configBlock);
+  const [storyGram, setStorygram] = React.useState<Storygram>(new Storygram(BlockBusterdata(), configBlock));
 
   return (
     <div>
@@ -47,14 +47,13 @@ function App() {
         drawerWidth={drawerWidth}
         drawerOpen={drawerOpen}
         setDrawerOpen={setDrawerOpen}
-        setConfig={setConfig}
-        config={config}
+        storyGram={storyGram}
+        setStoryGram={setStorygram}
       />
       <MyShowCase
         drawerWidth={drawerWidth}
         drawerOpen={drawerOpen}
-        config={config}
-        data={BlockBusterdata()}
+        storyGram={storyGram}
       />
     </div>
   );

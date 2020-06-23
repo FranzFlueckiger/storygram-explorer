@@ -1,18 +1,17 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { Config } from 'storygram';
+import { Config, Storygram } from 'storygram';
 import { BlockBusterdata } from './exampleData';
-import StorygramWrapper from './sgWrapper';
+import StorygramDrawer from './sgWrapper';
 
 type MyShowCaseProps = {
     drawerOpen: boolean,
     drawerWidth: number,
-    config: Config,
-    data: any[]
+    storyGram: Storygram
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, config, data }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, storyGram }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -36,7 +35,7 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, confi
             marginLeft: drawerWidth,
         },
     }));
-
+    
     const classes = useStyles();
 
     return (
@@ -46,7 +45,7 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, confi
                     [classes.contentShift]: drawerOpen,
                 })}
             >
-                <StorygramWrapper data={data} config={config} />
+                <StorygramDrawer storyGram={storyGram} />
             </main>
         </div>
     );
