@@ -1,9 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
-import StorygramWrapper from './Components/sgWrapper';
-import { BlockBusterdata } from './Components/exampleData';
+import { CssBaseline } from '@material-ui/core';
+import { MyShowCase } from './Components/ShowCase';
+import { MyAppBar } from './Components/AppBar';
+import { MyDrawer } from './Components/Drawer';
 import { Config } from 'storygram';
+import { BlockBusterdata } from './Components/exampleData';
 
 const configBlock: Config = {
   dataFormat: 'array',
@@ -27,9 +29,33 @@ const configBlock: Config = {
 };
 
 function App() {
+
+  const drawerWidth = 300;
+
+  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const [config, setConfig] = React.useState<Config>(configBlock);
+
   return (
     <div>
-      <StorygramWrapper data={BlockBusterdata()} config={configBlock} />
+      <CssBaseline />
+      <MyAppBar
+        drawerWidth={drawerWidth}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+      />
+      <MyDrawer
+        drawerWidth={drawerWidth}
+        drawerOpen={drawerOpen}
+        setDrawerOpen={setDrawerOpen}
+        setConfig={setConfig}
+        config={config}
+      />
+      <MyShowCase
+        drawerWidth={drawerWidth}
+        drawerOpen={drawerOpen}
+        config={config}
+        data={BlockBusterdata()}
+      />
     </div>
   );
 }
