@@ -149,7 +149,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerW
                                         storyGram.config.filterGroupAmt![1] as number
                                     ]}
                                     min={0}
-                                    max={storyGram.processedData.actors}
+                                    max={storyGram.config.filterGroupAmt![1] as number}
                                     onChange={(_, newValue) => {
                                         // @ts-ignore
                                         storyGram.setConfig({ ...storyGram.config, filterGroupAmt: newValue })
