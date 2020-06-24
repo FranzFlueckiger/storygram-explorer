@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import { CssBaseline } from '@material-ui/core';
-import { MyShowCase } from './Components/ShowCase';
-import { MyAppBar } from './Components/AppBar';
-import { MyDrawer } from './Components/Drawer';
-import { Config, Storygram } from 'storygram';
-import { BlockBusterdata } from './Components/exampleData';
+import {CssBaseline} from '@material-ui/core';
+import {MyShowCase} from './Components/ShowCase';
+import {MyAppBar} from './Components/AppBar';
+import {MyDrawer} from './Components/Drawer';
+import {Config, Storygram} from 'storygram';
+import {BlockBusterdata} from './Components/exampleData';
 
 const configBlock: Config = {
   dataFormat: 'array',
@@ -15,6 +15,7 @@ const configBlock: Config = {
   eventDescription: (l: any) =>
     (l.data.original_title + ' (' + l.data.vote_average + '/10)') as string,
   filterGroupAmt: [2, 20],
+  filterGroupSize: [1, 20],
   filterEventValue: ['1 Jan 2000', '1 Jan 2008'],
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
   eventValueScaling: 0.003,
@@ -30,15 +31,14 @@ const configBlock: Config = {
 
 function App() {
 
-  const drawerWidth = 300;
+  const drawerWidth = 350;
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
   const [config, setConfig] = React.useState<Config>(configBlock)
   const [data, setData] = React.useState<any[]>(BlockBusterdata())
   const storyGram = new Storygram(data, config)
   storyGram.remove()
-  storyGram.draw()
-  console.log('App SG', storyGram)
+  storyGram.calculate()
 
   return (
     <div>

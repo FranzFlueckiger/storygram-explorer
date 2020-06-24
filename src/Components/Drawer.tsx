@@ -4,7 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import EventIcon from '@material-ui/icons/Event';
@@ -12,6 +12,13 @@ import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import {Config, Storygram} from 'storygram';
+import {Actor} from 'storygram/dist/Types';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import {ListboxComponent, renderGroup} from './BigAutoComplete';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Switch from '@material-ui/core/Switch';
+import parse from 'autosuggest-highlight/parse';
+import match from 'autosuggest-highlight/match';
 
 type MyDrawerProps = {
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -60,6 +67,18 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
         setExpandedMenu(isExpanded ? panel : false);
     };
 
+    const visibleActors = Array.from(storyGram.processedData.actors)
+        .filter((actorKV: [string, Actor]) => {
+            return !actorKV[1].isHidden
+        })
+
+    const allActors = Array.from(storyGram.data.actors)
+        .map(actorKV => actorKV[1])
+        .sort((a, b) => {
+            if(a.layers.length === b.layers.length) return a.actorID.localeCompare(b.actorID)
+            return b.layers.length - a.layers.length
+        })
+
     const classes = useStyles(drawerWidth);
     const theme = useTheme();
 
@@ -101,7 +120,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         id="panel2bh-header"
                     >
                         <EventIcon />
-                        <Typography className={classes.heading}>Events</Typography>
+                        <Typography className={classes.heading}>Events({storyGram.processedData.events.length})</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
 
@@ -115,7 +134,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         id="panel3bh-header"
                     >
                         <PeopleAltIcon />
-                        <Typography className={classes.heading}>Actors</Typography>
+                        <Typography className={classes.heading}>Actors({visibleActors.length})</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
 
@@ -133,13 +152,39 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
 
-                        <List component="nav" aria-label="main mailbox folders">
+                        <List
+                            component="nav"
+                            aria-label="main mailbox folders"
+                            style={{
+                                width: '100%'
+                            }}
+                        >
                             <ListItem>
                                 <ListItemText primary="Event value" />
                             </ListItem>
                             <Divider />
                             <ListItem>
                                 <ListItemText primary="Group size" />
+                                <Slider
+                                    value={[
+                                        config.filterGroupSize![0] as number,
+                                        config.filterGroupSize![1] as number
+                                    ]}
+                                    min={1}
+                                    max={storyGram.processedData.events
+                                        .reduce((maxSize, group) => {
+                                            return Math.max(maxSize, group.group.length + group.hiddenActors.length)
+                                        }, 0)}
+                                    step={1}
+                                    marks
+                                    onChange={(_, newValue) => {
+                                        setConfig({...config, filterGroupSize: (newValue as [number, number])})
+                                    }
+                                    }
+                                    valueLabelDisplay="auto"
+                                    aria-labelledby="range-slider"
+                                    getAriaValueText={(value) => String(value)}
+                                />
                             </ListItem>
                             <Divider />
                             <ListItem>
@@ -149,9 +194,15 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                         config.filterGroupAmt![0] as number,
                                         config.filterGroupAmt![1] as number
                                     ]}
-                                    min={0}
-                                    max={20}
+                                    min={1}
+                                    max={visibleActors.reduce((maxAmt, actorKV) => {
+                                        return Math.max(
+                                            maxAmt,
+                                            actorKV[1].layers
+                                                .filter(event => !event.isHidden).length)
+                                    }, 0)}
                                     step={1}
+                                    marks
                                     onChange={(_, newValue) => {
                                         setConfig({...config, filterGroupAmt: (newValue as [number, number])})
                                     }
@@ -160,6 +211,31 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                     aria-labelledby="range-slider"
                                     getAriaValueText={(value) => String(value)}
                                 />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText primary="Event contains all actors" />
+                            </ListItem>
+                            <ListItem>
+                                <Autocomplete
+                                    id="virtualize-demo"
+                                    style={{width: '100%'}}
+                                    disableListWrap
+                                    classes={classes}
+                                    ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+                                    getOptionLabel={(actor) => actor.actorID + ' (' + actor.layers.length + ')'}
+                                    renderGroup={renderGroup}
+                                    options={allActors}
+                                    //groupBy={(option) => option.isHidden.toUpperCase()}
+                                    renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
+                                    multiple
+                                    limitTags={2}
+                                />
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <ListItemText primary="Event contains some actors" />
+
                             </ListItem>
                         </List>
 
@@ -176,7 +252,30 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         <Typography className={classes.heading}>Layout</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={config.compact}
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                        setConfig({...config, compact: event.target.checked})}
+                                    name="checkedB"
+                                    color="primary"
+                                />
+                            }
+                            label="Compact"
+                        />
+                        <FormControlLabel
+                            control={
+                                <Switch
+                                    checked={config.continuous}
+                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                        setConfig({...config, continuous: event.target.checked})}
+                                    name="checkedB"
+                                    color="primary"
+                                />
+                            }
+                            label="Continuous"
+                        />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
