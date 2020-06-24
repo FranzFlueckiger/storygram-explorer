@@ -18,6 +18,7 @@ const configBlock: Config = {
   filterGroupSize: [1, 20],
   filterEventValue: ['1 Jan 2000', '1 Jan 2008'],
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
+  //mustContain: ['Leonardo DiCaprio', 'Jude Law'],
   eventValueScaling: 0.003,
   url: (event: any, actor: any) =>
     'https://www.google.ch/search?q=' +

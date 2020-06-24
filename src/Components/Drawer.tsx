@@ -72,6 +72,10 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
             return !actorKV[1].isHidden
         })
 
+    const getActorFromString = (actorID: string) => {
+        return storyGram.data.actors.get(actorID)
+    }
+
     const allActors = Array.from(storyGram.data.actors)
         .map(actorKV => actorKV[1])
         .sort((a, b) => {
@@ -137,6 +141,40 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         <Typography className={classes.heading}>Actors({visibleActors.length})</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
+                        <List
+                            component="nav"
+                            aria-label="main mailbox folders"
+                            style={{
+                                width: '100%'
+                            }}
+                        >
+                            <ListItem>
+                                <ListItemText primary="Highlight" />
+                            </ListItem>
+                            <ListItem>
+                                <Autocomplete
+                                    id="virtualize-demo"
+                                    style={{width: '100%'}}
+                                    disableListWrap
+                                    classes={classes}
+                                    ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+                                    getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
+                                    renderGroup={renderGroup}
+                                    options={allActors}
+                                    renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
+                                    multiple
+                                    limitTags={2}
+                                    defaultValue={config.highlight?.map(actorID => {
+                                        return getActorFromString(actorID)
+                                    })}
+                                    // @ts-ignore
+                                    onChange={(_: any, newActors: Actor[] | null) => {
+                                        const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
+                                        setConfig({...config, highlight: newActorIDs});
+                                    }}
+                                />
+                            </ListItem>
+                        </List>
 
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
@@ -165,6 +203,8 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                             <Divider />
                             <ListItem>
                                 <ListItemText primary="Group size" />
+                            </ListItem>
+                            <ListItem>
                                 <Slider
                                     value={[
                                         config.filterGroupSize![0] as number,
@@ -189,6 +229,8 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                             <Divider />
                             <ListItem>
                                 <ListItemText primary="Group amount" />
+                            </ListItem>
+                            <ListItem>
                                 <Slider
                                     value={[
                                         config.filterGroupAmt![0] as number,
@@ -223,19 +265,48 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                     disableListWrap
                                     classes={classes}
                                     ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
-                                    getOptionLabel={(actor) => actor.actorID + ' (' + actor.layers.length + ')'}
+                                    getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
                                     renderGroup={renderGroup}
                                     options={allActors}
-                                    //groupBy={(option) => option.isHidden.toUpperCase()}
                                     renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                     multiple
                                     limitTags={2}
+                                    defaultValue={config.mustContain?.map(actorID => {
+                                        return getActorFromString(actorID)
+                                    })}
+                                    // @ts-ignore
+                                    onChange={(_: any, newActors: Actor[] | null) => {
+                                        const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
+                                        setConfig({...config, mustContain: newActorIDs});
+                                    }}
                                 />
                             </ListItem>
                             <Divider />
                             <ListItem>
                                 <ListItemText primary="Event contains some actors" />
-
+                            </ListItem>
+                            <ListItem>
+                                <Autocomplete
+                                    id="virtualize-demo"
+                                    style={{width: '100%'}}
+                                    disableListWrap
+                                    classes={classes}
+                                    ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+                                    getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
+                                    renderGroup={renderGroup}
+                                    options={allActors}
+                                    renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
+                                    multiple
+                                    limitTags={2}
+                                    defaultValue={config.shouldContain?.map(actorID => {
+                                        return getActorFromString(actorID)
+                                    })}
+                                    // @ts-ignore
+                                    onChange={(_: any, newActors: Actor[] | null) => {
+                                        const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
+                                        setConfig({...config, shouldContain: newActorIDs});
+                                    }}
+                                />
                             </ListItem>
                         </List>
 
@@ -252,35 +323,48 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         <Typography className={classes.heading}>Layout</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={config.compact}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                        setConfig({...config, compact: event.target.checked})}
-                                    name="checkedB"
-                                    color="primary"
+                        <List
+                            component="nav"
+                            aria-label="main mailbox folders"
+                            style={{
+                                width: '100%'
+                            }}
+                        >
+                            <ListItem>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={config.compact}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                                setConfig({...config, compact: event.target.checked})}
+                                            name="checkedB"
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Compact"
                                 />
-                            }
-                            label="Compact"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Switch
-                                    checked={config.continuous}
-                                    onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                        setConfig({...config, continuous: event.target.checked})}
-                                    name="checkedB"
-                                    color="primary"
+                            </ListItem>
+                            <Divider />
+                            <ListItem>
+                                <FormControlLabel
+                                    control={
+                                        <Switch
+                                            checked={config.continuous}
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                                                setConfig({...config, continuous: event.target.checked})}
+                                            name="checkedB"
+                                            color="primary"
+                                        />
+                                    }
+                                    label="Continuous"
                                 />
-                            }
-                            label="Continuous"
-                        />
+                            </ListItem>
+                        </List>
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
 
             </Drawer>
-        </div>
+        </div >
     );
 
 }
