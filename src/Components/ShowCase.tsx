@@ -8,10 +8,12 @@ import StorygramDrawer from './sgWrapper';
 type MyShowCaseProps = {
     drawerOpen: boolean,
     drawerWidth: number,
-    storyGram: Storygram
+    storyGram: Storygram,
+    config: Config,
+    data: any[]
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, storyGram }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, storyGram, config, data }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -45,7 +47,7 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, story
                     [classes.contentShift]: drawerOpen,
                 })}
             >
-                <StorygramDrawer storyGram={storyGram} />
+                <StorygramDrawer storyGram={storyGram} config={config} data={data} />
             </main>
         </div>
     );

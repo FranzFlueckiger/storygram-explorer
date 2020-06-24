@@ -33,7 +33,12 @@ function App() {
   const drawerWidth = 300;
 
   const [drawerOpen, setDrawerOpen] = React.useState(true);
-  const [storyGram, setStorygram] = React.useState<Storygram>(new Storygram(BlockBusterdata(), configBlock));
+  const [config, setConfig] = React.useState<Config>(configBlock)
+  const [data, setData] = React.useState<any[]>(BlockBusterdata())
+  const storyGram = new Storygram(data, config)
+  storyGram.remove()
+  storyGram.draw()
+  console.log('App SG', storyGram)
 
   return (
     <div>
@@ -48,12 +53,15 @@ function App() {
         drawerOpen={drawerOpen}
         setDrawerOpen={setDrawerOpen}
         storyGram={storyGram}
-        setStoryGram={setStorygram}
+        config={config}
+        setConfig={setConfig}
       />
       <MyShowCase
         drawerWidth={drawerWidth}
         drawerOpen={drawerOpen}
         storyGram={storyGram}
+        config={config}
+        data={data}
       />
     </div>
   );

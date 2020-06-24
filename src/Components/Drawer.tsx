@@ -1,27 +1,28 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider } from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import EventIcon from '@material-ui/icons/Event';
 import PeopleAltIcon from '@material-ui/icons/PeopleAlt';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
-import { Config, Storygram } from 'storygram';
+import {Config, Storygram} from 'storygram';
 
 type MyDrawerProps = {
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
     drawerOpen: boolean,
     drawerWidth: number,
     storyGram: Storygram,
-    setStoryGram: React.Dispatch<React.SetStateAction<Storygram>>
+    config: Config,
+    setConfig: React.Dispatch<React.SetStateAction<Config>>
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerWidth, storyGram, setStoryGram }) => {
+export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWidth, storyGram, config, setConfig}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -145,17 +146,15 @@ export const MyDrawer: FC<MyDrawerProps> = ({ setDrawerOpen, drawerOpen, drawerW
                                 <ListItemText primary="Group amount" />
                                 <Slider
                                     value={[
-                                        storyGram.config.filterGroupAmt![0] as number,
-                                        storyGram.config.filterGroupAmt![1] as number
+                                        config.filterGroupAmt![0] as number,
+                                        config.filterGroupAmt![1] as number
                                     ]}
                                     min={0}
-                                    max={storyGram.config.filterGroupAmt![1] as number}
+                                    max={20}
+                                    step={1}
                                     onChange={(_, newValue) => {
-                                        // @ts-ignore
-                                        storyGram.setConfig({ ...storyGram.config, filterGroupAmt: newValue })
-                                        console.log(storyGram.config.filterGroupAmt)
-                                        setStoryGram(storyGram)
-                                        }
+                                        setConfig({...config, filterGroupAmt: (newValue as [number, number])})
+                                    }
                                     }
                                     valueLabelDisplay="auto"
                                     aria-labelledby="range-slider"
