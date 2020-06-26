@@ -4,7 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 import IconButton from '@material-ui/core/IconButton';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import EventIcon from '@material-ui/icons/Event';
@@ -17,8 +17,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ListboxComponent, renderGroup} from './BigAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import parse from 'autosuggest-highlight/parse';
-import match from 'autosuggest-highlight/match';
+import {visibleActorsList, allActorsList, getActorFromString, storyGramColorSchemes} from '../Util/storyGramHelpers';
 
 type MyDrawerProps = {
     setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
@@ -59,6 +58,10 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
             fontSize: theme.typography.pxToRem(15),
             color: theme.palette.text.secondary,
         },
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
     }));
 
     const [expandedMenu, setExpandedMenu] = React.useState<boolean | 'Data' | 'Actors' | 'Events' | 'Filtering' | 'Layout'>(false);
@@ -66,22 +69,6 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
     const handleMenuChange = (panel: any) => (event: any, isExpanded: boolean) => {
         setExpandedMenu(isExpanded ? panel : false);
     };
-
-    const visibleActors = Array.from(storyGram.processedData.actors)
-        .filter((actorKV: [string, Actor]) => {
-            return !actorKV[1].isHidden
-        })
-
-    const getActorFromString = (actorID: string) => {
-        return storyGram.data.actors.get(actorID)
-    }
-
-    const allActors = Array.from(storyGram.data.actors)
-        .map(actorKV => actorKV[1])
-        .sort((a, b) => {
-            if(a.layers.length === b.layers.length) return a.actorID.localeCompare(b.actorID)
-            return b.layers.length - a.layers.length
-        })
 
     const classes = useStyles(drawerWidth);
     const theme = useTheme();
@@ -138,7 +125,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                         id="panel3bh-header"
                     >
                         <PeopleAltIcon />
-                        <Typography className={classes.heading}>Actors({visibleActors.length})</Typography>
+                        <Typography className={classes.heading}>Actors({visibleActorsList(storyGram).length})</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <List
@@ -160,12 +147,12 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                     ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                     getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
                                     renderGroup={renderGroup}
-                                    options={allActors}
+                                    options={allActorsList(storyGram)}
                                     renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                     multiple
                                     limitTags={2}
                                     defaultValue={config.highlight?.map(actorID => {
-                                        return getActorFromString(actorID)
+                                        return getActorFromString(actorID, storyGram)
                                     })}
                                     // @ts-ignore
                                     onChange={(_: any, newActors: Actor[] | null) => {
@@ -237,10 +224,10 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                         config.filterGroupAmt![1] as number
                                     ]}
                                     min={1}
-                                    max={visibleActors.reduce((maxAmt, actorKV) => {
+                                    max={visibleActorsList(storyGram).reduce((maxAmt, actor) => {
                                         return Math.max(
                                             maxAmt,
-                                            actorKV[1].layers
+                                            actor.layers
                                                 .filter(event => !event.isHidden).length)
                                     }, 0)}
                                     step={1}
@@ -267,12 +254,12 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                     ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                     getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
                                     renderGroup={renderGroup}
-                                    options={allActors}
+                                    options={allActorsList(storyGram)}
                                     renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                     multiple
                                     limitTags={2}
                                     defaultValue={config.mustContain?.map(actorID => {
-                                        return getActorFromString(actorID)
+                                        return getActorFromString(actorID, storyGram)
                                     })}
                                     // @ts-ignore
                                     onChange={(_: any, newActors: Actor[] | null) => {
@@ -294,12 +281,12 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                     ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                     getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
                                     renderGroup={renderGroup}
-                                    options={allActors}
+                                    options={allActorsList(storyGram)}
                                     renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                     multiple
                                     limitTags={2}
                                     defaultValue={config.shouldContain?.map(actorID => {
-                                        return getActorFromString(actorID)
+                                        return getActorFromString(actorID, storyGram)
                                     })}
                                     // @ts-ignore
                                     onChange={(_: any, newActors: Actor[] | null) => {
@@ -357,6 +344,38 @@ export const MyDrawer: FC<MyDrawerProps> = ({setDrawerOpen, drawerOpen, drawerWi
                                         />
                                     }
                                     label="Continuous"
+                                />
+                            </ListItem>
+                            <ListItem>
+                                <FormControl className={classes.formControl}>
+                                    <InputLabel id="demo-simple-select-label">Color scheme</InputLabel>
+                                    <Select
+                                        labelId="demo-simple-select-label"
+                                        id="demo-simple-select"
+                                        value={config.colorScheme}
+                                        onChange={(event: React.ChangeEvent<{value: unknown}>) => {
+                                            // @ts-ignore
+                                            setConfig({...config, colorScheme: event.target.value});
+                                        }}
+                                    >
+                                        {storyGramColorSchemes.map(colorScheme =>
+                                            <MenuItem value={colorScheme}>{colorScheme}</MenuItem>)}
+                                    </Select>
+                                </FormControl>
+                            </ListItem>
+                            <ListItem>
+                                <Slider
+                                    value={config.eventValueScaling}
+                                    min={0}
+                                    max={0.01}
+                                    step={0.001}
+                                    onChange={(_, newValue) => {
+                                        setConfig({...config, eventValueScaling: (newValue as number)})
+                                    }
+                                    }
+                                    valueLabelDisplay="auto"
+                                    aria-labelledby="range-slider"
+                                    getAriaValueText={(value) => String(value)}
                                 />
                             </ListItem>
                         </List>
