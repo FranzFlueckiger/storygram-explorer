@@ -6,14 +6,14 @@ import { BlockBusterdata } from './exampleData';
 import StorygramDrawer from './sgWrapper';
 
 type MyShowCaseProps = {
-    drawerOpen: boolean,
     drawerWidth: number,
     storyGram: Storygram,
     config: Config,
-    data: any[]
+    data: any[],
+    selectedTab: number
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, storyGram, config, data }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, storyGram, config, data, selectedTab }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -26,28 +26,20 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ drawerWidth, drawerOpen, story
                 easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
             }),
-            marginLeft: 0,
-            marginTop: 70,
-        },
-        contentShift: {
-            transition: theme.transitions.create('margin', {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
             marginLeft: drawerWidth,
+            marginTop: 70,
         },
     }));
     
     const classes = useStyles();
 
-    return (
+    return ( 
         <div className={classes.root}>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: drawerOpen,
-                })}
-            >
-                <StorygramDrawer storyGram={storyGram} config={config} data={data} />
+            <main className={classes.content}>
+                {
+                    selectedTab === 0 ? <StorygramDrawer storyGram={storyGram} config={config} data={data} /> :
+                    null
+                }
             </main>
         </div>
     );

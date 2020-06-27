@@ -14,8 +14,8 @@ const configBlock: Config = {
   eventField: 'release_date',
   eventDescription: (l: any) =>
     (l.data.original_title + ' (' + l.data.vote_average + '/10)') as string,
-  filterGroupAmt: [2, 20],
-  filterGroupSize: [1, 20],
+  filterGroupAmt: [2,undefined],
+  filterGroupSize: [1,undefined],
   filterEventValue: ['1 Jan 2000', '1 Jan 2008'],
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
   //mustContain: ['Leonardo DiCaprio', 'Jude Law'],
@@ -29,12 +29,12 @@ const configBlock: Config = {
   marginRight: 200,
   highlight: ['Leonardo DiCaprio', 'Jude Law']
 };
-
+ 
 function App() {
 
   const drawerWidth = 350;
 
-  const [drawerOpen, setDrawerOpen] = React.useState(true);
+  const [selectedTab, setSelectedTab] = React.useState<number>(0)
   const [config, setConfig] = React.useState<Config>(configBlock)
   const [data, setData] = React.useState<any[]>(BlockBusterdata())
   const storyGram = new Storygram(data, config)
@@ -45,24 +45,22 @@ function App() {
     <div>
       <CssBaseline />
       <MyAppBar
-        drawerWidth={drawerWidth}
-        drawerOpen={drawerOpen}
-        setDrawerOpen={setDrawerOpen}
+        storyGram={storyGram}
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
       />
       <MyDrawer
         drawerWidth={drawerWidth}
-        drawerOpen={drawerOpen}
-        setDrawerOpen={setDrawerOpen}
         storyGram={storyGram}
         config={config}
         setConfig={setConfig}
       />
       <MyShowCase
         drawerWidth={drawerWidth}
-        drawerOpen={drawerOpen}
         storyGram={storyGram}
         config={config}
         data={data}
+        selectedTab={selectedTab}
       />
     </div>
   );

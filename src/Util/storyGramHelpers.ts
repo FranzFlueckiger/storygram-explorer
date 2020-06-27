@@ -3,6 +3,18 @@ import {Actor} from "storygram/dist/Types"
 
 export const storyGramColorSchemes = ['schemeCategory10', 'schemeAccent', 'schemeDark2', 'schemePaired', 'schemePastel1', 'schemePastel2', 'schemeSet1', 'schemeSet2', 'schemeSet3']
 
+type StoryGramMetadata = {
+    visibleActorsList: Array<Actor>,
+    allActorsList: Array<Actor>,
+    getBiggestGroup: Event,
+    getMaxGroupedActor: Actor,
+    getBiggestVisibleGroup: Event,
+    getMaxGroupedVisibleActor: Actor,
+}
+
+export const getStoryGramMetadata = (storyGram: Storygram) => {
+    return {}
+}
 
 export const visibleActorsList = (storyGram: Storygram) => {
     return Array.from(storyGram.processedData.actors)

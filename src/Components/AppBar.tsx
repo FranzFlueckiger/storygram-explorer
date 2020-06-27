@@ -7,32 +7,56 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
+import { Box, Tabs, Tab } from '@material-ui/core';
+import { Storygram } from 'storygram';
 
-type MyAppBarProps = {
-    setDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>,
-    drawerOpen: boolean,
-    drawerWidth: number
+function TabPanel(props: TabPanelProps) {
+    const { children, value, index, ...other } = props;
+
+    return (
+        <div
+            role="tabpanel"
+            hidden={value !== index}
+            id={`simple-tabpanel-${index}`}
+            aria-labelledby={`simple-tab-${index}`}
+            {...other}
+        >
+            {value === index && (
+                <Box p={3}>
+                    <Typography>{children}</Typography>
+                </Box>
+            )}
+        </div>
+    );
 }
 
-export const MyAppBar: FC<MyAppBarProps> = ({ setDrawerOpen, drawerOpen, drawerWidth }) => {
+type TabPanelProps = {
+    children: any,
+    index: any,
+    value: any,
+};
+
+function a11yProps(index: any) {
+    return {
+        id: `simple-tab-${index}`,
+        'aria-controls': `simple-tabpanel-${index}`,
+    };
+}
+
+type MyAppBarProps = {
+    storyGram: Storygram,
+    selectedTab: number,
+    setSelectedTab: React.Dispatch<React.SetStateAction<number>>
+}
+
+export const MyAppBar: FC<MyAppBarProps> = ({ storyGram, selectedTab, setSelectedTab }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
             display: 'flex',
         },
         appBar: {
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.sharp,
-                duration: theme.transitions.duration.leavingScreen,
-            }),
-        },
-        appBarShift: {
-            width: `calc(100% - ${drawerWidth}px)`,
-            marginLeft: drawerWidth,
-            transition: theme.transitions.create(['margin', 'width'], {
-                easing: theme.transitions.easing.easeOut,
-                duration: theme.transitions.duration.enteringScreen,
-            }),
+            zIndex: theme.zIndex.drawer + 1,
         },
         menuButton: {
             marginRight: theme.spacing(2),
@@ -40,37 +64,34 @@ export const MyAppBar: FC<MyAppBarProps> = ({ setDrawerOpen, drawerOpen, drawerW
         hide: {
             display: 'none',
         },
+        content: {
+            flexGrow: 1,
+            padding: theme.spacing(3),
+        },
     }));
 
     const classes = useStyles();
     const theme = useTheme();
 
-    const handleDrawerOpen = () => {
-        setDrawerOpen(true);
-    };
-
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                position="fixed"
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: drawerOpen,
-                })}
-            >
+            <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        onClick={handleDrawerOpen}
-                        edge="start"
-                        className={clsx(classes.menuButton, drawerOpen && classes.hide)}
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <Typography variant="h6" noWrap>
-                        StoryGram Explorer
+                        Storygram Explorer
                     </Typography>
+                    <Tabs
+                        value={selectedTab}
+                        onChange={(event, newValue) => setSelectedTab(newValue)}
+                        indicatorColor="secondary"
+                        textColor="secondary"
+                        centered
+                >
+                    <Tab label="Storygram" /> 
+                        <Tab label={"Events (" + storyGram.processedData.events.length + ")"} disabled />
+                    <Tab label="Actors" />
+                    </Tabs>
                 </Toolbar>
             </AppBar>
         </div>
