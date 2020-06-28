@@ -32,8 +32,6 @@ const configBlock: Config = {
  
 function App() {
 
-  const drawerWidth = 350;
-
   const [selectedTab, setSelectedTab] = React.useState<number>(0)
   const [config, setConfig] = React.useState<Config>(configBlock)
   const [data, setData] = React.useState<any[]>(BlockBusterdata())
@@ -50,13 +48,11 @@ function App() {
         setSelectedTab={setSelectedTab}
       />
       <MyDrawer
-        drawerWidth={drawerWidth}
         storyGram={storyGram}
         config={config}
         setConfig={setConfig}
       />
       <MyShowCase
-        drawerWidth={drawerWidth}
         storyGram={storyGram}
         config={config}
         data={data}
