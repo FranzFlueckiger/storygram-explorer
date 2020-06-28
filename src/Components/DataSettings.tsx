@@ -5,6 +5,7 @@ import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetail
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import { Config, Storygram } from 'storygram';
+import { StoryGramMetadata } from '../Util/storyGramHelpers';
 
 type DataSettingsProps = {
     drawerWidth: number,
@@ -12,10 +13,11 @@ type DataSettingsProps = {
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
-    handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void
+    handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
+    metaData: StoryGramMetadata
 }
 
-    export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange }) => {
+    export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -94,7 +96,7 @@ type DataSettingsProps = {
                                     >
                                         // @ts-ignore 
                                         {storyGram.data.events[0] ? Object.keys(storyGram.data.events[0].data).map(key =>
-                                            <MenuItem value={key}>{key}</MenuItem>) : "No selectable keys"}
+                                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                                     </Select>
                                 </FormControl>
                             </ListItem>
@@ -114,7 +116,7 @@ type DataSettingsProps = {
                                     >
                                         // @ts-ignore 
                                         {storyGram.data.events[0] ? Object.keys(storyGram.data.events[0].data).map(key =>
-                                            <MenuItem value={key}>{key}</MenuItem>) : "No selectable keys"}
+                                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                                     </Select>
                                 </FormControl>
                             </ListItem>

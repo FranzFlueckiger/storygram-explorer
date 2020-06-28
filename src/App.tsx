@@ -6,6 +6,7 @@ import {MyAppBar} from './Components/AppBar';
 import {MyDrawer} from './Components/Drawer';
 import {Config, Storygram} from 'storygram';
 import {BlockBusterdata} from './Components/exampleData';
+import { getStoryGramMetadata } from './Util/storyGramHelpers';
 
 const configBlock: Config = {
   dataFormat: 'array',
@@ -38,6 +39,8 @@ function App() {
   const storyGram = new Storygram(data, config)
   storyGram.remove()
   storyGram.calculate()
+  const metaData = getStoryGramMetadata(storyGram)
+  console.log(metaData)
 
   return (
     <div>
@@ -46,17 +49,20 @@ function App() {
         storyGram={storyGram}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
+        metaData={metaData}
       />
       <MyDrawer
         storyGram={storyGram}
         config={config}
         setConfig={setConfig}
+        metaData={metaData}
       />
       <MyShowCase
         storyGram={storyGram}
         config={config}
         data={data}
         selectedTab={selectedTab}
+        metaData={metaData}
       />
     </div>
   );

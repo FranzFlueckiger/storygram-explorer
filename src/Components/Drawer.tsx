@@ -7,14 +7,17 @@ import { LayoutSettings } from './Layoutsettings';
 import { FilterSettings } from './FilterSettings';
 import { List, ListItem } from '@material-ui/core';
 import { appBarHeight, drawerWidth } from '../Util/constants';
+import { StoryGramMetadata } from '../Util/storyGramHelpers';
+import { MetasonData } from './exampleData';
 
 type MyDrawerProps = {
     storyGram: Storygram,
     config: Config,
-    setConfig: React.Dispatch<React.SetStateAction<Config>>
+    setConfig: React.Dispatch<React.SetStateAction<Config>>,
+    metaData: StoryGramMetadata
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig }) => {
+export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -56,6 +59,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig }) =>
                                 setConfig={setConfig}
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
+                                metaData={metaData}
                             />
                         </ListItem>
                         <ListItem>
@@ -66,6 +70,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig }) =>
                                 setConfig={setConfig}
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
+                                metaData={metaData}
                             />
                         </ListItem>
                         <ListItem>
@@ -76,6 +81,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig }) =>
                                 setConfig={setConfig}
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
+                                metaData={metaData}
                             />
                         </ListItem>
                     </List>

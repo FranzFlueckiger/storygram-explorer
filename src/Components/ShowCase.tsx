@@ -1,21 +1,20 @@
 import React, { FC } from 'react';
-import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { Config, Storygram } from 'storygram';
-import { BlockBusterdata } from './exampleData';
 import StorygramDrawer from './sgWrapper';
 import { ActorList } from './ActorList';
-import { allActorsList } from '../Util/storyGramHelpers';
 import { drawerWidth } from '../Util/constants';
+import { StoryGramMetadata } from '../Util/storyGramHelpers';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
     config: Config,
     data: any[],
-    selectedTab: number
+    selectedTab: number,
+    metaData: StoryGramMetadata
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selectedTab }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selectedTab, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -41,7 +40,7 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selec
                 {
                     selectedTab === 0 ? <StorygramDrawer storyGram={storyGram} config={config} data={data} /> :
                         selectedTab === 1 ? null :
-                            <ActorList actors={allActorsList(storyGram)}/>
+                            <ActorList actors={metaData.allActorsList}/>
                             
                 }
             </main>

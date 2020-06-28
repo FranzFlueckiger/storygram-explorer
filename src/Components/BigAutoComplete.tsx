@@ -84,16 +84,6 @@ export const ListboxComponent = React.forwardRef<HTMLDivElement>(function Listbo
     );
 });
 
-const useStyles = makeStyles({
-    listbox: {
-        boxSizing: 'border-box',
-        '& ul': {
-            padding: 0,
-            margin: 0,
-        },
-    },
-});
-
 export const renderGroup = (params: AutocompleteRenderGroupParams) => [
     <ListSubheader key={params.key} component="div">
         {params.group}

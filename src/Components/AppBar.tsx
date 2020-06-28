@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import { Box, Tabs, Tab } from '@material-ui/core';
 import { Storygram } from 'storygram';
+import { StoryGramMetadata } from '../Util/storyGramHelpers';
 
 function TabPanel(props: TabPanelProps) {
     const { children, value, index, ...other } = props;
@@ -46,10 +47,11 @@ function a11yProps(index: any) {
 type MyAppBarProps = {
     storyGram: Storygram,
     selectedTab: number,
-    setSelectedTab: React.Dispatch<React.SetStateAction<number>>
+    setSelectedTab: React.Dispatch<React.SetStateAction<number>>,
+    metaData: StoryGramMetadata
 }
 
-export const MyAppBar: FC<MyAppBarProps> = ({ storyGram, selectedTab, setSelectedTab }) => {
+export const MyAppBar: FC<MyAppBarProps> = ({ storyGram, selectedTab, setSelectedTab, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -87,10 +89,10 @@ export const MyAppBar: FC<MyAppBarProps> = ({ storyGram, selectedTab, setSelecte
                         indicatorColor="secondary"
                         textColor="secondary"
                         centered
-                >
-                    <Tab label="Storygram" /> 
-                        <Tab label={"Events (" + storyGram.processedData.events.length + ")"} disabled />
-                    <Tab label="Actors" />
+                    >
+                        <Tab label="Storygram" />
+                        <Tab label={"Events (" + metaData.visibleEventList.length + ")"} />
+                        <Tab label={"Actors (" + metaData.visibleActorsList.length + ")"} />
                     </Tabs>
                 </Toolbar>
             </AppBar>

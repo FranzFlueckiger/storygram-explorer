@@ -9,7 +9,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { ListboxComponent, renderGroup } from './BigAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { allActorsList, getActorFromString, storyGramColorSchemes } from '../Util/storyGramHelpers';
+import { getActorFromString, storyGramColorSchemes, StoryGramMetadata } from '../Util/storyGramHelpers';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -17,10 +17,11 @@ type LayoutSettingsProps = {
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
-    handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void
+    handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
+    metaData: StoryGramMetadata
 }
 
-export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange }) => {
+export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -81,11 +82,11 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                 getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
                                 renderGroup={renderGroup}
-                                options={allActorsList(storyGram)}
+                                options={metaData.allActorsListSortAmt}
                                 renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                 multiple
                                 limitTags={2}
-                                defaultValue={config.highlight?.map(actorID => {
+                                defaultValue={storyGram.config.highlight?.map(actorID => {
                                     return getActorFromString(actorID, storyGram)
                                 })}
                                 // @ts-ignore
@@ -99,7 +100,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             <FormControlLabel
                                 control={
                                     <Switch
-                                        checked={config.compact}
+                                        checked={storyGram.config.compact}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                                             setConfig({ ...config, compact: event.target.checked })}
                                         name="checkedB"
@@ -114,7 +115,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             <FormControlLabel
                                 control={
                                     <Switch
-                                        checked={config.continuous}
+                                        checked={storyGram.config.continuous}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                                             setConfig({ ...config, continuous: event.target.checked })}
                                         name="checkedB"
@@ -131,14 +132,14 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={config.colorScheme}
+                                    value={storyGram.config.colorScheme}
                                     onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
                                         // @ts-ignore
                                         setConfig({ ...config, colorScheme: event.target.value });
                                     }}
                                 >
-                                    {storyGramColorSchemes.map(colorScheme =>
-                                        <MenuItem value={colorScheme}>{colorScheme}</MenuItem>)}
+                                    {storyGramColorSchemes.map((colorScheme, key) =>
+                                        <MenuItem key={key} value={colorScheme}>{colorScheme}</MenuItem>)}
                                 </Select>
                             </FormControl>
                         </ListItem>
@@ -148,7 +149,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             </ListItem>
                         <ListItem>
                             <Slider
-                                value={config.eventValueScaling}
+                                value={storyGram.config.eventValueScaling}
                                 min={0}
                                 max={0.01}
                                 step={0.001}
@@ -167,7 +168,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             </ListItem>
                         <ListItem>
                             <Slider
-                                value={config.eventPadding}
+                                value={storyGram.config.eventPadding}
                                 min={0}
                                 max={150}
                                 step={1}
@@ -186,7 +187,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             </ListItem>
                         <ListItem>
                             <Slider
-                                value={config.actorPadding}
+                                value={storyGram.config.actorPadding}
                                 min={0}
                                 max={150}
                                 step={1}
@@ -205,7 +206,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                             </ListItem>
                         <ListItem>
                             <Slider
-                                value={config.lineSize}
+                                value={storyGram.config.lineSize}
                                 min={1}
                                 max={30}
                                 step={0.5}
