@@ -6,8 +6,8 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import { Config, Storygram } from 'storygram';
 import { Actor } from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { ListboxComponent, renderGroup } from './BigAutoComplete';
-import { getActorFromString, StoryGramMetadata } from '../Util/storyGramHelpers';
+import { ListboxComponent, renderGroup } from '../BigAutoComplete';
+import { getActorFromString, StoryGramMetadata } from '../../Util/storyGramHelpers';
 
 type FilterSettingsProps = {
     drawerWidth: number,

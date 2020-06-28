@@ -3,7 +3,7 @@ import './App.css';
 import {CssBaseline} from '@material-ui/core';
 import {MyShowCase} from './Components/ShowCase';
 import {MyAppBar} from './Components/AppBar';
-import {MyDrawer} from './Components/Drawer';
+import {MyDrawer} from './Components/Drawer/Drawer';
 import {Config, Storygram} from 'storygram';
 import {BlockBusterdata} from './Components/exampleData';
 import { getStoryGramMetadata } from './Util/storyGramHelpers';
