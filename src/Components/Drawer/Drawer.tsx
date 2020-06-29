@@ -1,14 +1,14 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { Config, Storygram } from 'storygram';
-import { DataSettings } from './DataSettings/DataSettings';
-import { LayoutSettings } from './Layoutsettings';
-import { FilterSettings } from './FilterSettings';
-import { List, ListItem } from '@material-ui/core';
-import { appBarHeight, drawerWidth } from '../../Util/constants';
-import { StoryGramMetadata } from '../../Util/storyGramHelpers';
-import { MetasonData } from '../exampleData';
+import {Config, Storygram} from 'storygram';
+import {DataSettings} from './DataSettings/DataSettings';
+import {LayoutSettings} from './Layoutsettings';
+import {FilterSettings} from './FilterSettings';
+import {List, ListItem} from '@material-ui/core';
+import {appBarHeight, drawerWidth} from '../../Util/constants';
+import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {MetasonData} from '../exampleData';
 
 type MyDrawerProps = {
     storyGram: Storygram,
@@ -17,7 +17,7 @@ type MyDrawerProps = {
     metaData: StoryGramMetadata
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({ storyGram, config, setConfig, metaData }) => {
+export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {

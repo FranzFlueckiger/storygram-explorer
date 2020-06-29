@@ -1,15 +1,15 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
-import { Config, Storygram } from 'storygram';
-import { Actor } from 'storygram/dist/Types';
+import {Config, Storygram} from 'storygram';
+import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { ListboxComponent, renderGroup } from '../BigAutoComplete';
+import {ListboxComponent, renderGroup} from '../BigAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { getActorFromString, storyGramColorSchemes, StoryGramMetadata } from '../../Util/storyGramHelpers';
+import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -21,7 +21,7 @@ type LayoutSettingsProps = {
     metaData: StoryGramMetadata
 }
 
-export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData }) => {
+export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -77,7 +77,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                         <ListItem>
                             <Autocomplete
                                 id="virtualize-demo"
-                                style={{ width: '100%' }}
+                                style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                 getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
@@ -87,12 +87,12 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 multiple
                                 limitTags={2}
                                 defaultValue={storyGram.config.highlight?.map(actorID => {
-                                    return getActorFromString(actorID, storyGram)
+                                    return metaData.getActorFromString(actorID)
                                 })}
                                 // @ts-ignore
                                 onChange={(_: any, newActors: Actor[] | null) => {
                                     const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({ ...config, highlight: newActorIDs });
+                                    setConfig({...config, highlight: newActorIDs});
                                 }}
                             />
                         </ListItem>
@@ -102,7 +102,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                     <Switch
                                         checked={storyGram.config.compact}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                            setConfig({ ...config, compact: event.target.checked })}
+                                            setConfig({...config, compact: event.target.checked})}
                                         name="checkedB"
                                         color="primary"
                                     />
@@ -117,7 +117,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                     <Switch
                                         checked={storyGram.config.continuous}
                                         onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                                            setConfig({ ...config, continuous: event.target.checked })}
+                                            setConfig({...config, continuous: event.target.checked})}
                                         name="checkedB"
                                         color="primary"
                                     />
@@ -133,9 +133,9 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={storyGram.config.colorScheme}
-                                    onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                                    onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         // @ts-ignore
-                                        setConfig({ ...config, colorScheme: event.target.value });
+                                        setConfig({...config, colorScheme: event.target.value});
                                     }}
                                 >
                                     {storyGramColorSchemes.map((colorScheme, key) =>
@@ -154,7 +154,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 max={0.01}
                                 step={0.001}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, eventValueScaling: (newValue as number) })
+                                    setConfig({...config, eventValueScaling: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"
@@ -173,7 +173,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 max={150}
                                 step={1}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, eventPadding: (newValue as number) })
+                                    setConfig({...config, eventPadding: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"
@@ -192,7 +192,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 max={150}
                                 step={1}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, actorPadding: (newValue as number) })
+                                    setConfig({...config, actorPadding: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"
@@ -211,7 +211,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 max={30}
                                 step={0.5}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, lineSize: (newValue as number) })
+                                    setConfig({...config, lineSize: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"

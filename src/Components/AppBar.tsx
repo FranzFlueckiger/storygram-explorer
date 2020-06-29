@@ -1,18 +1,18 @@
-import React, { FC } from 'react';
+import React, {FC} from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Box, Tabs, Tab } from '@material-ui/core';
-import { Storygram } from 'storygram';
-import { StoryGramMetadata } from '../Util/storyGramHelpers';
+import {Box, Tabs, Tab} from '@material-ui/core';
+import {Storygram} from 'storygram';
+import {StoryGramMetadata} from '../Util/storyGramHelpers';
 
 function TabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -51,7 +51,7 @@ type MyAppBarProps = {
     metaData: StoryGramMetadata
 }
 
-export const MyAppBar: FC<MyAppBarProps> = ({ storyGram, selectedTab, setSelectedTab, metaData }) => {
+export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelectedTab, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
