@@ -13,7 +13,7 @@ type ArrayFormatFormProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     metaData: StoryGramMetadata
 }
-
+ 
 export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, setConfig, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({

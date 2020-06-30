@@ -227,7 +227,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                             <Slider
                                 value={storyGram.config.generationAmt}
                                 min={5}
-                                max={150}
+                                max={100}
                                 step={5}
                                 onChange={(_, newValue) => {
                                     setConfig({ ...config, generationAmt: (newValue as number) })
@@ -246,7 +246,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                             <Slider
                                 value={storyGram.config.populationSize}
                                 min={5}
-                                max={150}
+                                max={100}
                                 step={5}
                                 onChange={(_, newValue) => {
                                     setConfig({ ...config, populationSize: (newValue as number) })
