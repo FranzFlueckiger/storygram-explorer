@@ -1,11 +1,11 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
-import { Config, Storygram } from 'storygram';
-import { StoryGramMetadata } from '../../../Util/storyGramHelpers';
+import {Config, Storygram} from 'storygram';
+import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 
 type RangesFormatFormProps = {
     storyGram: Storygram,
@@ -14,7 +14,7 @@ type RangesFormatFormProps = {
     metaData: StoryGramMetadata
 }
 
-export const RangesFormatForm: FC<RangesFormatFormProps> = ({ storyGram, config, setConfig, metaData }) => {
+export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, setConfig, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -55,9 +55,9 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({ storyGram, config,
                         id="demo-simple-select"
                         // @ts-ignore
                         value={config.eventField}
-                        onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                        onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({ ...config, eventField: event.target.value });
+                            setConfig({...config, eventField: event.target.value});
                         }}
                     >
                         // @ts-ignore 
@@ -75,13 +75,13 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({ storyGram, config,
                         id="demo-simple-select"
                         // @ts-ignore
                         value={config.actorArrayField}
-                        onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                        onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({ ...config, actorArrayField: event.target.value });
+                            setConfig({...config, actorArrayField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.eventDataKV.map((eventDataKV: Record<string, any>) =>
-                            <MenuItem key={eventDataKV[0]} value={eventDataKV[0]}>{eventDataKV[0]}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKey: string) =>
+                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -94,13 +94,13 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({ storyGram, config,
                         id="demo-simple-select"
                         // @ts-ignore
                         value={config.actorArrayField}
-                        onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                        onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({ ...config, actorArrayField: event.target.value });
+                            setConfig({...config, actorArrayField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.eventDataKV.map((eventDataKV: Record<string, any>) =>
-                            <MenuItem key={eventDataKV[0]} value={eventDataKV[0]}>{eventDataKV[0]}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKey: string) =>
+                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>

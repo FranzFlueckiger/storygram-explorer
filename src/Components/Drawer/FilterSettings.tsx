@@ -1,13 +1,13 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, TextField } from '@material-ui/core';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, TextField} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import { Config, Storygram } from 'storygram';
-import { Actor } from 'storygram/dist/Types';
+import {Config, Storygram} from 'storygram';
+import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { ListboxComponent, renderGroup } from '../BigAutoComplete';
-import { getActorFromString, StoryGramMetadata } from '../../Util/storyGramHelpers';
+import {ListboxComponent, renderGroup} from '../BigAutoComplete';
+import {StoryGramMetadata} from '../../Util/storyGramHelpers';
 
 type FilterSettingsProps = {
     drawerWidth: number,
@@ -19,7 +19,7 @@ type FilterSettingsProps = {
     metaData: StoryGramMetadata
 }
 
-export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData }) => {
+export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -89,7 +89,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 value={new Date(Date.parse(storyGram.config.filterEventValue![0]! as string)).toISOString().substring(0, 10)}
                                 onChange={(event: any) => {
                                     console.log(event.target.value)
-                                    setConfig({ ...config, filterEventValue: [event.target.value, config.filterEventValue![1]!] });
+                                    setConfig({...config, filterEventValue: [event.target.value, config.filterEventValue![1]!]});
                                 }}
                             />
                         </ListItem>
@@ -105,7 +105,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 value={new Date(Date.parse(storyGram.config.filterEventValue![1]! as string)).toISOString().substring(0, 10)}
                                 onChange={(event: any) => {
                                     console.log(event.target.value)
-                                    setConfig({ ...config, filterEventValue: [config.filterEventValue![0]!, event.target.value] });
+                                    setConfig({...config, filterEventValue: [config.filterEventValue![0]!, event.target.value]});
                                 }}
                             />
                         </ListItem>
@@ -125,8 +125,8 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 onChange={(event: any) => {
                                     let value = event.target.value
                                     const maxSize = metaData.biggestGroup
-                                    if (value < 1) value = 1
-                                    else if (!value || value > maxSize) value = 1
+                                    if(value < 1) value = 1
+                                    else if(!value || value > maxSize) value = 1
                                     setConfig({
                                         ...config,
                                         filterGroupSize: [value, config.filterGroupSize![1]]
@@ -144,8 +144,8 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 onChange={(event: any) => {
                                     let value = event.target.value
                                     const maxSize = metaData.biggestGroup
-                                    if (!value || value < 1) value = 1
-                                    else if (value > maxSize) value = maxSize
+                                    if(!value || value < 1) value = 1
+                                    else if(value > maxSize) value = maxSize
                                     setConfig({
                                         ...config,
                                         filterGroupSize: [config.filterGroupSize![0], value]
@@ -169,8 +169,8 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 onChange={(event: any) => {
                                     let value = event.target.value
                                     const maxSize = metaData.maxGroupedActor
-                                    if (value < 1) value = 1
-                                    else if (!value || value > maxSize) value = 1
+                                    if(value < 1) value = 1
+                                    else if(!value || value > maxSize) value = 1
                                     setConfig({
                                         ...config,
                                         filterGroupAmt: [value, config.filterGroupAmt![1]]
@@ -188,8 +188,8 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 onChange={(event: any) => {
                                     let value = event.target.value
                                     const maxSize = metaData.maxGroupedActor
-                                    if (!value || value < 1) value = 1
-                                    else if (value > maxSize) value = maxSize
+                                    if(!value || value < 1) value = 1
+                                    else if(value > maxSize) value = maxSize
                                     setConfig({
                                         ...config,
                                         filterGroupAmt: [config.filterGroupAmt![0], value]
@@ -204,7 +204,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                         <ListItem>
                             <Autocomplete
                                 id="virtualize-demo"
-                                style={{ width: '100%' }}
+                                style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                 getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
@@ -214,12 +214,12 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 multiple
                                 limitTags={2}
                                 defaultValue={storyGram.config.mustContain?.map(actorID => {
-                                    return getActorFromString(actorID, storyGram)
+                                    return metaData.getActorFromString(actorID)
                                 })}
                                 // @ts-ignore
                                 onChange={(_: any, newActors: Actor[] | null) => {
                                     const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({ ...config, mustContain: newActorIDs });
+                                    setConfig({...config, mustContain: newActorIDs});
                                 }}
                             />
                         </ListItem>
@@ -230,7 +230,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                         <ListItem>
                             <Autocomplete
                                 id="virtualize-demo"
-                                style={{ width: '100%' }}
+                                style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
                                 getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
@@ -240,12 +240,12 @@ export const FilterSettings: FC<FilterSettingsProps> = ({ drawerWidth, storyGram
                                 multiple
                                 limitTags={2}
                                 defaultValue={storyGram.config.shouldContain?.map(actorID => {
-                                    return getActorFromString(actorID, storyGram)
+                                    return metaData.getActorFromString(actorID)
                                 })}
                                 // @ts-ignore
                                 onChange={(_: any, newActors: Actor[] | null) => {
                                     const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({ ...config, shouldContain: newActorIDs });
+                                    setConfig({...config, shouldContain: newActorIDs});
                                 }}
                             />
                         </ListItem>

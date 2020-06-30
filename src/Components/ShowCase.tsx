@@ -5,6 +5,7 @@ import StorygramDrawer from './sgWrapper';
 import { ActorList } from './ActorList';
 import { drawerWidth } from '../Util/constants';
 import { StoryGramMetadata } from '../Util/storyGramHelpers';
+import {EventList} from './EventList';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
@@ -39,9 +40,9 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selec
             <main className={classes.content}>
                 {
                     selectedTab === 0 ? <StorygramDrawer storyGram={storyGram} config={config} data={data} /> :
-                        selectedTab === 1 ? null :
-                            <ActorList actors={metaData.allActorsList}/>
-                            
+                        selectedTab === 1 ? 
+                        <EventList metaData={metaData} /> :
+                            <ActorList metaData={metaData}/>
                 }
             </main>
         </div>

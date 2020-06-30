@@ -1,12 +1,13 @@
 import React, {FC, useRef, useState, useEffect} from 'react';
 import Typography from '@material-ui/core/Typography';
 import {List, ListItem, Checkbox, Paper, Divider, Grid, TextField} from '@material-ui/core';
-import {Actor} from 'storygram/dist/Types';
+import {Event} from 'storygram/dist/Types';
 import {Virtuoso} from 'react-virtuoso';
-import {ActorListElement} from './ActorListElement';
+import {EventListElement} from './EventListElement';
 import {StoryGramMetadata} from '../Util/storyGramHelpers';
+import {queryAllByAttribute} from '@testing-library/react';
 
-type ActorListProps = {
+type EventListProps = {
     metaData: StoryGramMetadata
 };
 
@@ -34,24 +35,23 @@ const flexContainer = {
     padding: 0,
 };
 
-export const ActorList: FC<ActorListProps> = ({metaData}) => {
+export const EventList: FC<EventListProps> = ({metaData}) => {
 
     const loadedCount = useRef(0);
     const endReached = useRef(false);
-    const [loadedUsers, setLoadedUsers] = useState<Actor[]>([]);
-    const [actors, setActors] = useState(metaData.allActorsList)
+    const [loadedUsers, setLoadedUsers] = useState<Event[]>([]);
+    const [events, setEvents] = useState(metaData.allEventsList)
     const [query, setQuery] = useState('')
 
     const handleQueryChange = (e: any) => {
         const value = e.target.value
         setQuery(value)
-        setActors(metaData.allActorsList
-            .filter(actor => {
-                return actor.actorID.toLowerCase().includes(query.toLowerCase()) ||
-                    Object.values(actor.data)
-                        .some(value =>
-                            (value as any).toString().toLowerCase()
-                                .includes(query.toLowerCase()))
+        setEvents(metaData.allEventsList
+            .filter(event => {
+                return Object.values(event.data)
+                    .some(value =>
+                        (value as any).toString().toLowerCase()
+                            .includes(query.toLowerCase()))
             }))
     }
 
@@ -66,7 +66,7 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
 
                 // in a real world scenario, you would fetch the next
                 // slice and append it to the existing records
-                setLoadedUsers(actors.slice(0, loadedCount.current));
+                setLoadedUsers(events.slice(0, loadedCount.current));
             }, 500);
         }
     };
@@ -77,9 +77,9 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
         <div >
             <TextField
                 id="standard-basic"
-                label="Search actor"
+                label="Search event"
                 value={query}
-                onChange={(e: any) => handleQueryChange(e)}
+                onChange={(e) => handleQueryChange(e)}
             />
             <Virtuoso
                 //@ts-ignore
@@ -88,11 +88,11 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
                 ItemContainer={ItemContainer}
                 // todo
                 style={{width: '600px%', height: '520px'}}
-                totalCount={actors.length}
+                totalCount={events.length}
                 footer={() => {
                     return (
                         <div>
-                            {loadedUsers.length === actors.length ? '-- end -- ' : ' loading...'}
+                            {loadedUsers.length === events.length ? '-- end -- ' : ' loading...'}
                         </div>
                     );
                 }}
@@ -101,7 +101,7 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
                 item={index => {
                     return (
                         <>
-                            <ActorListElement actor={actors[index]} />
+                            <EventListElement event={events[index]} metaData={metaData} query={query} />
                         </>
                     );
                 }}

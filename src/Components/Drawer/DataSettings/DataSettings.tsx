@@ -1,14 +1,16 @@
-import React, { FC } from 'react';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import React, {FC} from 'react';
+import {makeStyles, useTheme} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
-import { ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem } from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
-import { Config, Storygram } from 'storygram';
-import { StoryGramMetadata } from '../../../Util/storyGramHelpers';
-import { ArrayFormatForm } from './ArrayFormatForm';
-import { TableFormatForm } from './TableFormatForm';
-import { RangesFormatForm } from './RangesFormatForm';
+import {Config, Storygram} from 'storygram';
+import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
+import {ArrayFormatForm} from './ArrayFormatForm';
+import {TableFormatForm} from './TableFormatForm';
+import {RangesFormatForm} from './RangesFormatForm';
+import {dataSetNames} from '../../../Util/constants';
+import {loadData} from '../../../Util/dataLoader';
 
 type DataSettingsProps = {
     drawerWidth: number,
@@ -17,10 +19,11 @@ type DataSettingsProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    setData: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData }) => {
+export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -48,6 +51,7 @@ export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, co
     }));
 
     const [dataFormat, setDataFormat] = React.useState<'array' | 'table' | 'ranges'>('array')
+    const [dataSource, setDataSource] = React.useState(dataSetNames.blockbuster)
 
     const classes = useStyles();
     const theme = useTheme();
@@ -65,7 +69,28 @@ export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, co
                     <Typography className={classes.heading}>Data</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
-                    <List style={{ width: '100%' }}>
+                    <List style={{width: '100%'}}>
+                        <ListItem>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Data source</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={dataSource}
+                                    onChange={(event: React.ChangeEvent<{value: unknown}>) => {
+                                        const value = event.target.value as string
+                                        const newDataSet = loadData(value)
+                                        setConfig(newDataSet.config);
+                                        setData(newDataSet.data)
+                                        setDataSource(value)
+                                    }}
+                                >
+                                    <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}</MenuItem>
+                                    <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
+                                    <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </ListItem>
                         <ListItem>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Data format</InputLabel>
@@ -73,7 +98,7 @@ export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, co
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
                                     value={dataFormat}//storyGram.config.dataFormat ? storyGram.config.dataFormat : "array"}
-                                    onChange={(event: React.ChangeEvent<{ value: unknown }>) => {
+                                    onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         // @ts-ignore
                                         //setConfig({ ...config, dataFormat: event.target.value });
                                         setDataFormat(event.target.value)
@@ -87,9 +112,9 @@ export const DataSettings: FC<DataSettingsProps> = ({ drawerWidth, storyGram, co
                             </FormControl>
                         </ListItem>
 
-                        {dataFormat === 'array' ? 
-                            <ArrayFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> : 
-                            dataFormat === 'table' ? <TableFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> : 
+                        {dataFormat === 'array' ?
+                            <ArrayFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
+                            dataFormat === 'table' ? <TableFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
                                 <RangesFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} />
                         }
                     </List>
