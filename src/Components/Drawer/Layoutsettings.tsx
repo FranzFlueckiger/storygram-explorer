@@ -219,6 +219,44 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({ drawerWidth, storyGram
                                 getAriaValueText={(value) => String(value)}
                             />
                         </ListItem>
+                        <Divider />
+                        <ListItem>
+                            Generation amount
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.generationAmt}
+                                min={5}
+                                max={150}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({ ...config, generationAmt: (newValue as number) })
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
+                        <Divider />
+                        <ListItem>
+                            Population size
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.populationSize}
+                                min={5}
+                                max={150}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({ ...config, populationSize: (newValue as number) })
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
                     </List>
                 </ExpansionPanelDetails>
             </ExpansionPanel>
