@@ -8,16 +8,17 @@ import {FilterSettings} from './FilterSettings';
 import {List, ListItem} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
-import {MetasonData} from '../exampleData';
+import {MetasonData} from '../../Data/exampleData';
 
 type MyDrawerProps = {
     storyGram: Storygram,
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    setData: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData}) => {
+export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -60,6 +61,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
                                 metaData={metaData}
+                                setData={setData}
                             />
                         </ListItem>
                         <ListItem>

@@ -9,6 +9,8 @@ import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import {ArrayFormatForm} from './ArrayFormatForm';
 import {TableFormatForm} from './TableFormatForm';
 import {RangesFormatForm} from './RangesFormatForm';
+import {dataSetNames} from '../../../Util/constants';
+import {loadData} from '../../../Util/dataLoader';
 
 type DataSettingsProps = {
     drawerWidth: number,
@@ -17,10 +19,11 @@ type DataSettingsProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    setData: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData}) => {
+export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -48,6 +51,7 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
     }));
 
     const [dataFormat, setDataFormat] = React.useState<'array' | 'table' | 'ranges'>('array')
+    const [dataSource, setDataSource] = React.useState(dataSetNames.blockbuster)
 
     const classes = useStyles();
     const theme = useTheme();
@@ -66,6 +70,27 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails>
                     <List style={{width: '100%'}}>
+                        <ListItem>
+                            <FormControl className={classes.formControl}>
+                                <InputLabel id="demo-simple-select-label">Data source</InputLabel>
+                                <Select
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={dataSource}
+                                    onChange={(event: React.ChangeEvent<{value: unknown}>) => {
+                                        const value = event.target.value as string
+                                        const newDataSet = loadData(value)
+                                        setConfig(newDataSet.config);
+                                        setData(newDataSet.data)
+                                        setDataSource(value)
+                                    }}
+                                >
+                                    <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}</MenuItem>
+                                    <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
+                                    <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </ListItem>
                         <ListItem>
                             <FormControl className={classes.formControl}>
                                 <InputLabel id="demo-simple-select-label">Data format</InputLabel>
