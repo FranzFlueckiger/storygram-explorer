@@ -19,10 +19,11 @@ type LayoutSettingsProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    isDrawable: boolean
 }
 
-export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData}) => {
+export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, isDrawable}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -55,7 +56,11 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     return (
         <div className={classes.root}>
 
-            <ExpansionPanel expanded={expandedMenu === 'Layout'} onChange={handleMenuChange('Layout')}>
+            <ExpansionPanel
+                expanded={expandedMenu === 'Layout'}
+                onChange={handleMenuChange('Layout')}
+                disabled={!isDrawable}
+            >
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel5bh-content"

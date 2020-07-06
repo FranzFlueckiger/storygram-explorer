@@ -48,10 +48,11 @@ type MyAppBarProps = {
     storyGram: Storygram,
     selectedTab: number,
     setSelectedTab: React.Dispatch<React.SetStateAction<number>>,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    isDrawable: boolean
 }
 
-export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelectedTab, metaData}) => {
+export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelectedTab, metaData, isDrawable}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -91,8 +92,8 @@ export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelected
                         centered
                     >
                         <Tab label="Storygram" />
-                        <Tab label={"Events (" + metaData.visibleEventList.length + ")"} />
-                        <Tab label={"Actors (" + metaData.visibleActorsList.length + ")"} />
+                        <Tab label={isDrawable ? "Events (" + metaData.visibleEventList.length + ")" : "Events"} disabled={!isDrawable}/>
+                        <Tab label={isDrawable ? "Actors (" + metaData.visibleActorsList.length + ")" : "Actors"} disabled={!isDrawable}/>
                     </Tabs>
                 </Toolbar>
             </AppBar>

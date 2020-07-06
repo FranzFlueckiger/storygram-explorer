@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Config, Storygram } from 'storygram';
 import StorygramDrawer from './sgWrapper';
 import { ActorList } from './ActorList';
 import { drawerWidth } from '../Util/constants';
 import { StoryGramMetadata } from '../Util/storyGramHelpers';
-import {EventList} from './EventList';
+import { EventList } from './EventList';
+import { Button } from '@material-ui/core';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
@@ -32,19 +33,75 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selec
             marginTop: 70,
         },
     }));
-    
+
     const classes = useStyles();
 
-    return ( 
+    return (
         <div className={classes.root}>
             <main className={classes.content}>
                 {
-                    selectedTab === 0 ? <StorygramDrawer storyGram={storyGram} config={config} data={data} /> :
-                        selectedTab === 1 ? 
-                        <EventList metaData={metaData} /> :
-                            <ActorList metaData={metaData}/>
+                    selectedTab === 0 ? <StoryGramViewer
+                        storyGram={storyGram}
+                        config={config}
+                        data={data}
+                        metaData={metaData}
+                    /> :
+                        selectedTab === 1 ?
+                            <EventList metaData={metaData} /> :
+                            <ActorList metaData={metaData} />
                 }
             </main>
         </div>
     );
+}
+
+type StoryGramViewerProps = {
+    storyGram: Storygram
+    config: Config
+    data: any[]
+    metaData: StoryGramMetadata
+}
+
+type StoryGramStatus = 'OK' | 'TooBig' | 'AllFiltered' | 'Broken'
+
+const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, config, data, metaData }) => {
+
+    const setNewStatus = () => {
+        console.log(metaData)
+        if (metaData.allEventsList.length === 0 || metaData.allActorsList.length === 0) return 'Broken'
+        else if (metaData.visibleEventList.length === 0 || metaData.visibleActorsList.length === 0) return 'AllFiltered'
+        else if (metaData.visibleEventList.length > 35 || metaData.visibleActorsList.length > 20) return 'TooBig'
+        else return 'OK'
+    }
+
+    const [storyGramStatus, setStoryGramStatus] = useState<StoryGramStatus>(setNewStatus())
+
+    useEffect(() => {
+        setStoryGramStatus(setNewStatus())
+    }, [metaData.allEventsList.length, metaData.allActorsList, metaData.visibleEventList, metaData.visibleActorsList]);
+     
+    return (
+        <>
+            {
+                storyGramStatus === 'OK' ? 
+                    <>
+                        <StorygramDrawer storyGram={storyGram} config={config} data={data} />
+                    </>
+                    :
+                    storyGramStatus === 'TooBig' ?
+                        <>
+                            Much data to display. This could result in unintuitive visualization and/or browser crash.
+                            <Button
+                                variant="contained"
+                                onClick={() => setStoryGramStatus('OK')}
+                            >Render anyway</Button>
+                        </>
+                            :
+                            storyGramStatus === 'AllFiltered' ?
+                            'No data after filtering; change your filter settings.'
+                            : 'No data could be imported'
+                            } 
+        </>
+    )
+
 }

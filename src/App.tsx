@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import {CssBaseline} from '@material-ui/core';
-import {MyShowCase} from './Components/ShowCase';
-import {MyAppBar} from './Components/AppBar';
-import {MyDrawer} from './Components/Drawer/Drawer';
-import {Config, Storygram} from 'storygram';
-import {BlockBusterdata} from './Data/exampleData';
-import {getStoryGramMetadata} from './Util/storyGramHelpers';
-import {ConfigBlockBuster} from './Data/exampleConfig';
-import {loadData} from './Util/dataLoader';
+import { CssBaseline } from '@material-ui/core';
+import { MyShowCase } from './Components/ShowCase';
+import { MyAppBar } from './Components/AppBar';
+import { MyDrawer } from './Components/Drawer/Drawer';
+import { Config, Storygram } from 'storygram';
+import { BlockBusterdata } from './Data/exampleData';
+import { getStoryGramMetadata } from './Util/storyGramHelpers';
+import { ConfigBlockBuster } from './Data/exampleConfig';
+import { loadData } from './Util/dataLoader';
 
 function App() {
 
@@ -19,10 +19,10 @@ function App() {
   const [data, setData] = React.useState<any[]>(defaultData.data)
   const storyGram = new Storygram(data, config)
   storyGram.calculate()
-  if(storyGram.data.events.length && storyGram.data.actors.size) {
+  if (storyGram.data.events.length && storyGram.data.actors.size) {
     isDrawable = true
   } else {
-    isDrawable =  false
+    isDrawable = false
   }
   const metaData = getStoryGramMetadata(storyGram)
 
@@ -34,6 +34,7 @@ function App() {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         metaData={metaData}
+        isDrawable={isDrawable}
       />
       <MyDrawer
         storyGram={storyGram}
@@ -41,11 +42,12 @@ function App() {
         setConfig={setConfig}
         metaData={metaData}
         setData={setData}
+        isDrawable={isDrawable}
       />
       <MyShowCase
         storyGram={storyGram}
         config={config}
-        data={data}
+        data={data} 
         selectedTab={selectedTab}
         metaData={metaData}
       />

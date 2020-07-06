@@ -17,10 +17,11 @@ type FilterSettingsProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    isDrawable: boolean
 }
 
-export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData}) => {
+export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, isDrawable}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -57,7 +58,10 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
     return (
         <div className={classes.root}>
 
-            <ExpansionPanel expanded={expandedMenu === 'Filtering'} onChange={handleMenuChange('Filtering')}>
+            <ExpansionPanel
+                expanded={expandedMenu === 'Filtering'}
+                onChange={handleMenuChange('Filtering')}
+                disabled={!isDrawable}>
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel4bh-content"

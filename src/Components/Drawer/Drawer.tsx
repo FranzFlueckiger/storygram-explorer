@@ -15,10 +15,11 @@ type MyDrawerProps = {
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     metaData: StoryGramMetadata,
-    setData: React.Dispatch<React.SetStateAction<any[]>>
+    setData: React.Dispatch<React.SetStateAction<any[]>>,
+    isDrawable: boolean
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData}) => {
+export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData, isDrawable}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -73,6 +74,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
                                 metaData={metaData}
+                                isDrawable={isDrawable}
                             />
                         </ListItem>
                         <ListItem>
@@ -84,6 +86,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                 expandedMenu={expandedMenu}
                                 handleMenuChange={handleMenuChange}
                                 metaData={metaData}
+                                isDrawable={isDrawable}
                             />
                         </ListItem>
                     </List>
