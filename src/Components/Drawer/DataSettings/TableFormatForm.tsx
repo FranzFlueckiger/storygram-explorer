@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem, TextField} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DataIcon from '@material-ui/icons/Storage';
+import {ListItem, FormControl, InputLabel, Select, MenuItem, TextField} from '@material-ui/core';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
@@ -61,9 +58,8 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                             setConfig({...config, eventField: event.target.value});
                         }}
                     >
-                        // @ts-ignore 
-                        {storyGram.data.events[0] ? metaData.eventDataKV.map((eventDataKV: Record<string, any>) =>
-                            <MenuItem key={eventDataKV[0]} value={eventDataKV[0]}>{eventDataKV[0]}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKV) =>
+                            <MenuItem key={eventDataKV} value={eventDataKV}>{eventDataKV}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -74,16 +70,18 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                         id="virtualize-demo"
                         style={{width: '100%'}}
                         options={metaData.eventDataKeys}
-                        renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
-                        multiple
+                        renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actorfields" />}
+                        multiple  
                         // @ts-ignore
-                        onChange={(_: any, newActors: Actor[] | null) => {
-                            const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                            setConfig({...config, mustContain: newActorIDs});
+                        value={storyGram.config.actorFields}
+                        // @ts-ignore
+                        onChange={(_: any, newKey: string[]) => {
+                            // @ts-ignore
+                            setConfig({...config, actorFields: newKey});
                         }}
                     />
                 </ListItem>
-
+ 
             </ListItem>
 
         </div>

@@ -49,9 +49,12 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
             .filter(actor => {
                 return actor.actorID.toLowerCase().includes(query.toLowerCase()) ||
                     Object.values(actor.data)
-                        .some(value =>
+                    .some(value => { 
+                        if(value) {
                             (value as any).toString().toLowerCase()
-                                .includes(query.toLowerCase()))
+                                .includes(query.toLowerCase())
+                        }
+                    })
             }))
     }
 
@@ -63,9 +66,6 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
                 if(loadedCount.current === 500) {
                     endReached.current = true;
                 }
-
-                // in a real world scenario, you would fetch the next
-                // slice and append it to the existing records
                 setLoadedUsers(actors.slice(0, loadedCount.current));
             }, 500);
         }

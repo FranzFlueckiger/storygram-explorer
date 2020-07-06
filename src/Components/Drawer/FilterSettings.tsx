@@ -8,6 +8,7 @@ import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ListboxComponent, renderGroup} from '../BigAutoComplete';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {onChangeAutoComplete, stringifyActorsFromID, stringifyActorsFromActorList} from '../../Util/actorCodec';
 
 type FilterSettingsProps = {
     drawerWidth: number,
@@ -77,38 +78,87 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                         <ListItem>
                             <ListItemText primary="Event value" />
                         </ListItem>
-                        <ListItem>
-                            <TextField
-                                id="date"
-                                label="From"
-                                type="date"
-                                className={classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={new Date(Date.parse(storyGram.config.filterEventValue![0]! as string)).toISOString().substring(0, 10)}
-                                onChange={(event: any) => {
-                                    console.log(event.target.value)
-                                    setConfig({...config, filterEventValue: [event.target.value, config.filterEventValue![1]!]});
-                                }}
-                            />
-                        </ListItem>
-                        <ListItem>
-                            <TextField
-                                id="date"
-                                label="To"
-                                type="date"
-                                className={classes.textField}
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                                value={new Date(Date.parse(storyGram.config.filterEventValue![1]! as string)).toISOString().substring(0, 10)}
-                                onChange={(event: any) => {
-                                    console.log(event.target.value)
-                                    setConfig({...config, filterEventValue: [config.filterEventValue![0]!, event.target.value]});
-                                }}
-                            />
-                        </ListItem>
+                        {
+                            storyGram.config.inferredEventType === 'datestring' ?
+                                <>
+                                    <ListItem>
+                                        <TextField
+                                            id="date"
+                                            label="From"
+                                            type="date"
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={new Date(Date.parse(storyGram.config.filterEventValue![0]! as string)).toISOString().substring(0, 10)}
+                                            onChange={(event: any) => {
+                                                console.log(event.target.value)
+                                                setConfig({...config, filterEventValue: [event.target.value, config.filterEventValue![1]!]});
+                                            }}
+                                        />
+                                    </ListItem>
+                                    <ListItem>
+                                        <TextField
+                                            id="date"
+                                            label="To"
+                                            type="date"
+                                            className={classes.textField}
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={new Date(Date.parse(storyGram.config.filterEventValue![1]! as string)).toISOString().substring(0, 10)}
+                                            onChange={(event: any) => {
+                                                console.log(event.target.value)
+                                                setConfig({...config, filterEventValue: [config.filterEventValue![0]!, event.target.value]});
+                                            }}
+                                        />
+                                    </ListItem>
+                                </>
+                                :
+                                <>
+                                    <ListItem>
+                                        <TextField
+                                            id="standard-number"
+                                            label="From"
+                                            type="number"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={storyGram.config.filterEventValue[0] ? storyGram.config.filterEventValue![0] as number : metaData.firstEventValue}
+                                            onChange={(event: any) => {
+                                                let value = Number(event.target.value) 
+                                                const minValue = metaData.firstEventValue
+                                                const maxValue = metaData.lastEventValue
+                                                if(typeof value !== 'number' || value < minValue) value = minValue
+                                                else if(value > maxValue) value = maxValue
+                                                setConfig({ 
+                                                    ...config,
+                                                    filterEventValue: [value, config.filterEventValue![1]]
+                                                })
+                                            }}
+                                        />
+                                        <TextField
+                                            id="standard-number"
+                                            label="To"
+                                            type="number"
+                                            InputLabelProps={{
+                                                shrink: true,
+                                            }}
+                                            value={storyGram.config.filterEventValue[1] ? storyGram.config.filterEventValue![1] as number : metaData.lastEventValue}
+                                            onChange={(event: any) => {
+                                                let value = Number(event.target.value) 
+                                                const minValue = metaData.firstEventValue
+                                                const maxValue = metaData.lastEventValue
+                                                if(typeof value !== 'number' || value > maxValue) value = maxValue
+                                                else if(value < minValue) value = minValue
+                                                setConfig({
+                                                    ...config,
+                                                    filterEventValue: [config.filterEventValue![0], value]
+                                                })
+                                            }}
+                                        />
+                                    </ListItem>
+                                </>}
                         <Divider />
                         <ListItem>
                             <ListItemText primary="Group size" />
@@ -199,54 +249,22 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                         </ListItem>
                         <Divider />
                         <ListItem>
-                            <ListItemText primary="Event contains all actors" />
-                        </ListItem>
-                        <ListItem>
-                            <Autocomplete
-                                id="virtualize-demo"
-                                style={{width: '100%'}}
-                                disableListWrap
-                                ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
-                                getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
-                                renderGroup={renderGroup}
-                                options={metaData.allActorsListSortAmt}
-                                renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
-                                multiple
-                                limitTags={2}
-                                defaultValue={storyGram.config.mustContain?.map(actorID => {
-                                    return metaData.getActorFromString(actorID)
-                                })}
-                                // @ts-ignore
-                                onChange={(_: any, newActors: Actor[] | null) => {
-                                    const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({...config, mustContain: newActorIDs});
-                                }}
-                            />
-                        </ListItem>
-                        <Divider />
-                        <ListItem>
                             <ListItemText primary="Event contains some actors" />
                         </ListItem>
                         <ListItem>
                             <Autocomplete
-                                id="virtualize-demo"
+                                id="contains_some_actors"
                                 style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
-                                getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
+                                getOptionLabel={(actor) => actor}
                                 renderGroup={renderGroup}
-                                options={metaData.allActorsListSortAmt}
+                                options={stringifyActorsFromActorList(metaData.allActorsListSortAmt)}
                                 renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                 multiple
                                 limitTags={2}
-                                defaultValue={storyGram.config.shouldContain?.map(actorID => {
-                                    return metaData.getActorFromString(actorID)
-                                })}
-                                // @ts-ignore
-                                onChange={(_: any, newActors: Actor[] | null) => {
-                                    const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({...config, shouldContain: newActorIDs});
-                                }}
+                                value={stringifyActorsFromID('shouldContain', storyGram, metaData)}
+                                onChange={onChangeAutoComplete('shouldContain', setConfig, config)}
                             />
                         </ListItem>
                     </List>

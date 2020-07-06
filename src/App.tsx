@@ -12,13 +12,18 @@ import {loadData} from './Util/dataLoader';
 
 function App() {
 
+  let isDrawable = false
   const defaultData = loadData('')
   const [selectedTab, setSelectedTab] = React.useState<number>(0)
   const [config, setConfig] = React.useState<Config>(defaultData.config)
   const [data, setData] = React.useState<any[]>(defaultData.data)
   const storyGram = new Storygram(data, config)
-  storyGram.remove()
   storyGram.calculate()
+  if(storyGram.data.events.length && storyGram.data.actors.size) {
+    isDrawable = true
+  } else {
+    isDrawable =  false
+  }
   const metaData = getStoryGramMetadata(storyGram)
 
   return (

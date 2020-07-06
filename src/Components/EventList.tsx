@@ -49,9 +49,12 @@ export const EventList: FC<EventListProps> = ({metaData}) => {
         setEvents(metaData.allEventsList
             .filter(event => {
                 return Object.values(event.data)
-                    .some(value =>
-                        (value as any).toString().toLowerCase()
-                            .includes(query.toLowerCase()))
+                    .some(value => {
+                        if(value) {
+                            (value as any).toString().toLowerCase()
+                                .includes(query.toLowerCase())
+                        }
+                    })
             }))
     }
 
@@ -63,9 +66,6 @@ export const EventList: FC<EventListProps> = ({metaData}) => {
                 if(loadedCount.current === 500) {
                     endReached.current = true;
                 }
-
-                // in a real world scenario, you would fetch the next
-                // slice and append it to the existing records
                 setLoadedUsers(events.slice(0, loadedCount.current));
             }, 500);
         }

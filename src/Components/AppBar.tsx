@@ -81,7 +81,7 @@ export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelected
             <AppBar position="fixed" className={classes.appBar}>
                 <Toolbar>
                     <Typography variant="h6" noWrap>
-                        Storygram Explorer
+                        Storygram Explorer Beta
                     </Typography>
                     <Tabs
                         value={selectedTab}

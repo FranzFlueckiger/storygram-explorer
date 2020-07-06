@@ -56,9 +56,13 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                                                 Actor ID: {actor.actorID}
                                             </ListItem>
                                             {
-                                                Object.entries(actor.data).map(entry => <ListItem>
-                                                    {entry[0] + ': ' + entry[1]}
-                                                </ListItem>
+                                                Object.entries(actor.data).map(entry =>
+                                                    <>
+                                                        <Divider />
+                                                        <ListItem>
+                                                            {entry[0] + ': ' + entry[1]}
+                                                        </ListItem> 
+                                                    </>
                                                 )
                                             }
                                         </>
@@ -77,11 +81,10 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                 {Object.entries(event.data).map(entry =>
                     <>
                         <Divider orientation="vertical" flexItem />
-                        <ListItem> 
+                        <ListItem>
                             <Typography>
-                                {console.log(JSON.stringify(entry[1]))}
                                 {entry[0] + ': ' + String(entry[1])}
-                            </Typography> 
+                            </Typography>
                         </ListItem>
                     </>
                 )}

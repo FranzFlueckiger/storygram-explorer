@@ -54,53 +54,52 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         // @ts-ignore
-                        value={config.eventField}
+                        value={config.actorField}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({...config, eventField: event.target.value});
+                            setConfig({...config, actorField: event.target.value});
                         }}
                     >
-                        // @ts-ignore 
-                        {storyGram.data.events[0] ? metaData.eventDataKV.map((eventDataKV: Record<string, any>) =>
-                            <MenuItem key={eventDataKV[0]} value={eventDataKV[0]}>{eventDataKV[0]}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
+                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
 
             <ListItem>
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">Start field</InputLabel>
+                    <InputLabel id="demo-simple-select-label">From field</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         // @ts-ignore
-                        value={config.actorArrayField}
+                        value={config.startField}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({...config, actorArrayField: event.target.value});
+                            setConfig({...config, startField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKey: string) =>
-                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
+                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
 
             <ListItem>
                 <FormControl className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-label">End field</InputLabel>
+                    <InputLabel id="demo-simple-select-label">To field</InputLabel>
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
                         // @ts-ignore
-                        value={config.actorArrayField}
+                        value={config.endField}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
-                            setConfig({...config, actorArrayField: event.target.value});
+                            setConfig({...config, endField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKey: string) =>
-                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>) : "No selectable keys"}
+                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
+                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>

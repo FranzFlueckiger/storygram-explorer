@@ -50,7 +50,8 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
         },
     }));
 
-    const [dataFormat, setDataFormat] = React.useState<'array' | 'table' | 'ranges'>('array')
+    type AllowedDataFormat = "ranges" | "array" | "table"
+
     const [dataSource, setDataSource] = React.useState(dataSetNames.blockbuster)
 
     const classes = useStyles();
@@ -88,6 +89,7 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
                                     <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}</MenuItem>
                                     <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
                                     <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
+                                    <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}</MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>
@@ -97,11 +99,10 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={dataFormat}//storyGram.config.dataFormat ? storyGram.config.dataFormat : "array"}
+                                    value={storyGram.config.dataFormat ? storyGram.config.dataFormat : "array"}
                                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         // @ts-ignore
-                                        //setConfig({ ...config, dataFormat: event.target.value });
-                                        setDataFormat(event.target.value)
+                                        setConfig({...config, dataFormat: event.target.value as AllowedDataFormat });
                                     }}
                                 >
 
@@ -112,9 +113,9 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
                             </FormControl>
                         </ListItem>
 
-                        {dataFormat === 'array' ?
+                        {storyGram.config.dataFormat === 'array' ?
                             <ArrayFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
-                            dataFormat === 'table' ? <TableFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
+                            storyGram.config.dataFormat === 'table' ? <TableFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
                                 <RangesFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} />
                         }
                     </List>

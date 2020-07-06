@@ -10,6 +10,7 @@ import {ListboxComponent, renderGroup} from '../BigAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {stringifyActorsFromActorList, stringifyActorsFromID, onChangeAutoComplete} from '../../Util/actorCodec';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -76,24 +77,18 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                         </ListItem>
                         <ListItem>
                             <Autocomplete
-                                id="virtualize-demo"
+                                id="contains_some_actors"
                                 style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
-                                getOptionLabel={(actor) => actor!.actorID + ' (' + actor!.layers.length + ')'}
+                                getOptionLabel={(actor) => actor}
                                 renderGroup={renderGroup}
-                                options={metaData.allActorsListSortAmt}
+                                options={stringifyActorsFromActorList(metaData.allActorsListSortAmt)}
                                 renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
                                 multiple
                                 limitTags={2}
-                                defaultValue={storyGram.config.highlight?.map(actorID => {
-                                    return metaData.getActorFromString(actorID)
-                                })}
-                                // @ts-ignore
-                                onChange={(_: any, newActors: Actor[] | null) => {
-                                    const newActorIDs = newActors ? newActors.map(actor => actor.actorID) : []
-                                    setConfig({...config, highlight: newActorIDs});
-                                }}
+                                value={stringifyActorsFromID('highlight', storyGram, metaData)}
+                                onChange={onChangeAutoComplete('highlight', setConfig, config)}
                             />
                         </ListItem>
                         <ListItem>
@@ -238,6 +233,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                                 getAriaValueText={(value) => String(value)}
                             />
                         </ListItem>
+
                         <Divider />
                         <ListItem>
                             Population size
@@ -249,7 +245,87 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                                 max={100}
                                 step={5}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, populationSize: (newValue as number) })
+                                    setConfig({...config, populationSize: (newValue as number)})
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
+
+                        <Divider />
+                        <ListItem>
+                            Top margin
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.marginTop}
+                                min={5}
+                                max={1000}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({...config, marginTop: (newValue as number)})
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
+
+                        <Divider />
+                        <ListItem>
+                            Bottom margin
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.marginBottom}
+                                min={5}
+                                max={1000}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({...config, marginBottom: (newValue as number)})
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
+
+                        <Divider />
+                        <ListItem>
+                            Left margin
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.marginLeft}
+                                min={5}
+                                max={1000}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({...config, marginLeft: (newValue as number)})
+                                }
+                                }
+                                valueLabelDisplay="auto"
+                                aria-labelledby="range-slider"
+                                getAriaValueText={(value) => String(value)}
+                            />
+                        </ListItem>
+
+                        <Divider />
+                        <ListItem>
+                            Right margin
+                            </ListItem>
+                        <ListItem>
+                            <Slider
+                                value={storyGram.config.marginRight}
+                                min={5}
+                                max={1000}
+                                step={5}
+                                onChange={(_, newValue) => {
+                                    setConfig({...config, marginRight: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"
