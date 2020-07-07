@@ -5,10 +5,9 @@ import {Config, Storygram} from 'storygram';
 import {DataSettings} from './DataSettings/DataSettings';
 import {LayoutSettings} from './Layoutsettings';
 import {FilterSettings} from './FilterSettings';
-import {List, ListItem} from '@material-ui/core';
+import {List, ListItem, ExpansionPanel} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
-import {MetasonData} from '../../Data/exampleData';
 
 type MyDrawerProps = {
     storyGram: Storygram,
@@ -55,7 +54,6 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                     <List>
                         <ListItem>
                             <DataSettings
-                                drawerWidth={drawerWidth}
                                 storyGram={storyGram}
                                 config={config}
                                 setConfig={setConfig}
@@ -66,28 +64,52 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                             />
                         </ListItem>
                         <ListItem>
-                            <FilterSettings
-                                drawerWidth={drawerWidth}
-                                storyGram={storyGram}
-                                config={config}
-                                setConfig={setConfig}
-                                expandedMenu={expandedMenu}
-                                handleMenuChange={handleMenuChange}
-                                metaData={metaData}
-                                isDrawable={isDrawable}
-                            />
+                            {
+                                isDrawable ?
+                                    <FilterSettings
+                                        drawerWidth={drawerWidth}
+                                        storyGram={storyGram}
+                                        config={config}
+                                        setConfig={setConfig}
+                                        expandedMenu={expandedMenu}
+                                        handleMenuChange={handleMenuChange}
+                                        metaData={metaData}
+                                        isDrawable={isDrawable}
+                                    /> :
+                                    <div>
+                                        <ExpansionPanel
+                                            expanded={expandedMenu === 'Filtering'}
+                                            onChange={handleMenuChange('Filtering')}
+                                            disabled={!isDrawable}
+                                        >
+                                            <></>
+                                        </ExpansionPanel>
+                                    </div>
+                            }
                         </ListItem>
                         <ListItem>
-                            <LayoutSettings
-                                drawerWidth={drawerWidth}
-                                storyGram={storyGram}
-                                config={config}
-                                setConfig={setConfig}
-                                expandedMenu={expandedMenu}
-                                handleMenuChange={handleMenuChange}
-                                metaData={metaData}
-                                isDrawable={isDrawable}
-                            />
+                            {
+                                isDrawable ?
+                                    <LayoutSettings
+                                        drawerWidth={drawerWidth}
+                                        storyGram={storyGram}
+                                        config={config}
+                                        setConfig={setConfig}
+                                        expandedMenu={expandedMenu}
+                                        handleMenuChange={handleMenuChange}
+                                        metaData={metaData}
+                                        isDrawable={isDrawable}
+                                    /> :
+                                    <div>
+                                        <ExpansionPanel
+                                            expanded={expandedMenu === 'Layout'}
+                                            onChange={handleMenuChange('Layout')}
+                                            disabled={!isDrawable}
+                                        >
+                                            <></>
+                                        </ExpansionPanel>
+                                    </div>
+                            }
                         </ListItem>
                     </List>
                 </div>

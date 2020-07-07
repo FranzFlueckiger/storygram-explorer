@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
+import {RangeData, FullConfig} from 'storygram/dist/Types';
 
 type RangesFormatFormProps = {
     storyGram: Storygram,
@@ -43,6 +44,7 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
 
     const classes = useStyles();
     const theme = useTheme();
+    const fullConfig = storyGram.config as (FullConfig & RangeData)
 
     return (
         <div className={classes.root}>
@@ -53,15 +55,14 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.actorField}
+                        value={fullConfig.actorField ? fullConfig.actorField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, actorField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
-                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
+                        {metaData.dataKeys.length ? metaData.dataKeys.map((key: string) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -72,15 +73,14 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.startField}
+                        value={fullConfig.startField ? fullConfig.startField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, startField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
-                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
+                        {metaData.dataKeys.length ? metaData.dataKeys.map((key: string) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -91,15 +91,14 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.endField}
+                        value={fullConfig.endField ? fullConfig.endField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, endField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.actorDataKeys.map((actorDataKey: string) =>
-                            <MenuItem key={actorDataKey} value={actorDataKey}>{actorDataKey}</MenuItem>) : "No selectable keys"}
+                        {metaData.dataKeys.length ? metaData.dataKeys.map((key: string) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>

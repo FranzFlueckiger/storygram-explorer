@@ -2,7 +2,9 @@ import {Config, Storygram} from "storygram"
 import {FullConfig, Actor} from "storygram/dist/Types"
 import {StoryGramMetadata} from "./storyGramHelpers"
 
-const stringifyActor = (actor: Actor) => actor.actorID + ' (' + actor.layers.length + ')'
+const stringifyActor = (actor: Actor) => {
+    return actor && "actorID" in actor ? actor.actorID + ' (' + actor.layers.length + ')' : ''
+}
 
 export const onChangeAutoComplete = (
     target: keyof FullConfig,

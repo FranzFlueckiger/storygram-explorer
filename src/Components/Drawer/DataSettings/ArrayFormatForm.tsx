@@ -6,6 +6,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
+import {ArrayData, FullConfig} from 'storygram/dist/Types';
 
 type ArrayFormatFormProps = {
     storyGram: Storygram,
@@ -43,6 +44,7 @@ export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, se
 
     const classes = useStyles();
     const theme = useTheme();
+    const fullConfig = storyGram.config as (FullConfig & ArrayData)
 
     return (
         <div className={classes.root}>
@@ -53,16 +55,14 @@ export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, se
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.eventField}
+                        value={fullConfig.eventField ? fullConfig.eventField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, eventField: event.target.value});
                         }}
                     >
-                        // @ts-ignore 
-                        {metaData.eventDataKeys.map((eventDataKey: string) =>
-                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>)}
+                        {metaData.dataKeys.map((key: string) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>)}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -73,15 +73,14 @@ export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, se
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.actorArrayField}
+                        value={fullConfig.actorArrayField ? fullConfig.actorArrayField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, actorArrayField: event.target.value});
                         }}
                     >
-                        {metaData.eventDataKeys.map((eventDataKey: string) =>
-                            <MenuItem key={eventDataKey} value={eventDataKey}>{eventDataKey}</MenuItem>)}
+                        {metaData.dataKeys.map((key: string) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>)}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -89,4 +88,4 @@ export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, se
         </div>
     );
 
-}
+} 

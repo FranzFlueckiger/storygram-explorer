@@ -61,7 +61,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
             <ExpansionPanel
                 expanded={expandedMenu === 'Filtering'}
                 onChange={handleMenuChange('Filtering')}
-                disabled={!isDrawable}>
+            >
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMoreIcon />}
                     aria-controls="panel4bh-content"

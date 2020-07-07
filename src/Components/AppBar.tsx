@@ -1,49 +1,13 @@
 import React, {FC} from 'react';
-import clsx from 'clsx';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import {Box, Tabs, Tab} from '@material-ui/core';
 import {Storygram} from 'storygram';
 import {StoryGramMetadata} from '../Util/storyGramHelpers';
-
-function TabPanel(props: TabPanelProps) {
-    const {children, value, index, ...other} = props;
-
-    return (
-        <div
-            role="tabpanel"
-            hidden={value !== index}
-            id={`simple-tabpanel-${index}`}
-            aria-labelledby={`simple-tab-${index}`}
-            {...other}
-        >
-            {value === index && (
-                <Box p={3}>
-                    <Typography>{children}</Typography>
-                </Box>
-            )}
-        </div>
-    );
-}
-
-type TabPanelProps = {
-    children: any,
-    index: any,
-    value: any,
-};
-
-function a11yProps(index: any) {
-    return {
-        id: `simple-tab-${index}`,
-        'aria-controls': `simple-tabpanel-${index}`,
-    };
-}
-
+ 
 type MyAppBarProps = {
     storyGram: Storygram,
     selectedTab: number,
@@ -92,8 +56,8 @@ export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelected
                         centered
                     >
                         <Tab label="Storygram" />
-                        <Tab label={isDrawable ? "Events (" + metaData.visibleEventList.length + ")" : "Events"} disabled={!isDrawable}/>
-                        <Tab label={isDrawable ? "Actors (" + metaData.visibleActorsList.length + ")" : "Actors"} disabled={!isDrawable}/>
+                        <Tab label={isDrawable ? "Events (" + metaData.visibleEventList.length + ")" : "Events"} disabled={!isDrawable} />
+                        <Tab label={isDrawable ? "Actors (" + metaData.visibleActorsList.length + ")" : "Actors"} disabled={!isDrawable} />
                     </Tabs>
                 </Toolbar>
             </AppBar>
