@@ -1,6 +1,6 @@
 import {Config} from "storygram";
-import {ConfigBlockBuster, WarConfig, MetasonConfig, BundesratConfig} from "../Data/exampleConfig";
-import {BlockBusterdata, MetasonData, WarData, BundesratData} from "../Data/exampleData";
+import {ConfigBlockBuster, WarConfig, MetasonConfig, BundesratConfig, BattleConfig} from "../Data/exampleConfig";
+import {BlockBusterdata, MetasonData, WarData, BundesratData, BattleData} from "../Data/exampleData";
 import {dataSetNames} from "./constants";
 
 type DataSet = {
@@ -16,7 +16,9 @@ export const loadData = (description: string): DataSet => {
             return {config: MetasonConfig, data: MetasonData}
         case dataSetNames.bundesrat:
             return {config: BundesratConfig, data: BundesratData}
+        case dataSetNames.battles:
+            return { config: BattleConfig, data: BattleData}
         default:
             return {config: ConfigBlockBuster, data: BlockBusterdata}
     }
-}
+} 

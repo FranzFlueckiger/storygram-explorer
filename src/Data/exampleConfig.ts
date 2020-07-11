@@ -69,3 +69,9 @@ export const BundesratConfig: Config = {
   actorColor: (event, actor) => actor.data.Partei as string,
   compact: true,
 };
+
+export const BattleConfig: Config = {
+  dataFormat: 'table',
+  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC'],
+  eventDescription: (event) => event.data.name as string,
+};
