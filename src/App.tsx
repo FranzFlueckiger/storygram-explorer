@@ -18,13 +18,12 @@ function App() {
   const [config, setConfig] = React.useState<Config>(defaultData.config)
   const [data, setData] = React.useState<any[]>(defaultData.data)
   const storyGram = new Storygram(data, config)
-  storyGram.calculate()
   if (storyGram.data.events.length && storyGram.data.actors.size) {
     isDrawable = true
   } else {
     isDrawable = false
   }
-  const metaData = getStoryGramMetadata(storyGram)
+  const metaData = getStoryGramMetadata(storyGram, data)
 
   return (
     <div>
@@ -33,7 +32,7 @@ function App() {
         storyGram={storyGram}
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        metaData={metaData}
+        metaData={metaData} 
         isDrawable={isDrawable}
       />
       <MyDrawer
@@ -46,8 +45,6 @@ function App() {
       />
       <MyShowCase
         storyGram={storyGram}
-        config={config}
-        data={data} 
         selectedTab={selectedTab}
         metaData={metaData}
       />

@@ -13,14 +13,13 @@ export type StoryGramMetadata = {
     maxGroupedActor: number,
     biggestVisibleGroup: number,
     maxGroupedVisibleActor: number,
-    actorDataKeys: Array<string>,
-    eventDataKeys: Array<string>,
+    dataKeys: Array<string>,
     getActorFromString: (id: string) => Actor | undefined,
     firstEventValue: number,
     lastEventValue: number
 }
 
-export const getStoryGramMetadata = (storyGram: Storygram): StoryGramMetadata => {
+export const getStoryGramMetadata = (storyGram: Storygram, data: any[]): StoryGramMetadata => {
     let biggestGroup = 0
     let biggestVisibleGroup = 0
     let maxGroupedActor = 0
@@ -42,8 +41,6 @@ export const getStoryGramMetadata = (storyGram: Storygram): StoryGramMetadata =>
     const getActorFromString = (actorID: string) => {
         return storyGram.data.actors.get(actorID)
     }
-    let eventDataKeysSet = new Set<string>()
-    let actorDataKeysSet = new Set<string>()
     storyGram.data.events.forEach(event => {
         if(biggestGroup < event.group.length) {
             biggestGroup = event.group.length
@@ -51,7 +48,6 @@ export const getStoryGramMetadata = (storyGram: Storygram): StoryGramMetadata =>
         if(!event.isHidden && (biggestVisibleGroup < event.group.length)) {
             biggestVisibleGroup = event.group.length
         }
-        Object.keys(event.data).forEach(key => eventDataKeysSet.add(key))
     })
     allActorsList!.forEach(actor => {
         if(maxGroupedActor < actor.layers.length) {
@@ -60,10 +56,12 @@ export const getStoryGramMetadata = (storyGram: Storygram): StoryGramMetadata =>
         if(!actor.isHidden && (maxGroupedVisibleActor < actor.layers.length)) {
             maxGroupedVisibleActor = actor.layers.length
         }
-        Object.keys(actor.data).forEach(key => actorDataKeysSet.add(key))
     })
-    let actorDataKeys = Array.from(actorDataKeysSet)
-    let eventDataKeys = Array.from(eventDataKeysSet)
+    let dataKeysSet = new Set<string>()
+    if(Array.isArray(data)) {
+        data.forEach(d => Object.keys(d).forEach(key => dataKeysSet.add(key)))
+    }
+    let dataKeys = Array.from(dataKeysSet)
     return {
         visibleActorsList,
         visibleEventList,
@@ -74,10 +72,9 @@ export const getStoryGramMetadata = (storyGram: Storygram): StoryGramMetadata =>
         biggestVisibleGroup,
         maxGroupedActor,
         maxGroupedVisibleActor,
-        actorDataKeys,
-        eventDataKeys,
+        dataKeys,
         getActorFromString,
-        firstEventValue: storyGram.data.events[0].eventXValue,
-        lastEventValue: storyGram.data.events[storyGram.data.events.length - 1].eventXValue,
+        firstEventValue: storyGram.data.events.length ? storyGram.data.events[0].eventXValue : Number.MIN_SAFE_INTEGER,
+        lastEventValue: storyGram.data.events.length ? storyGram.data.events[storyGram.data.events.length - 1].eventXValue : Number.MAX_SAFE_INTEGER,
     }
 }

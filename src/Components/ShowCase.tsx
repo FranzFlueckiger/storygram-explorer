@@ -10,13 +10,11 @@ import { Button } from '@material-ui/core';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
-    config: Config,
-    data: any[],
     selectedTab: number,
     metaData: StoryGramMetadata
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selectedTab, metaData }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, selectedTab, metaData }) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -42,8 +40,6 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selec
                 {
                     selectedTab === 0 ? <StoryGramViewer
                         storyGram={storyGram}
-                        config={config}
-                        data={data}
                         metaData={metaData}
                     /> :
                         selectedTab === 1 ?
@@ -57,14 +53,12 @@ export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, config, data, selec
 
 type StoryGramViewerProps = {
     storyGram: Storygram
-    config: Config
-    data: any[]
     metaData: StoryGramMetadata
 }
 
 type StoryGramStatus = 'OK' | 'TooBig' | 'AllFiltered' | 'Broken'
 
-const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, config, data, metaData }) => {
+const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
 
     const setNewStatus = () => {
         console.log(metaData)
@@ -85,7 +79,7 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, config, data, me
             {
                 storyGramStatus === 'OK' ? 
                     <>
-                        <StorygramDrawer storyGram={storyGram} config={config} data={data} />
+                        <StorygramDrawer storyGram={storyGram}/>
                     </>
                     :
                     storyGramStatus === 'TooBig' ?

@@ -2,12 +2,10 @@ import React, {useEffect, FC, useState} from 'react';
 import {Storygram, Config} from 'storygram';
 
 type StorygramDrawerProps = {
-    storyGram: Storygram,
-    config: Config,
-    data: any[]
+    storyGram: Storygram
 };
 
-const StorygramDrawer: FC<StorygramDrawerProps> = ({storyGram, config, data}) => {
+const StorygramDrawer: FC<StorygramDrawerProps> = ({storyGram}) => {
 
     const root = "storygramRoot";
 

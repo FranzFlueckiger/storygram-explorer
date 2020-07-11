@@ -4,6 +4,7 @@ import {ListItem, FormControl, InputLabel, Select, MenuItem, TextField} from '@m
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import {TableData, FullConfig} from 'storygram/dist/Types';
 
 type TableFormatFormProps = {
     storyGram: Storygram,
@@ -41,6 +42,7 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
 
     const classes = useStyles();
     const theme = useTheme();
+    const fullConfig = storyGram.config as (FullConfig & TableData)
 
     return (
         <div className={classes.root}>
@@ -51,15 +53,14 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                     <Select
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        // @ts-ignore
-                        value={config.eventField}
+                        value={fullConfig.eventField ? fullConfig.eventField : ''}
                         onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                             // @ts-ignore
                             setConfig({...config, eventField: event.target.value});
                         }}
                     >
-                        {storyGram.data.events[0] ? metaData.eventDataKeys.map((eventDataKV) =>
-                            <MenuItem key={eventDataKV} value={eventDataKV}>{eventDataKV}</MenuItem>) : "No selectable keys"}
+                        {metaData.dataKeys.length ? metaData.dataKeys.map((key) =>
+                            <MenuItem key={key} value={key}>{key}</MenuItem>) : "No selectable keys"}
                     </Select>
                 </FormControl>
             </ListItem>
@@ -69,18 +70,16 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                     <Autocomplete
                         id="virtualize-demo"
                         style={{width: '100%'}}
-                        options={metaData.eventDataKeys}
+                        options={metaData.dataKeys}
                         renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actorfields" />}
                         multiple  
-                        // @ts-ignore
-                        value={storyGram.config.actorFields}
-                        // @ts-ignore
+                        value={fullConfig.actorFields ? fullConfig.actorFields : []}
                         onChange={(_: any, newKey: string[]) => {
                             // @ts-ignore
                             setConfig({...config, actorFields: newKey});
                         }}
                     />
-                </ListItem>
+                </ListItem> 
  
             </ListItem>
 

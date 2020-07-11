@@ -13,7 +13,6 @@ import {dataSetNames} from '../../../Util/constants';
 import {loadData} from '../../../Util/dataLoader';
 
 type DataSettingsProps = {
-    drawerWidth: number,
     storyGram: Storygram,
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
@@ -23,7 +22,7 @@ type DataSettingsProps = {
     setData: React.Dispatch<React.SetStateAction<any[]>>
 }
 
-export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData}) => {
+export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
