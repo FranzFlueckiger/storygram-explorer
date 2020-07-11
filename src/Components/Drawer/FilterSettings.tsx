@@ -7,7 +7,7 @@ import {Config, Storygram} from 'storygram';
 import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ListboxComponent, renderGroup} from '../BigAutoComplete';
-import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {StoryGramMetadata, millisToDateString} from '../../Util/storyGramHelpers';
 import {onChangeAutoComplete, stringifyActorsFromID, stringifyActorsFromActorList} from '../../Util/actorCodec';
 
 type FilterSettingsProps = {
@@ -94,10 +94,9 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            value={new Date(Date.parse(storyGram.config.filterEventValue![0]! as string)).toISOString().substring(0, 10)}
+                                            value={storyGram.config.filterEventValue![0]! as number}
                                             onChange={(event: any) => {
-                                                console.log(event.target.value)
-                                                setConfig({...config, filterEventValue: [event.target.value, config.filterEventValue![1]!]});
+                                                setConfig({...config, filterEventValue: [event.target.value, storyGram.config.filterEventValue![1]!]});
                                             }}
                                         />
                                     </ListItem>
@@ -110,10 +109,9 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            value={new Date(Date.parse(storyGram.config.filterEventValue![1]! as string)).toISOString().substring(0, 10)}
+                                            value={storyGram.config.filterEventValue![1]! as number}
                                             onChange={(event: any) => {
-                                                console.log(event.target.value)
-                                                setConfig({...config, filterEventValue: [config.filterEventValue![0]!, event.target.value]});
+                                                setConfig({...config, filterEventValue: [storyGram.config.filterEventValue![0]!, event.target.value]});
                                             }}
                                         />
                                     </ListItem>
@@ -128,16 +126,16 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            value={storyGram.config.filterEventValue[0] ? storyGram.config.filterEventValue![0] as number : metaData.firstEventValue}
+                                            value={storyGram.config.filterEventValue[0] ? storyGram.config.filterEventValue![0] as number : metaData.firstEvent}
                                             onChange={(event: any) => {
-                                                let value = Number(event.target.value) 
-                                                const minValue = metaData.firstEventValue
-                                                const maxValue = metaData.lastEventValue
+                                                let value = Number(event.target.value)
+                                                const minValue = metaData.firstEvent?.eventXValue as number
+                                                const maxValue = metaData.lastEvent?.eventXValue as number
                                                 if(typeof value !== 'number' || value < minValue) value = minValue
                                                 else if(value > maxValue) value = maxValue
-                                                setConfig({ 
+                                                setConfig({
                                                     ...config,
-                                                    filterEventValue: [value, config.filterEventValue![1]]
+                                                    filterEventValue: [value, storyGram.config.filterEventValue![1]]
                                                 })
                                             }}
                                         />
@@ -148,16 +146,16 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                             InputLabelProps={{
                                                 shrink: true,
                                             }}
-                                            value={storyGram.config.filterEventValue[1] ? storyGram.config.filterEventValue![1] as number : metaData.lastEventValue}
+                                            value={storyGram.config.filterEventValue[1] ? storyGram.config.filterEventValue![1] as number : metaData.lastEvent}
                                             onChange={(event: any) => {
-                                                let value = Number(event.target.value) 
-                                                const minValue = metaData.firstEventValue
-                                                const maxValue = metaData.lastEventValue
+                                                let value = Number(event.target.value)
+                                                const minValue = metaData.firstEvent?.eventXValue as number
+                                                const maxValue = metaData.lastEvent?.eventXValue as number
                                                 if(typeof value !== 'number' || value > maxValue) value = maxValue
                                                 else if(value < minValue) value = minValue
                                                 setConfig({
                                                     ...config,
-                                                    filterEventValue: [config.filterEventValue![0], value]
+                                                    filterEventValue: [storyGram.config.filterEventValue![0], value]
                                                 })
                                             }}
                                         />
@@ -183,7 +181,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                     else if(!value || value > maxSize) value = 1
                                     setConfig({
                                         ...config,
-                                        filterGroupSize: [value, config.filterGroupSize![1]]
+                                        filterGroupSize: [value, storyGram.config.filterGroupSize![1]]
                                     })
                                 }}
                             />
@@ -202,7 +200,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                     else if(value > maxSize) value = maxSize
                                     setConfig({
                                         ...config,
-                                        filterGroupSize: [config.filterGroupSize![0], value]
+                                        filterGroupSize: [storyGram.config.filterGroupSize![0], value]
                                     })
                                 }}
                             />
@@ -227,7 +225,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                     else if(!value || value > maxSize) value = 1
                                     setConfig({
                                         ...config,
-                                        filterGroupAmt: [value, config.filterGroupAmt![1]]
+                                        filterGroupAmt: [value, storyGram.config.filterGroupAmt![1]]
                                     })
                                 }}
                             />
@@ -246,7 +244,7 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                     else if(value > maxSize) value = maxSize
                                     setConfig({
                                         ...config,
-                                        filterGroupAmt: [config.filterGroupAmt![0], value]
+                                        filterGroupAmt: [storyGram.config.filterGroupAmt![0], value]
                                     })
                                 }}
                             />
@@ -271,10 +269,31 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
                                 onChange={onChangeAutoComplete('shouldContain', setConfig, config)}
                             />
                         </ListItem>
+
+                        <Divider />
+                        <ListItem>
+                            <ListItemText primary="Event contains all actors" />
+                        </ListItem>
+                        <ListItem>
+                            <Autocomplete
+                                id="contains_all_actors"
+                                style={{width: '100%'}}
+                                disableListWrap
+                                ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
+                                getOptionLabel={(actor) => actor}
+                                renderGroup={renderGroup}
+                                options={stringifyActorsFromActorList(metaData.allActorsListSortAmt)}
+                                renderInput={(params) => <TextField {...params} variant="outlined" label="Selected actors" />}
+                                multiple
+                                limitTags={2}
+                                value={stringifyActorsFromID('mustContain', storyGram, metaData)}
+                                onChange={onChangeAutoComplete('mustContain', setConfig, config)}
+                            />
+                        </ListItem>
                     </List>
 
                 </ExpansionPanelDetails>
-            </ExpansionPanel>
+            </ExpansionPanel> 
 
         </div >
     );

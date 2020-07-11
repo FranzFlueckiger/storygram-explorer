@@ -25,7 +25,7 @@
     "react-scripts": "3.4.1",
     "react-virtuoso": "^0.17.3",
     "react-window": "^1.8.5",
-    "storygram": "0.0.55-beta",
+    "storygram": "0.0.58-beta",
     "typescript": "^3.7.5"
   },
   "scripts": {

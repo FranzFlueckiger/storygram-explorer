@@ -1,6 +1,5 @@
 import React, {FC} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
 import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
@@ -85,10 +84,14 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                         setDataSource(value)
                                     }}
                                 >
-                                    <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}</MenuItem>
-                                    <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
-                                    <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
-                                    <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}</MenuItem>
+                                    <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}
+                                    </MenuItem>
+                                    <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}
+                                    </MenuItem>
+                                    <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}
+                                    </MenuItem>
+                                    <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>
