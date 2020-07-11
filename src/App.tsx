@@ -6,7 +6,7 @@ import { MyAppBar } from './Components/AppBar';
 import { MyDrawer } from './Components/Drawer/Drawer';
 import { Config, Storygram } from 'storygram';
 import { BlockBusterdata } from './Data/exampleData';
-import { getStoryGramMetadata } from './Util/storyGramHelpers';
+import { getStoryGramMetadata, setNiceDefaults } from './Util/storyGramHelpers';
 import { ConfigBlockBuster } from './Data/exampleConfig';
 import { loadData } from './Util/dataLoader';
 
@@ -24,6 +24,7 @@ function App() {
     isDrawable = false
   }
   const metaData = getStoryGramMetadata(storyGram, data)
+  setNiceDefaults(storyGram, metaData)
 
   return (
     <div>

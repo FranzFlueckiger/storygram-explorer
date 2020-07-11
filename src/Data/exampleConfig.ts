@@ -9,9 +9,8 @@ export const ConfigBlockBuster: Config = {
     (l.data.original_title + ' (' + l.data.vote_average + '/10)') as string,
   filterGroupAmt: [2, undefined],
   filterGroupSize: [1, undefined],
-  filterEventValue: ['1 Jan 2000', '1 Jan 2008'],
+  filterEventValue: ['2000-01-01', '2008-01-01'],
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
-  //mustContain: ['Leonardo DiCaprio', 'Jude Law'],
   eventValueScaling: 0.003,
   url: (event: any, actor: any) =>
     'https://www.google.ch/search?q=' +
