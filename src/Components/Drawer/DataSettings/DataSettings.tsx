@@ -90,6 +90,7 @@ export const DataSettings: FC<DataSettingsProps> = ({drawerWidth, storyGram, con
                                     <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
                                     <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
                                     <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}</MenuItem>
+                                    <MenuItem value={dataSetNames.battles} >{dataSetNames.battles}</MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>
