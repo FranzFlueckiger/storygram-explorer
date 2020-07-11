@@ -73,6 +73,5 @@ export const BundesratConfig: Config = {
 
 export const BattleConfig: Config = {
   dataFormat: 'table',
-  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC'],
-  eventDescription: (event) => event.data.name as string,
+  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC']
 };
