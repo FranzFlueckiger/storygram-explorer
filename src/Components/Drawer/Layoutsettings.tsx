@@ -4,13 +4,15 @@ import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import {Config, Storygram} from 'storygram';
-import {Actor} from 'storygram/dist/Types';
+import {Actor, Event} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ListboxComponent, renderGroup} from '../BigAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';
 import {stringifyActorsFromActorList, stringifyActorsFromID, onChangeAutoComplete} from '../../Util/actorCodec';
+import { TextPartPicker } from './TextPart/TextPartPicker';
+import { type } from 'os';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -48,10 +50,20 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
             marginRight: theme.spacing(1),
             width: 200,
         },
-    }));
+    })); 
 
     const classes = useStyles(drawerWidth);
     const theme = useTheme();
+
+    const setEventDescription = (funcs: (string | ((text: string, event?: Event, actor?: Actor) => string))[]) => {
+        let endFunc = (event: Event) => funcs.reduce<string>((acc, func) => {
+            let target = func
+            if (typeof target === 'string') target = (text: string, event?: Event, actor?: Actor) => text + func
+            return target(acc, event)
+        }, '')
+        setConfig({...config, eventDescription: endFunc})
+        console.log(endFunc)
+    }
 
     return (
         <div className={classes.root}>
@@ -77,6 +89,13 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                             width: '100%'
                         }}
                     >
+                        <ListItem>
+                            <ListItemText primary="Event description" />
+                        </ListItem>
+                        <ListItem>
+                            <TextPartPicker metadata={metaData} setPicked={setEventDescription}/>
+                        </ListItem>
+
                         <ListItem>
                             <ListItemText primary="Highlight actors" />
                         </ListItem>

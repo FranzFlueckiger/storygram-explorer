@@ -72,5 +72,13 @@ export const BundesratConfig: Config = {
 
 export const BattleConfig: Config = {
   dataFormat: 'table',
+  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC'],
+  //eventField: 'date',
+  actorSplitFunction: (actorList) => actorList.split(', '),
+  marginBottom: 130
+};
+
+export const TheaterConfig: Config = {
+  dataFormat: 'table',
   actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC']
 };
