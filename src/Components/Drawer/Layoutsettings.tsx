@@ -11,8 +11,9 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';
 import {stringifyActorsFromActorList, stringifyActorsFromID, onChangeAutoComplete} from '../../Util/actorCodec';
-import { TextPartPicker } from './TextPart/TextPartPicker';
-import { type } from 'os';
+import {TextPartPicker} from './TextPart/TextPartPicker';
+import {type} from 'os';
+import {ModFunction} from './TextPart/TextPartGenerator';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -22,10 +23,14 @@ type LayoutSettingsProps = {
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
     metaData: StoryGramMetadata,
-    isDrawable: boolean
+    isDrawable: boolean,
+    functors: {
+        eventDescs: ModFunction[];
+        setEventDescs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+    }
 }
 
-export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, isDrawable}) => {
+export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, isDrawable, functors}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -50,19 +55,21 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
             marginRight: theme.spacing(1),
             width: 200,
         },
-    })); 
+    }));
 
     const classes = useStyles(drawerWidth);
     const theme = useTheme();
 
-    const setEventDescription = (funcs: (string | ((text: string, event?: Event, actor?: Actor) => string))[]) => {
-        let endFunc = (event: Event) => funcs.reduce<string>((acc, func) => {
-            let target = func
-            if (typeof target === 'string') target = (text: string, event?: Event, actor?: Actor) => text + func
-            return target(acc, event)
-        }, '')
+    const setEventDescription = (funcs: (string | ModFunction)[]) => {
+        const defFuncs: ModFunction[] = funcs.map(func => {
+            if(typeof func === 'string') return [func, ((text: string, event?: Event, actor?: Actor) => text + func)]
+            return func
+        })
+        let endFunc = (event: Event) => defFuncs.reduce<string>((acc, func) => func[1](acc, event), '')
+        functors.setEventDescs(defFuncs)
         setConfig({...config, eventDescription: endFunc})
         console.log(endFunc)
+        console.log(functors)
     }
 
     return (
@@ -93,7 +100,11 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                             <ListItemText primary="Event description" />
                         </ListItem>
                         <ListItem>
-                            <TextPartPicker metadata={metaData} setPicked={setEventDescription}/>
+                            <TextPartPicker
+                                metadata={metaData}
+                                setPicked={setEventDescription}
+                                state={functors.eventDescs}
+                            />
                         </ListItem>
 
                         <ListItem>
@@ -249,7 +260,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                                 max={100}
                                 step={5}
                                 onChange={(_, newValue) => {
-                                    setConfig({ ...config, generationAmt: (newValue as number) })
+                                    setConfig({...config, generationAmt: (newValue as number)})
                                 }
                                 }
                                 valueLabelDisplay="auto"

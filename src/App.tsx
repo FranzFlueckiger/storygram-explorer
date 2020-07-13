@@ -5,10 +5,9 @@ import { MyShowCase } from './Components/ShowCase';
 import { MyAppBar } from './Components/AppBar';
 import { MyDrawer } from './Components/Drawer/Drawer';
 import { Config, Storygram } from 'storygram';
-import { BlockBusterdata } from './Data/exampleData';
 import { getStoryGramMetadata, setNiceDefaults } from './Util/storyGramHelpers';
-import { ConfigBlockBuster } from './Data/exampleConfig';
 import { loadData } from './Util/dataLoader';
+import {ModFunction} from './Components/Drawer/TextPart/TextPartGenerator';
 
 function App() {
 
@@ -17,6 +16,7 @@ function App() {
   const [selectedTab, setSelectedTab] = React.useState<number>(0)
   const [config, setConfig] = React.useState<Config>(defaultData.config)
   const [data, setData] = React.useState<any[]>(defaultData.data)
+  const [eventDescs, setEventDescs] = React.useState<ModFunction[]>([])
   const storyGram = new Storygram(data, config)
   if (storyGram.data.events.length && storyGram.data.actors.size) {
     isDrawable = true
@@ -25,6 +25,10 @@ function App() {
   }
   const metaData = getStoryGramMetadata(storyGram, data)
   setNiceDefaults(storyGram, metaData)
+  const functors = {
+    'eventDescs': eventDescs,
+    'setEventDescs': setEventDescs
+  }
 
   return (
     <div>
@@ -43,6 +47,7 @@ function App() {
         metaData={metaData}
         setData={setData}
         isDrawable={isDrawable}
+        functors={functors}
       />
       <MyShowCase
         storyGram={storyGram}

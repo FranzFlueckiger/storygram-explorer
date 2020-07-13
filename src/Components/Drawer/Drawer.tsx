@@ -8,6 +8,7 @@ import {FilterSettings} from './FilterSettings';
 import {List, ListItem, ExpansionPanel} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {ModFunction} from './TextPart/TextPartGenerator';
 
 type MyDrawerProps = {
     storyGram: Storygram,
@@ -15,10 +16,14 @@ type MyDrawerProps = {
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
     metaData: StoryGramMetadata,
     setData: React.Dispatch<React.SetStateAction<any[]>>,
-    isDrawable: boolean
+    isDrawable: boolean,
+    functors: {
+        eventDescs: ModFunction[];
+        setEventDescs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+    }
 }
 
-export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData, isDrawable}) => {
+export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData, isDrawable, functors}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -99,6 +104,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                         handleMenuChange={handleMenuChange}
                                         metaData={metaData}
                                         isDrawable={isDrawable}
+                                        functors={functors}
                                     /> :
                                     <div>
                                         <ExpansionPanel
