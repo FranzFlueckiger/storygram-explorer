@@ -20,6 +20,10 @@ type MyDrawerProps = {
     functors: {
         eventDescs: ModFunction[];
         setEventDescs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+        eventURLs: ModFunction[];
+        setEventURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+        actorURLs: ModFunction[];
+        setActorURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
     }
 }
 

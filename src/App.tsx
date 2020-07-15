@@ -17,6 +17,8 @@ function App() {
   const [config, setConfig] = React.useState<Config>(defaultData.config)
   const [data, setData] = React.useState<any[]>(defaultData.data)
   const [eventDescs, setEventDescs] = React.useState<ModFunction[]>([])
+  const [eventURLs, setEventURLs] = React.useState<ModFunction[]>([])
+  const [actorURLs, setActorURLs] = React.useState<ModFunction[]>([])
   const storyGram = new Storygram(data, config)
   if (storyGram.data.events.length && storyGram.data.actors.size) {
     isDrawable = true
@@ -27,7 +29,11 @@ function App() {
   setNiceDefaults(storyGram, metaData)
   const functors = {
     'eventDescs': eventDescs,
-    'setEventDescs': setEventDescs
+    'setEventDescs': setEventDescs,
+    'eventURLs': eventURLs,
+    'setEventURLs': setEventURLs,
+    'actorURLs': actorURLs,
+    'setActorURLs': setActorURLs
   }
 
   return (

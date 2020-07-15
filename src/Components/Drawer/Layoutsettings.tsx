@@ -13,7 +13,7 @@ import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelp
 import {stringifyActorsFromActorList, stringifyActorsFromID, onChangeAutoComplete} from '../../Util/actorCodec';
 import {TextPartPicker} from './TextPart/TextPartPicker';
 import {type} from 'os';
-import {ModFunction} from './TextPart/TextPartGenerator';
+import {ModFunction, renderTextFunction} from './TextPart/TextPartGenerator';
 
 type LayoutSettingsProps = {
     drawerWidth: number,
@@ -27,6 +27,10 @@ type LayoutSettingsProps = {
     functors: {
         eventDescs: ModFunction[];
         setEventDescs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+        eventURLs: ModFunction[];
+        setEventURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
+        actorURLs: ModFunction[];
+        setActorURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
     }
 }
 
@@ -61,15 +65,24 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     const theme = useTheme();
 
     const setEventDescription = (funcs: (string | ModFunction)[]) => {
-        const defFuncs: ModFunction[] = funcs.map(func => {
-            if(typeof func === 'string') return [func, ((text: string, event?: Event, actor?: Actor) => text + func)]
-            return func
-        })
+        const defFuncs = renderTextFunction(funcs)
         let endFunc = (event: Event) => defFuncs.reduce<string>((acc, func) => func[1](acc, event), '')
         functors.setEventDescs(defFuncs)
         setConfig({...config, eventDescription: endFunc})
-        console.log(endFunc)
-        console.log(functors)
+    }
+
+    const setEventURL = (funcs: (string | ModFunction)[]) => {
+        const defFuncs = renderTextFunction(funcs)
+        let endFunc = (event: Event) => defFuncs.reduce<string>((acc, func) => func[1](acc, event), '')
+        functors.setEventURLs(defFuncs)
+        setConfig({...config, eventUrl: endFunc})
+    }
+
+    const setActorURL = (funcs: (string | ModFunction)[]) => {
+        const defFuncs = renderTextFunction(funcs)
+        let endFunc = (event: Event, actor: Actor) => defFuncs.reduce<string>((acc, func) => func[1](acc, event, actor), '')
+        functors.setActorURLs(defFuncs)
+        setConfig({...config, url: endFunc})
     }
 
     return (
@@ -96,6 +109,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                             width: '100%'
                         }}
                     >
+
                         <ListItem>
                             <ListItemText primary="Event description" />
                         </ListItem>
@@ -104,6 +118,28 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                                 metadata={metaData}
                                 setPicked={setEventDescription}
                                 state={functors.eventDescs}
+                            />
+                        </ListItem>
+
+                        <ListItem>
+                            <ListItemText primary="Event URL" />
+                        </ListItem>
+                        <ListItem>
+                            <TextPartPicker
+                                metadata={metaData}
+                                setPicked={setEventURL}
+                                state={functors.eventURLs}
+                            />
+                        </ListItem>
+
+                        <ListItem>
+                            <ListItemText primary="Actor URL" />
+                        </ListItem>
+                        <ListItem>
+                            <TextPartPicker
+                                metadata={metaData}
+                                setPicked={setActorURL}
+                                state={functors.actorURLs}
                             />
                         </ListItem>
 

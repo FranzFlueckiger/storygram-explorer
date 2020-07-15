@@ -29,9 +29,7 @@ export const TextPartPicker: FC<TextPartPickerProps> = ({ metadata, setPicked, s
     const classes = useStyles();
 
     const options = generateTextPartGenerators(metadata.dataKeys)
-
-    const customFunc = (myString: string) => (text: string, event: Event, actor: Actor) => text + myString
-
+    
     return (
         <div className={classes.root}>
             <Autocomplete
