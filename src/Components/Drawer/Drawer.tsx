@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Drawer from '@material-ui/core/Drawer';
 import {Config, Storygram} from 'storygram';
 import {DataSettings} from './DataSettings/DataSettings';
@@ -8,7 +8,6 @@ import {FilterSettings} from './FilterSettings';
 import {List, ListItem, ExpansionPanel, ExpansionPanelSummary, Typography, Button} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
-import {ModFunction, SplitModFunction} from './TextPart/TextPartGenerator';
 import {Functors} from '../../App';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
@@ -51,7 +50,6 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
     };
 
     const classes = useStyles(drawerWidth);
-    const theme = useTheme();
 
     return (
         <div className={classes.root}>

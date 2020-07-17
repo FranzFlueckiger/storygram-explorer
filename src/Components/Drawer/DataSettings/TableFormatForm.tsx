@@ -1,12 +1,11 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {ListItem, FormControl, InputLabel, Select, MenuItem, TextField} from '@material-ui/core';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {TableData, FullConfig} from 'storygram/dist/Types';
 import {SplitFunctionPicker} from '../TextPart/SplitFunctionPicker';
-import {ModFunction, SplitModFunction} from '../TextPart/TextPartGenerator';
 import {Functors} from '../../../App';
 
 type TableFormatFormProps = {
@@ -45,7 +44,6 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
     }));
 
     const classes = useStyles();
-    const theme = useTheme();
     const fullConfig = storyGram.config as (FullConfig & TableData)
 
     return (

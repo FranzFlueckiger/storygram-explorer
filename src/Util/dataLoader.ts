@@ -3,7 +3,7 @@ import {ConfigBlockBuster, WarConfig, MetasonConfig, BundesratConfig} from "../D
 import {BlockBusterdata, MetasonData, WarData, BundesratData} from "../Data/exampleData";
 import {dataSetNames} from "./constants";
 import {Functors} from "../App";
-import { generateNoneAccessor, generateNoneSplitAccessor, generateSplitters } from "../Components/Drawer/TextPart/TextPartGenerator";
+import { generateNoneSplitAccessor, generateSplitters } from "../Components/Drawer/TextPart/TextPartGenerator";
 import { Actor, Event } from 'storygram/dist/Types';
 
 type DataSet = {
@@ -100,17 +100,10 @@ export const loadData = (description: string, functors: Functors, setConfig?: Re
                 ['+', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + '+'],
                 ['Actor name', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + actor!.actorID],
             ])
+            return { config: ConfigBlockBuster, data: BlockBusterdata }
 
         default:
             return { config: ConfigBlockBuster, data: BlockBusterdata }
         
     }
 } 
-
-const resetFunctors = (functors: Functors) => {
-    functors.setActorColor(generateNoneAccessor())
-    functors.setActorSplitFunc(generateNoneSplitAccessor())
-    functors.setActorURLs([])
-    functors.setEventURLs([])
-    functors.setEventDescs([])
-}

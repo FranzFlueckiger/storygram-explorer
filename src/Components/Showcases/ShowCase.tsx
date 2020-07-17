@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Config, Storygram } from 'storygram';
+import { Storygram } from 'storygram';
 import StorygramDrawer from '../../Util/sgWrapper';
 import { ActorList } from './ActorList';
 import { drawerWidth, maxEvents, maxActors } from '../../Util/constants';
-import { StoryGramMetadata, getStoryGramMetadata } from '../../Util/storyGramHelpers';
+import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 import { EventList } from './EventList';
 import { Button, ListItem, List } from '@material-ui/core';
 
@@ -57,7 +57,7 @@ type StoryGramViewerProps = {
 }
 
 type StoryGramStatus = 'OK' | 'TooBig' | 'AllFiltered' | 'Broken'
-
+ 
 const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
 
     const setNewStatus = () => {
@@ -71,8 +71,8 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
 
     useEffect(() => {
         setStoryGramStatus(setNewStatus())
-    }, [metaData.allEventsList.length, metaData.allActorsList, metaData.visibleEventList, metaData.visibleActorsList]);
-     
+    }, [metaData.allEventsList.length, metaData.allActorsList, metaData.visibleEventList, metaData.visibleActorsList, setNewStatus]);
+      
     return (
         <>
             {

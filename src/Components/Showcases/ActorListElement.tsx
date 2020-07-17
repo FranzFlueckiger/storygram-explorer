@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import { List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { List, ListItem, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
 import { Actor } from 'storygram/dist/Types';
 import CheckIcon from '@material-ui/icons/Check';
 import NotCheckIcon from '@material-ui/icons/Clear';
@@ -8,12 +8,6 @@ import { isVisibleColumnWidth, entityColumnWidth, showRelatedEntitiesColumnWidth
 
 type ActorListElementProps = {
     actor: Actor
-};
-
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
 };
 
 export const ActorListElement: FC<ActorListElementProps> = ({ actor }) => {

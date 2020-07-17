@@ -14,7 +14,7 @@ const StorygramDrawer: FC<StorygramDrawerProps> = ({storyGram}) => {
         storyGram.config.root = "#" + root
         storyGram.draw();
         return () => storyGram.remove()
-    }, [storyGram.processedData.events, storyGram.processedData.actors]);
+    }, [storyGram.processedData.events, storyGram.processedData.actors, storyGram]);
 
     return (
         <div id={root}></div>

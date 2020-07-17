@@ -1,13 +1,12 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, TextField} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FilterListIcon from '@material-ui/icons/FilterList';
 import {Config, Storygram} from 'storygram';
-import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {ListboxComponent, renderGroup} from './ActorAutoComplete';
-import {StoryGramMetadata, millisToDateString} from '../../Util/storyGramHelpers';
+import {StoryGramMetadata} from '../../Util/storyGramHelpers';
 import {onChangeAutoComplete, stringifyActorsFromID, stringifyActorsFromActorList} from '../../Util/actorCodec';
 
 type FilterSettingsProps = {
@@ -53,7 +52,6 @@ export const FilterSettings: FC<FilterSettingsProps> = ({drawerWidth, storyGram,
     }));
 
     const classes = useStyles(drawerWidth);
-    const theme = useTheme();
 
     return (
         <div className={classes.root}>

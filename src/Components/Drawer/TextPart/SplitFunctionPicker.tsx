@@ -1,11 +1,8 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
+import {makeStyles} from '@material-ui/core/styles';
+import {FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import {Config, Storygram} from 'storygram';
-import {Actor, Event} from 'storygram/dist/Types';
-import {generateSplitters, ModFunction, SplitModFunction, generateNoneSplitAccessor} from './TextPartGenerator';
+import {generateSplitters, SplitModFunction, generateNoneSplitAccessor} from './TextPartGenerator';
 import {Functors} from '../../../App';
 
 type SplitFunctionPickerProps = {

@@ -1,6 +1,6 @@
 import React, {FC, useState} from 'react';
 import Typography from '@material-ui/core/Typography';
-import {List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
+import {List, ListItem, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Event} from 'storygram/dist/Types';
 import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 import CheckIcon from '@material-ui/icons/Check';
@@ -11,12 +11,6 @@ type EventListElementProps = {
     event: Event,
     metaData: StoryGramMetadata,
     query: string
-};
-
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
 };
 
 export const EventListElement: FC<EventListElementProps> = ({event, metaData, query}) => {
@@ -69,6 +63,7 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                                             }
                                         </>
                                     }
+                                    return null
                                 }
                                 )}
                             </List>

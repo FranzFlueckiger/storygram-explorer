@@ -1,9 +1,6 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import Drawer from '@material-ui/core/Drawer';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import DataIcon from '@material-ui/icons/Storage';
+import {makeStyles} from '@material-ui/core/styles';
+import {ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import {RangeData, FullConfig} from 'storygram/dist/Types';
@@ -43,7 +40,6 @@ export const RangesFormatForm: FC<RangesFormatFormProps> = ({storyGram, config, 
     }));
 
     const classes = useStyles();
-    const theme = useTheme();
     const fullConfig = storyGram.config as (FullConfig & RangeData)
 
     return (

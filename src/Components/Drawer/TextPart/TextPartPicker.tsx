@@ -3,9 +3,7 @@ import React, { FC } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import { StoryGramMetadata } from '../../../Util/storyGramHelpers';
-import { generateSGDataAccessors, ModFunction, generateEventAccessors } from './TextPartGenerator';
-import { Actor, Event } from 'storygram/dist/Types';
+import { ModFunction } from './TextPartGenerator';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

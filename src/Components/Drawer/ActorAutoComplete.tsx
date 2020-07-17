@@ -1,11 +1,9 @@
-import React, {FC} from 'react';
-import TextField from '@material-ui/core/TextField';
-import Autocomplete, {AutocompleteRenderGroupParams} from '@material-ui/lab/Autocomplete';
+import React from 'react';
+import {AutocompleteRenderGroupParams} from '@material-ui/lab/Autocomplete';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import ListSubheader from '@material-ui/core/ListSubheader';
-import {useTheme, makeStyles} from '@material-ui/core/styles';
+import {useTheme} from '@material-ui/core/styles';
 import {VariableSizeList, ListChildComponentProps} from 'react-window';
-import {Typography} from '@material-ui/core';
 import {Actor, Config} from 'storygram/dist/Types';
 
 const LISTBOX_PADDING = 8; // px

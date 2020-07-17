@@ -1,5 +1,5 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, Divider, ListItemText, Slider, TextField, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
@@ -12,7 +12,6 @@ import Switch from '@material-ui/core/Switch';
 import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';
 import {stringifyActorsFromActorList, stringifyActorsFromID, onChangeAutoComplete} from '../../Util/actorCodec';
 import {TextPartPicker} from './TextPart/TextPartPicker';
-import {type} from 'os';
 import {ModFunction, renderTextFunction, generateSGDataAccessors, generateEventAccessors, generateActorAccessors, generateNoneAccessor, SplitModFunction} from './TextPart/TextPartGenerator';
 
 type LayoutSettingsProps = {
@@ -66,7 +65,6 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     }));
 
     const classes = useStyles(drawerWidth);
-    const theme = useTheme();
 
     const setEventDescription = (funcs: (string | ModFunction)[]) => {
         const defFuncs = renderTextFunction(funcs)
@@ -100,7 +98,6 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     }
 
     const dataOptions = generateSGDataAccessors(metaData.dataKeys)
-    const noneOption = generateNoneAccessor()
     const eventOptions = generateEventAccessors().concat(dataOptions)
     const actorOptions = generateActorAccessors().concat(eventOptions)
 

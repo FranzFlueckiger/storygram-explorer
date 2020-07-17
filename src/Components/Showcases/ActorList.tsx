@@ -1,6 +1,5 @@
 import React, {FC, useRef, useState, useEffect} from 'react';
-import Typography from '@material-ui/core/Typography';
-import {List, ListItem, Checkbox, Paper, Divider, Grid, TextField} from '@material-ui/core';
+import {List, ListItem, TextField} from '@material-ui/core';
 import {Actor} from 'storygram/dist/Types';
 import {Virtuoso} from 'react-virtuoso';
 import {ActorListElement} from './ActorListElement';
@@ -29,12 +28,6 @@ const ItemContainer = ({children, ...props}) => {
     );
 };
 
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-};
-
 export const ActorList: FC<ActorListProps> = ({ metaData }) => {
     
     const loadedCount = useRef(0);
@@ -53,11 +46,12 @@ export const ActorList: FC<ActorListProps> = ({ metaData }) => {
                     Object.values(actor.data)
                     .some(value => { 
                         if(value) {
-                            (value as any).toString().toLowerCase()
+                            return (value as any).toString().toLowerCase()
                                 .includes(query.toLowerCase())
-                        }
+                        } else return false
                     })
-            }))
+            })
+        )
     }
 
     const loadMore = () => {

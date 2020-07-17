@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
-import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem, Paper, Tooltip, IconButton} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem, IconButton} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import {Config, Storygram} from 'storygram';
@@ -10,7 +10,6 @@ import {TableFormatForm} from './TableFormatForm';
 import {RangesFormatForm} from './RangesFormatForm';
 import {dataSetNames} from '../../../Util/constants';
 import {loadData} from '../../../Util/dataLoader';
-import {SplitModFunction, ModFunction} from '../TextPart/TextPartGenerator';
 import { Functors } from '../../../App';
 import InfoIcon from '@material-ui/icons/InfoOutlined';
 
@@ -57,7 +56,6 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
     const [dataSource, setDataSource] = React.useState(dataSetNames.blockbuster)
 
     const classes = useStyles();
-    const theme = useTheme();
 
     return (
         <div className={classes.root}>

@@ -1,10 +1,9 @@
-import React, {FC, useRef, useState, useEffect} from 'react';
-import Typography from '@material-ui/core/Typography';
-import {List, ListItem, Checkbox, Paper, Divider, Grid, TextField} from '@material-ui/core';
-import {Event} from 'storygram/dist/Types';
-import {Virtuoso} from 'react-virtuoso';
-import {EventListElement} from './EventListElement';
-import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import React, { FC, useRef, useState, useEffect } from 'react';
+import { List, ListItem, TextField } from '@material-ui/core';
+import { Event } from 'storygram/dist/Types';
+import { Virtuoso } from 'react-virtuoso';
+import { EventListElement } from './EventListElement';
+import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 import { appBarHeight } from '../../Util/constants';
 
 type EventListProps = {
@@ -12,30 +11,24 @@ type EventListProps = {
 };
 
 //@ts-ignore
-const ListContainer = ({listRef, style, children}) => {
+const ListContainer = ({ listRef, style, children }) => {
     return (
-        <List ref={listRef} style={{...style, padding: 0}}>
+        <List ref={listRef} style={{ ...style, padding: 0 }}>
             {children}
         </List>
     );
 };
 
 //@ts-ignore
-const ItemContainer = ({children, ...props}) => {
+const ItemContainer = ({ children, ...props }) => {
     return (
-        <ListItem {...props} style={{margin: 0}}>
+        <ListItem {...props} style={{ margin: 0 }}>
             {children}
         </ListItem>
     );
 };
 
-const flexContainer = {
-    display: 'flex',
-    flexDirection: 'row',
-    padding: 0,
-};
-
-export const EventList: FC<EventListProps> = ({metaData}) => {
+export const EventList: FC<EventListProps> = ({ metaData }) => {
 
     const loadedCount = useRef(0);
     const endReached = useRef(false);
@@ -51,20 +44,21 @@ export const EventList: FC<EventListProps> = ({metaData}) => {
             .filter(event => {
                 return Object.values(event.data)
                     .some(value => {
-                        if(value) {
-                            (value as any).toString().toLowerCase()
+                        if (value) {
+                            return (value as any).toString().toLowerCase()
                                 .includes(query.toLowerCase())
-                        }
+                        } else return false
                     })
-            }))
+            })
+        )
     }
 
     const loadMore = () => {
-        if(!endReached.current) {
+        if (!endReached.current) {
             setTimeout(() => {
                 loadedCount.current += 50;
 
-                if(loadedCount.current === 500) {
+                if (loadedCount.current === 500) {
                     endReached.current = true;
                 }
                 setLoadedUsers(events.slice(0, loadedCount.current));
