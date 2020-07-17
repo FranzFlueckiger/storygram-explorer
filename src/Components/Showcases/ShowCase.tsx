@@ -1,12 +1,12 @@
-import React, { FC, useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import { Storygram } from 'storygram';
+import React, {FC, useState, useEffect} from 'react';
+import {makeStyles} from '@material-ui/core/styles';
+import {Storygram} from 'storygram';
 import StorygramDrawer from '../../Util/sgWrapper';
-import { ActorList } from './ActorList';
-import { drawerWidth, maxEvents, maxActors } from '../../Util/constants';
-import { StoryGramMetadata } from '../../Util/storyGramHelpers';
-import { EventList } from './EventList';
-import { Button, ListItem, List } from '@material-ui/core';
+import {ActorList} from './ActorList';
+import {drawerWidth} from '../../Util/constants';
+import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import {EventList} from './EventList';
+import {Button, ListItem, List} from '@material-ui/core';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
@@ -14,7 +14,7 @@ type MyShowCaseProps = {
     metaData: StoryGramMetadata
 }
 
-export const MyShowCase: FC<MyShowCaseProps> = ({ storyGram, selectedTab, metaData }) => {
+export const MyShowCase: FC<MyShowCaseProps> = ({storyGram, selectedTab, metaData}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -57,13 +57,13 @@ type StoryGramViewerProps = {
 }
 
 type StoryGramStatus = 'OK' | 'TooBig' | 'AllFiltered' | 'Broken'
- 
-const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
+
+const StoryGramViewer: FC<StoryGramViewerProps> = ({storyGram, metaData}) => {
 
     const setNewStatus = () => {
-        if (metaData.allEventsList.length === 0 || metaData.allActorsList.length === 0) return 'Broken'
-        else if (metaData.visibleEventList.length === 0 || metaData.visibleActorsList.length === 0) return 'AllFiltered'
-        else if (metaData.visibleEventList.length > maxEvents || metaData.visibleActorsList.length > maxActors) return 'TooBig'
+        if(metaData.allEventsList.length === 0 || metaData.allActorsList.length === 0) return 'Broken'
+        else if(metaData.visibleEventList.length === 0 || metaData.visibleActorsList.length === 0) return 'AllFiltered'
+        else if(metaData.visibleEventList.length > 35 || metaData.visibleActorsList.length > 20) return 'TooBig'
         else return 'OK'
     }
 
@@ -71,14 +71,14 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
 
     useEffect(() => {
         setStoryGramStatus(setNewStatus())
-    }, [metaData.allEventsList.length, metaData.allActorsList, metaData.visibleEventList, metaData.visibleActorsList, setNewStatus]);
-      
+    }, [metaData.allEventsList.length, metaData.allActorsList, metaData.visibleEventList, metaData.visibleActorsList]);
+
     return (
         <>
             {
-                storyGramStatus === 'OK' ? 
+                storyGramStatus === 'OK' ?
                     <>
-                        <StorygramDrawer storyGram={storyGram}/>
+                        <StorygramDrawer storyGram={storyGram} />
                     </>
                     :
                     storyGramStatus === 'TooBig' ?
@@ -97,11 +97,11 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
                                 </ListItem>
                             </List>
                         </>
-                            :
-                            storyGramStatus === 'AllFiltered' ?
+                        :
+                        storyGramStatus === 'AllFiltered' ?
                             'No data after filtering; change your filter settings.'
                             : 'No data could be imported'
-                            } 
+            }
         </>
     )
 
