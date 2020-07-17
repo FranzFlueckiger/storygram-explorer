@@ -1,5 +1,5 @@
-import React, {useEffect, FC, useState} from 'react';
-import {Storygram, Config} from 'storygram';
+import React, {useEffect, FC} from 'react';
+import {Storygram} from 'storygram';
 
 type StorygramDrawerProps = {
     storyGram: Storygram

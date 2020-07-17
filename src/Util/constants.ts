@@ -5,6 +5,5 @@ export const dataSetNames = {
     conflicts: "Conflicts",
     metason: "Metason",
     blockbuster: "Blockbuster",
-    bundesrat: "Bundesrat",
-    battles: 'Battles'
+    bundesrat: "Bundesrat"
 }

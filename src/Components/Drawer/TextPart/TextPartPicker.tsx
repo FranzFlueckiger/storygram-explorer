@@ -19,13 +19,13 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type TextPartPickerProps = {
-    metadata: StoryGramMetadata,
     setPicked: (e: any) => void,
     state: ModFunction[],
-    options: ModFunction[]
+    options: ModFunction[],
+    name: string
 }
 
-export const TextPartPicker: FC<TextPartPickerProps> = ({ metadata, setPicked, state, options }) => {
+export const TextPartPicker: FC<TextPartPickerProps> = ({setPicked, state, options, name }) => {
 
     const classes = useStyles();
     
@@ -43,8 +43,8 @@ export const TextPartPicker: FC<TextPartPickerProps> = ({ metadata, setPicked, s
                     <TextField
                         {...params}
                         variant="outlined"
-                        label=""
-                        placeholder=""
+                        label={name}
+                        placeholder={name}
                     />
                 )}
             />

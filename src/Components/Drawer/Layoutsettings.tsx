@@ -90,8 +90,9 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     }
 
     const setActorColor = (key: string) => {
-        const func: ModFunction = dataOptions.find(opt => opt[0] === key)!
-        const defFuncs = renderTextFunction([func])
+        let func: ModFunction | undefined = dataOptions.find(opt => opt[0] === key)
+        if(func == null) func = generateNoneAccessor()[0]
+        const defFuncs = renderTextFunction([func!])
         let endFunc = (event: Event, actor: Actor) =>
             defFuncs.reduce<string>((acc, func) => func[1](acc, event, actor), '')
         functors.setActorColor(defFuncs)
@@ -101,7 +102,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
     const dataOptions = generateSGDataAccessors(metaData.dataKeys)
     const noneOption = generateNoneAccessor()
     const eventOptions = generateEventAccessors().concat(dataOptions)
-    const actorOptions = generateActorAccessors().concat(dataOptions)
+    const actorOptions = generateActorAccessors().concat(eventOptions)
 
     return (
         <div className={classes.root}>
@@ -133,10 +134,10 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                         </ListItem>
                         <ListItem>
                             <TextPartPicker
-                                metadata={metaData}
                                 setPicked={setEventDescription}
                                 state={functors.eventDescs}
                                 options={eventOptions}
+                                name={'Set event description'}
                             />
                         </ListItem>
 
@@ -145,22 +146,22 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                         </ListItem>
                         <ListItem>
                             <TextPartPicker
-                                metadata={metaData}
                                 setPicked={setEventURL}
                                 state={functors.eventURLs}
                                 options={eventOptions}
+                                name={'Set event URL'}
                             />
                         </ListItem>
 
                         <ListItem>
-                            <ListItemText primary="Actor URL" />
+                            <ListItemText primary="Actor/Event URL" />
                         </ListItem>
                         <ListItem>
                             <TextPartPicker
-                                metadata={metaData}
                                 setPicked={setActorURL}
                                 state={functors.actorURLs}
                                 options={actorOptions}
+                                name={'Set actor/event URL'}
                             />
                         </ListItem>
 
@@ -169,7 +170,7 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                         </ListItem>
                         <ListItem>
                             <Autocomplete
-                                id="contains_some_actors"
+                                id="highlight_actors"
                                 style={{width: '100%'}}
                                 disableListWrap
                                 ListboxComponent={ListboxComponent as React.ComponentType<React.HTMLAttributes<HTMLElement>>}
@@ -190,12 +191,12 @@ export const LayoutSettings: FC<LayoutSettingsProps> = ({drawerWidth, storyGram,
                                 <Select
                                     labelId="demo-simple-select-label"
                                     id="demo-simple-select"
-                                    value={functors.actorColor[0]}
+                                    value={functors.actorColor[0][0]}
                                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         setActorColor(event.target.value as string)
                                     }}
                                 >
-                                    {dataOptions.map((option, key) =>
+                                    {generateNoneAccessor().concat(dataOptions).map((option, key) =>
                                         <MenuItem key={key} value={option[0]}>{option[0]}</MenuItem>)}
                                 </Select>
                             </FormControl>

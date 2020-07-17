@@ -81,7 +81,7 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                     value={dataSource}
                                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         const value = event.target.value as string
-                                        const newDataSet = loadData(value, functors) 
+                                        const newDataSet = loadData(value, functors, setConfig) 
                                         setConfig(newDataSet.config);
                                         setData(newDataSet.data)
                                         setDataSource(value)
@@ -91,7 +91,6 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                     <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
                                     <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
                                     <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}</MenuItem>
-                                    <MenuItem value={dataSetNames.battles} >{dataSetNames.battles}</MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>

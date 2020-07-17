@@ -1,4 +1,4 @@
-import {Config} from "storygram";
+import { Config } from "storygram";
 
 export const ConfigBlockBuster: Config = {
   dataFormat: 'array',
@@ -13,10 +13,11 @@ export const ConfigBlockBuster: Config = {
   shouldContain: ['Leonardo DiCaprio', 'Jude Law'],
   eventValueScaling: 0.003,
   url: (event: any, actor: any) =>
+    'https://www.google.ch/search?q=' + String(event.data.original_title) + '+' + String(event.eventValue) + '+' + actor.actorID,
+  eventUrl: (event: any) =>
     'https://www.google.ch/search?q=' +
     String(event.data.original_title) +
-    ' ' +
-    actor.actorID,
+    '+' + String(event.eventValue),
   marginBottom: 80,
   marginRight: 200,
   highlight: ['Leonardo DiCaprio', 'Jude Law']
@@ -27,12 +28,15 @@ export const WarConfig: Config = {
   eventField: 'YEAR',
   actorFields: ['SideA', 'SideA2nd', 'SideB', 'SideB2nd'],
   eventDescription: (xLayer) => 'War in ' + xLayer.data.Location + ', ' + String(xLayer.eventValue),
+  eventUrl: (xLayer) => 'https://www.google.ch/search?q=War in ' + xLayer.data.Location + ', ' + String(xLayer.eventValue),
+  url: (xLayer, actor) => 'https://www.google.ch/search?q=War in ' + xLayer.data.Location + ', ' + String(xLayer.eventValue) + '+' + actor.actorID,
   filterGroupAmt: [2, undefined],
   actorSplitFunction: (ys: string) => ys.split(', '),
   shouldContain: ['Russia (Soviet Union)'],
   highlight: ['Afghanistan', 'Russia (Soviet Union)'],
   generationAmt: 100,
-  populationSize: 100
+  populationSize: 100,
+  marginRight: 200
 };
 
 export const MetasonConfig: Config = {
@@ -57,7 +61,10 @@ export const MetasonConfig: Config = {
   eventValueScaling: 0,
   //verbose: true,
   eventDescription: (xLayer) => xLayer.data.releaseName + ", " + xLayer.data.year,
-  shouldContain: ['Luther Vandross']
+  url: (event, actor) => 'https://music.metason.net/artistinfo?name=' + String(actor.actorID),
+  eventUrl: (event) => 'https://www.google.ch/search?q=' + event.data.release_title + " " + event.eventValue,
+  shouldContain: ['Luther Vandross'],
+  marginRight: 230
 }
 
 export const BundesratConfig: Config = {
@@ -66,19 +73,8 @@ export const BundesratConfig: Config = {
   endField: 'Amtsende',
   actorField: 'Name',
   eventDescription: (event) => 'Bundesrat im Jahr ' + String(event.eventValue),
+  url: (event, actor) => 'https://www.google.ch/search?q=Bundesrat ' + String(actor.actorID) + '+' + event.eventValue,
+  eventUrl: (event) => 'https://www.google.ch/search?q=Bundesrat im Jahr ' + event.eventValue,
   actorColor: (event, actor) => actor.data.Partei as string,
   compact: true,
-};
-
-export const BattleConfig: Config = {
-  dataFormat: 'table',
-  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC'],
-  //eventField: 'date',
-  actorSplitFunction: (actorList) => actorList.split(', '),
-  marginBottom: 130
-};
-
-export const TheaterConfig: Config = {
-  dataFormat: 'table',
-  actorFields: ['belligerentsSideA', 'belligerentsSideB', 'belligerentsSideC']
 };

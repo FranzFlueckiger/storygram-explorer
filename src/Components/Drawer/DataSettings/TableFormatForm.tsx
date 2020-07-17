@@ -5,7 +5,7 @@ import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {TableData, FullConfig} from 'storygram/dist/Types';
-import {SplitFunctionPicker} from './SplitFunctionPicker';
+import {SplitFunctionPicker} from '../TextPart/SplitFunctionPicker';
 import {ModFunction, SplitModFunction} from '../TextPart/TextPartGenerator';
 import {Functors} from '../../../App';
 

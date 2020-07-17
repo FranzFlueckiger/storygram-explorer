@@ -5,7 +5,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import {Config, Storygram} from 'storygram';
 import {Actor, Event} from 'storygram/dist/Types';
-import {generateSplitters, ModFunction, SplitModFunction, generateNoneSplitAccessor} from '../TextPart/TextPartGenerator';
+import {generateSplitters, ModFunction, SplitModFunction, generateNoneSplitAccessor} from './TextPartGenerator';
 import {Functors} from '../../../App';
 
 type SplitFunctionPickerProps = {
@@ -54,17 +54,13 @@ export const SplitFunctionPicker: FC<SplitFunctionPickerProps> = ({setConfig, st
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={functors.actorSplitFunc[0]}
+                    value={functors.actorSplitFunc[0][0]}
                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                         const key = event.target.value
                         const func: SplitModFunction = options.find(splitter => splitter[0] === key)!
                         const defFunc = (text: string) => func[1](text)
                         setConfig({...storyGram.config, actorSplitFunction: defFunc})
                         functors.setActorSplitFunc([func])
-                        console.log(storyGram.config.actorSplitFunction)
-                        console.log(defFunc)
-                        console.log(functors.actorSplitFunc)
-                        console.log(func)
                     }}
                 > 
                     {options.map((option, key) =>
