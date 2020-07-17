@@ -6,7 +6,7 @@ import PhotoFilterIcon from '@material-ui/icons/PhotoFilter';
 import {Config, Storygram} from 'storygram';
 import {Actor, Event} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {ListboxComponent, renderGroup} from '../BigAutoComplete';
+import {ListboxComponent, renderGroup} from './ActorAutoComplete';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import {storyGramColorSchemes, StoryGramMetadata} from '../../Util/storyGramHelpers';

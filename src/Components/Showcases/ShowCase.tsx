@@ -1,10 +1,10 @@
 import React, { FC, useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Config, Storygram } from 'storygram';
-import StorygramDrawer from './sgWrapper';
+import StorygramDrawer from '../../Util/sgWrapper';
 import { ActorList } from './ActorList';
-import { drawerWidth } from '../Util/constants';
-import { StoryGramMetadata } from '../Util/storyGramHelpers';
+import { drawerWidth } from '../../Util/constants';
+import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 import { EventList } from './EventList';
 import { Button } from '@material-ui/core';
 

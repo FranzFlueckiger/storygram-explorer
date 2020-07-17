@@ -2,8 +2,7 @@ import React, {FC, useState} from 'react';
 import Typography from '@material-ui/core/Typography';
 import {List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Event} from 'storygram/dist/Types';
-import {StoryGramMetadata} from '../Util/storyGramHelpers';
-import {highLightMatch} from '../Util/highlightMatch';
+import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 
 type EventListElementProps = {
     event: Event,

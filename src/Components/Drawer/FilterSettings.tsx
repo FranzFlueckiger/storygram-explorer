@@ -6,7 +6,7 @@ import FilterListIcon from '@material-ui/icons/FilterList';
 import {Config, Storygram} from 'storygram';
 import {Actor} from 'storygram/dist/Types';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {ListboxComponent, renderGroup} from '../BigAutoComplete';
+import {ListboxComponent, renderGroup} from './ActorAutoComplete';
 import {StoryGramMetadata, millisToDateString} from '../../Util/storyGramHelpers';
 import {onChangeAutoComplete, stringifyActorsFromID, stringifyActorsFromActorList} from '../../Util/actorCodec';
 

@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import {CssBaseline} from '@material-ui/core';
-import {MyShowCase} from './Components/ShowCase';
+import {MyShowCase} from './Components/Showcases/ShowCase';
 import {MyAppBar} from './Components/AppBar';
 import {MyDrawer} from './Components/Drawer/Drawer';
 import {Config, Storygram} from 'storygram';
 import {getStoryGramMetadata, setNiceDefaults} from './Util/storyGramHelpers';
 import {loadData} from './Util/dataLoader';
-import {ModFunction, SplitModFunction} from './Components/Drawer/TextPart/TextPartGenerator';
+import {ModFunction, SplitModFunction, generateNoneAccessor, generateNoneSplitAccessor} from './Components/Drawer/TextPart/TextPartGenerator';
 
 export type Functors = {
   eventDescs: ModFunction[];
@@ -28,8 +28,8 @@ function App() {
   const [eventDescs, setEventDescs] = React.useState<ModFunction[]>([])
   const [eventURLs, setEventURLs] = React.useState<ModFunction[]>([])
   const [actorURLs, setActorURLs] = React.useState<ModFunction[]>([])
-  const [actorColor, setActorColor] = React.useState<ModFunction[]>([])
-  const [actorSplitFunc, setActorSplitFunc] = React.useState<SplitModFunction[]>([])
+  const [actorColor, setActorColor] = React.useState<ModFunction[]>(generateNoneAccessor())
+  const [actorSplitFunc, setActorSplitFunc] = React.useState<SplitModFunction[]>(generateNoneSplitAccessor())
   const functors = {
     'eventDescs': eventDescs,
     'setEventDescs': setEventDescs,
