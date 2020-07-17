@@ -1,6 +1,6 @@
 import React, {FC} from 'react';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
-import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem} from '@material-ui/core';
+import {ExpansionPanel, ExpansionPanelSummary, Typography, ExpansionPanelDetails, List, ListItem, FormControl, InputLabel, Select, MenuItem, Paper, Tooltip, IconButton} from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import DataIcon from '@material-ui/icons/Storage';
 import {Config, Storygram} from 'storygram';
@@ -11,7 +11,8 @@ import {RangesFormatForm} from './RangesFormatForm';
 import {dataSetNames} from '../../../Util/constants';
 import {loadData} from '../../../Util/dataLoader';
 import {SplitModFunction, ModFunction} from '../TextPart/TextPartGenerator';
-import {Functors} from '../../../App';
+import { Functors } from '../../../App';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 type DataSettingsProps = {
     storyGram: Storygram,
@@ -87,10 +88,46 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                         setDataSource(value)
                                     }}
                                 >
-                                    <MenuItem value={dataSetNames.blockbuster}>{dataSetNames.blockbuster}</MenuItem>
-                                    <MenuItem value={dataSetNames.metason} >{dataSetNames.metason}</MenuItem>
-                                    <MenuItem value={dataSetNames.conflicts} >{dataSetNames.conflicts}</MenuItem>
-                                    <MenuItem value={dataSetNames.bundesrat} >{dataSetNames.bundesrat}</MenuItem>
+                                    <MenuItem value={dataSetNames.blockbuster}>
+                                        {dataSetNames.blockbuster}  
+                                        <IconButton
+                                            aria-label="delete"
+                                            href='https://www.kaggle.com/rounakbanik/the-movies-dataset'
+                                            target='blank'
+                                        >
+                                            <InfoIcon/>
+                                        </IconButton>
+                                    </MenuItem> 
+                                    <MenuItem value={dataSetNames.metason} >
+                                        {dataSetNames.metason}
+                                        <IconButton
+                                            aria-label="delete"
+                                            href='https://music.metason.net'
+                                            target='blank'
+                                        >
+                                            <InfoIcon />
+                                        </IconButton>
+                                    </MenuItem>
+                                    <MenuItem value={dataSetNames.conflicts} >
+                                        {dataSetNames.conflicts}
+                                        <IconButton
+                                            aria-label="delete"
+                                            href='https://ucdp.uu.se/downloads/'
+                                            target='blank'
+                                        >
+                                            <InfoIcon />
+                                        </IconButton>
+                                    </MenuItem>
+                                    <MenuItem value={dataSetNames.bundesrat} >
+                                        {dataSetNames.bundesrat}
+                                        <IconButton
+                                            aria-label="delete"
+                                            href='https://de.wikipedia.org/wiki/Liste_der_Mitglieder_des_Schweizerischen_Bundesrates'
+                                            target='blank'
+                                        >
+                                            <InfoIcon />
+                                        </IconButton>
+                                    </MenuItem>
                                 </Select>
                             </FormControl>
                         </ListItem>

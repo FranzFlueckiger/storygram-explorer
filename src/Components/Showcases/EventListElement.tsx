@@ -44,20 +44,20 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                 <ListItem>
                     <Button onClick={toggleOpen}>Show actors</Button>
                     <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={toggleOpen}>
-                        <DialogTitle>Events actors</DialogTitle>
+                        <DialogTitle>Event actors</DialogTitle>
                         <DialogContent>
                             <List>
                                 {event.group.map(actorID => {
                                     const actor = metaData.getActorFromString(actorID)
                                     if(actor) {
                                         return <>
+                                            <Divider />
                                             <ListItem>
                                                 Actor ID: {actor.actorID}
                                             </ListItem>
                                             {
                                                 Object.entries(actor.data).map(entry =>
                                                     <>
-                                                        <Divider />
                                                         <ListItem>
                                                             {entry[0] + ': ' + entry[1]}
                                                         </ListItem> 

@@ -77,4 +77,5 @@ export const BundesratConfig: Config = {
   eventUrl: (event) => 'https://www.google.ch/search?q=Bundesrat im Jahr ' + event.eventValue,
   actorColor: (event, actor) => actor.data.Partei as string,
   compact: true,
+  marginRight: 200,
 };

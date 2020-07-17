@@ -70,7 +70,6 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
             </ListItem>
 
             <ListItem>
-                <ListItem>
                     <Autocomplete
                         id="virtualize-demo"
                         style={{width: '100%'}}
@@ -83,7 +82,6 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                             setConfig({...config, actorFields: newKey});
                         }}
                     />
-                </ListItem> 
  
             </ListItem>
 

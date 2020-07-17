@@ -90,7 +90,6 @@ export const setNiceDefaults = (storyGram: Storygram, metaData: StoryGramMetadat
 }
 
 const setNiceEventValueFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
-    console.log(storyGram.config.filterEventValue, metaData.firstEvent)
     if(storyGram.config.inferredEventType === 'datestring') {
         if(storyGram.config.filterEventValue[0] == null || storyGram.config.filterEventValue[0] === firstDate) {
             storyGram.config.filterEventValue[0] = millisToDateString(metaData.firstEvent?.eventXValue as number)
@@ -127,7 +126,6 @@ const setNiceGroupSizeFilterDefaults = (storyGram: Storygram, metaData: StoryGra
 }
 
 export const dateStringToMillis = (dateString: string) => {
-    console.log('dateString to millis', dateString)
     return Date.parse(dateString)
 }
 

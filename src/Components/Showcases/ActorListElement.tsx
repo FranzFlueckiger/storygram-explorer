@@ -74,7 +74,7 @@ export const ActorListElement: FC<ActorListElementProps> = ({actor}) => {
                     <>
                         <Divider orientation="vertical" flexItem />
                         <ListItem>
-                            {', ' + entry[0] + ': ' + entry[1]}
+                            {entry[0] + ': ' + entry[1]}
                         </ListItem>
                     </>
                 )}

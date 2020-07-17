@@ -6,7 +6,7 @@ import { ActorList } from './ActorList';
 import { drawerWidth } from '../../Util/constants';
 import { StoryGramMetadata } from '../../Util/storyGramHelpers';
 import { EventList } from './EventList';
-import { Button } from '@material-ui/core';
+import { Button, ListItem, List } from '@material-ui/core';
 
 type MyShowCaseProps = {
     storyGram: Storygram,
@@ -61,7 +61,6 @@ type StoryGramStatus = 'OK' | 'TooBig' | 'AllFiltered' | 'Broken'
 const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
 
     const setNewStatus = () => {
-        console.log(metaData)
         if (metaData.allEventsList.length === 0 || metaData.allActorsList.length === 0) return 'Broken'
         else if (metaData.visibleEventList.length === 0 || metaData.visibleActorsList.length === 0) return 'AllFiltered'
         else if (metaData.visibleEventList.length > 35 || metaData.visibleActorsList.length > 20) return 'TooBig'
@@ -84,11 +83,19 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
                     :
                     storyGramStatus === 'TooBig' ?
                         <>
-                            Much data to display. This could result in unintuitive visualization and/or browser crash.
-                            <Button
-                                variant="contained"
-                                onClick={() => setStoryGramStatus('OK')}
-                            >Render anyway</Button>
+                            <List>
+                                <ListItem>
+                                    Much data to display. This could result in unintuitive visualization and/or browser crash.
+                                </ListItem>
+                                <ListItem>
+                                    <Button
+                                        variant="outlined"
+                                        onClick={() => setStoryGramStatus('OK')}
+                                    >
+                                        Render anyway
+                                    </Button>
+                                </ListItem>
+                            </List>
                         </>
                             :
                             storyGramStatus === 'AllFiltered' ?

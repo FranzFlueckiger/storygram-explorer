@@ -5,6 +5,7 @@ import {Actor} from 'storygram/dist/Types';
 import {Virtuoso} from 'react-virtuoso';
 import {ActorListElement} from './ActorListElement';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
+import { appBarHeight } from '../../Util/constants';
 
 type ActorListProps = {
     metaData: StoryGramMetadata
@@ -34,18 +35,19 @@ const flexContainer = {
     padding: 0,
 };
 
-export const ActorList: FC<ActorListProps> = ({metaData}) => {
-
+export const ActorList: FC<ActorListProps> = ({ metaData }) => {
+    
     const loadedCount = useRef(0);
     const endReached = useRef(false);
     const [loadedUsers, setLoadedUsers] = useState<Actor[]>([]);
-    const [actors, setActors] = useState(metaData.allActorsList)
+    const allActorsList = metaData.allActorsList.sort((a, b) => a.isHidden ? -1 : 1)
+    const [actors, setActors] = useState(allActorsList)
     const [query, setQuery] = useState('')
 
     const handleQueryChange = (e: any) => {
         const value = e.target.value
         setQuery(value)
-        setActors(metaData.allActorsList
+        setActors(allActorsList
             .filter(actor => {
                 return actor.actorID.toLowerCase().includes(query.toLowerCase()) ||
                     Object.values(actor.data)
@@ -78,16 +80,18 @@ export const ActorList: FC<ActorListProps> = ({metaData}) => {
             <TextField
                 id="standard-basic"
                 label="Search actor"
+                variant="outlined"
+                margin="dense"
                 value={query}
                 onChange={(e: any) => handleQueryChange(e)}
+                style={{marginLeft: '17px'}}
             />
             <Virtuoso
                 //@ts-ignore
                 ListContainer={ListContainer}
                 //@ts-ignore
                 ItemContainer={ItemContainer}
-                // todo
-                style={{width: '600px%', height: '520px'}}
+                style={{height: document.documentElement.clientHeight - appBarHeight - 120 }}
                 totalCount={actors.length}
                 footer={() => {
                     return (

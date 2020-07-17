@@ -5,11 +5,12 @@ import {Config, Storygram} from 'storygram';
 import {DataSettings} from './DataSettings/DataSettings';
 import {LayoutSettings} from './Layoutsettings';
 import {FilterSettings} from './FilterSettings';
-import {List, ListItem, ExpansionPanel} from '@material-ui/core';
+import {List, ListItem, ExpansionPanel, ExpansionPanelSummary, Typography, Button} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
 import {ModFunction, SplitModFunction} from './TextPart/TextPartGenerator';
 import {Functors} from '../../App';
+import InfoIcon from '@material-ui/icons/InfoOutlined';
 
 type MyDrawerProps = {
     storyGram: Storygram,
@@ -35,6 +36,11 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
             top: appBarHeight + 'px',
             position: 'relative',
             width: drawerWidth,
+        },
+        heading: {
+            fontSize: theme.typography.pxToRem(15),
+            flexBasis: '33.33%',
+            flexShrink: 0,
         },
     }));
 
@@ -115,6 +121,21 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                         </ExpansionPanel>
                                     </div>
                             }
+                        </ListItem>
+                        <ListItem>
+                            <ExpansionPanel>
+                                <Button href='https://storygram.netlify.app/' target='blank'>
+                                    <ExpansionPanelSummary 
+                                    aria-controls="panel4bh-content"
+                                    id="panel4bh-header" 
+                                    >
+                                        <InfoIcon /> 
+                                        <Typography className={classes.heading}>Help</Typography>
+                                    </ExpansionPanelSummary>
+                                </Button>
+                            </ExpansionPanel>
+
+
                         </ListItem>
                     </List>
                 </div>

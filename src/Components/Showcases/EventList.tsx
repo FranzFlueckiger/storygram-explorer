@@ -5,7 +5,7 @@ import {Event} from 'storygram/dist/Types';
 import {Virtuoso} from 'react-virtuoso';
 import {EventListElement} from './EventListElement';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
-import {queryAllByAttribute} from '@testing-library/react';
+import { appBarHeight } from '../../Util/constants';
 
 type EventListProps = {
     metaData: StoryGramMetadata
@@ -40,13 +40,14 @@ export const EventList: FC<EventListProps> = ({metaData}) => {
     const loadedCount = useRef(0);
     const endReached = useRef(false);
     const [loadedUsers, setLoadedUsers] = useState<Event[]>([]);
-    const [events, setEvents] = useState(metaData.allEventsList)
+    const allEventsList = metaData.allEventsList.sort((a, b) => b.isHidden ? -1 : 1)
+    const [events, setEvents] = useState(allEventsList)
     const [query, setQuery] = useState('')
 
     const handleQueryChange = (e: any) => {
         const value = e.target.value
         setQuery(value)
-        setEvents(metaData.allEventsList
+        setEvents(allEventsList
             .filter(event => {
                 return Object.values(event.data)
                     .some(value => {
@@ -78,16 +79,18 @@ export const EventList: FC<EventListProps> = ({metaData}) => {
             <TextField
                 id="standard-basic"
                 label="Search event"
+                variant="outlined"
+                margin="dense"
                 value={query}
-                onChange={(e) => handleQueryChange(e)}
+                onChange={(e: any) => handleQueryChange(e)}
+                style={{ marginLeft: '17px' }}
             />
             <Virtuoso
                 //@ts-ignore
                 ListContainer={ListContainer}
                 //@ts-ignore
                 ItemContainer={ItemContainer}
-                // todo
-                style={{width: '600px%', height: '520px'}}
+                style={{ height: document.documentElement.clientHeight - appBarHeight - 120 }}
                 totalCount={events.length}
                 footer={() => {
                     return (
