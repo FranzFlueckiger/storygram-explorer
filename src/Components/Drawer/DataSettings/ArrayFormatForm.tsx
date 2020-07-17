@@ -7,15 +7,19 @@ import DataIcon from '@material-ui/icons/Storage';
 import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import {ArrayData, FullConfig} from 'storygram/dist/Types';
+import {SplitFunctionPicker} from './SplitFunctionPicker';
+import {ModFunction, SplitModFunction} from '../TextPart/TextPartGenerator';
+import {Functors} from '../../../App';
 
 type ArrayFormatFormProps = {
     storyGram: Storygram,
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    functors: Functors
 }
  
-export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, setConfig, metaData}) => {
+export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, setConfig, metaData, functors}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -83,6 +87,16 @@ export const ArrayFormatForm: FC<ArrayFormatFormProps> = ({storyGram, config, se
                             <MenuItem key={key} value={key}>{key}</MenuItem>)}
                     </Select>
                 </FormControl>
+            </ListItem>
+
+            <ListItem>
+                <SplitFunctionPicker
+                    setConfig={setConfig}
+                    storyGram={storyGram}
+                    functors={functors}
+                >
+
+                </SplitFunctionPicker>
             </ListItem>
 
         </div>

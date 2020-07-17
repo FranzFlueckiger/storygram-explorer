@@ -10,6 +10,8 @@ import {TableFormatForm} from './TableFormatForm';
 import {RangesFormatForm} from './RangesFormatForm';
 import {dataSetNames} from '../../../Util/constants';
 import {loadData} from '../../../Util/dataLoader';
+import {SplitModFunction, ModFunction} from '../TextPart/TextPartGenerator';
+import {Functors} from '../../../App';
 
 type DataSettingsProps = {
     storyGram: Storygram,
@@ -18,10 +20,11 @@ type DataSettingsProps = {
     expandedMenu: boolean | "Data" | "Actors" | "Events" | "Filtering" | "Layout",
     handleMenuChange: (panel: any) => (event: any, isExpanded: boolean) => void,
     metaData: StoryGramMetadata,
-    setData: React.Dispatch<React.SetStateAction<any[]>>
+    setData: React.Dispatch<React.SetStateAction<any[]>>,
+    functors: Functors
 }
 
-export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData}) => {
+export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfig, expandedMenu, handleMenuChange, metaData, setData, functors}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -78,7 +81,7 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                     value={dataSource}
                                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         const value = event.target.value as string
-                                        const newDataSet = loadData(value)
+                                        const newDataSet = loadData(value, functors) 
                                         setConfig(newDataSet.config);
                                         setData(newDataSet.data)
                                         setDataSource(value)
@@ -101,7 +104,7 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                                     value={storyGram.config.dataFormat ? storyGram.config.dataFormat : "array"}
                                     onChange={(event: React.ChangeEvent<{value: unknown}>) => {
                                         // @ts-ignore
-                                        setConfig({...config, dataFormat: event.target.value as AllowedDataFormat });
+                                        setConfig({...config, dataFormat: event.target.value as AllowedDataFormat});
                                     }}
                                 >
 
@@ -113,9 +116,27 @@ export const DataSettings: FC<DataSettingsProps> = ({storyGram, config, setConfi
                         </ListItem>
 
                         {storyGram.config.dataFormat === 'array' ?
-                            <ArrayFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
-                            storyGram.config.dataFormat === 'table' ? <TableFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} /> :
-                                <RangesFormatForm storyGram={storyGram} config={config} setConfig={setConfig} metaData={metaData} />
+                            <ArrayFormatForm
+                                storyGram={storyGram}
+                                config={config}
+                                setConfig={setConfig}
+                                metaData={metaData}
+                                functors={functors}
+                            /> :
+                            storyGram.config.dataFormat === 'table' ?
+                                <TableFormatForm
+                                    storyGram={storyGram}
+                                    config={config}
+                                    setConfig={setConfig}
+                                    metaData={metaData}
+                                    functors={functors}
+                                /> :
+                                <RangesFormatForm
+                                    storyGram={storyGram}
+                                    config={config}
+                                    setConfig={setConfig}
+                                    metaData={metaData}
+                                />
                         }
                     </List>
 

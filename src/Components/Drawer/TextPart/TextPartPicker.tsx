@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { StoryGramMetadata } from '../../../Util/storyGramHelpers';
-import { generateTextPartGenerators, ModFunction } from './TextPartGenerator';
+import { generateSGDataAccessors, ModFunction, generateEventAccessors } from './TextPartGenerator';
 import { Actor, Event } from 'storygram/dist/Types';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -21,14 +21,13 @@ const useStyles = makeStyles((theme: Theme) =>
 type TextPartPickerProps = {
     metadata: StoryGramMetadata,
     setPicked: (e: any) => void,
-    state: ModFunction[]
+    state: ModFunction[],
+    options: ModFunction[]
 }
 
-export const TextPartPicker: FC<TextPartPickerProps> = ({ metadata, setPicked, state }) => {
+export const TextPartPicker: FC<TextPartPickerProps> = ({ metadata, setPicked, state, options }) => {
 
     const classes = useStyles();
-
-    const options = generateTextPartGenerators(metadata.dataKeys)
     
     return (
         <div className={classes.root}>

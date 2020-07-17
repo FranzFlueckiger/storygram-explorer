@@ -5,15 +5,19 @@ import {Config, Storygram} from 'storygram';
 import {StoryGramMetadata} from '../../../Util/storyGramHelpers';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import {TableData, FullConfig} from 'storygram/dist/Types';
+import {SplitFunctionPicker} from './SplitFunctionPicker';
+import {ModFunction, SplitModFunction} from '../TextPart/TextPartGenerator';
+import {Functors} from '../../../App';
 
 type TableFormatFormProps = {
     storyGram: Storygram,
     config: Config,
     setConfig: React.Dispatch<React.SetStateAction<Config>>,
-    metaData: StoryGramMetadata
+    metaData: StoryGramMetadata,
+    functors: Functors
 }
 
-export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, setConfig, metaData}) => {
+export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, setConfig, metaData, functors}) => {
 
     const useStyles = makeStyles((theme) => ({
         root: {
@@ -81,6 +85,15 @@ export const TableFormatForm: FC<TableFormatFormProps> = ({storyGram, config, se
                     />
                 </ListItem> 
  
+            </ListItem>
+
+            <ListItem>
+                <SplitFunctionPicker
+                    setConfig={setConfig}
+                    storyGram={storyGram}
+                    functors={functors}
+                >
+                </SplitFunctionPicker>
             </ListItem>
 
         </div>

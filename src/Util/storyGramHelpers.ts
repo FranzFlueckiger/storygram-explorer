@@ -1,5 +1,6 @@
 import {Storygram} from "storygram"
 import {Actor, Event} from "storygram/dist/Types"
+import {Functors} from "../App"
 
 export const storyGramColorSchemes = ['schemeCategory10', 'schemeAccent', 'schemeDark2', 'schemePaired', 'schemePastel1', 'schemePastel2', 'schemeSet1', 'schemeSet2', 'schemeSet3']
 
@@ -82,7 +83,7 @@ export const getStoryGramMetadata = (storyGram: Storygram, data: any[]): StoryGr
     }
 }
 
-export const setNiceDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
+export const setNiceDefaults = (storyGram: Storygram, metaData: StoryGramMetadata, functors: Functors) => {
     setNiceEventValueFilterDefaults(storyGram, metaData)
     setNiceGroupAmountFilterDefaults(storyGram, metaData)
     setNiceGroupSizeFilterDefaults(storyGram, metaData)

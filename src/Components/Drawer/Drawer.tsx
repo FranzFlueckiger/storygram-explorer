@@ -8,7 +8,8 @@ import {FilterSettings} from './FilterSettings';
 import {List, ListItem, ExpansionPanel} from '@material-ui/core';
 import {appBarHeight, drawerWidth} from '../../Util/constants';
 import {StoryGramMetadata} from '../../Util/storyGramHelpers';
-import {ModFunction} from './TextPart/TextPartGenerator';
+import {ModFunction, SplitModFunction} from './TextPart/TextPartGenerator';
+import {Functors} from '../../App';
 
 type MyDrawerProps = {
     storyGram: Storygram,
@@ -17,14 +18,7 @@ type MyDrawerProps = {
     metaData: StoryGramMetadata,
     setData: React.Dispatch<React.SetStateAction<any[]>>,
     isDrawable: boolean,
-    functors: {
-        eventDescs: ModFunction[];
-        setEventDescs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
-        eventURLs: ModFunction[];
-        setEventURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
-        actorURLs: ModFunction[];
-        setActorURLs: React.Dispatch<React.SetStateAction<ModFunction[]>>;
-    }
+    functors: Functors
 }
 
 export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaData, setData, isDrawable, functors}) => {
@@ -70,6 +64,7 @@ export const MyDrawer: FC<MyDrawerProps> = ({storyGram, config, setConfig, metaD
                                 handleMenuChange={handleMenuChange}
                                 metaData={metaData}
                                 setData={setData}
+                                functors={functors}
                             />
                         </ListItem>
                         <ListItem>
