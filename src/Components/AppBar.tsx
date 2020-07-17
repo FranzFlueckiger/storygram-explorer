@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import {Box, Tabs, Tab} from '@material-ui/core';
+import {Box, Tabs, Tab, Divider} from '@material-ui/core';
 import {Storygram} from 'storygram';
 import {StoryGramMetadata} from '../Util/storyGramHelpers';
  
@@ -48,11 +48,12 @@ export const MyAppBar: FC<MyAppBarProps> = ({storyGram, selectedTab, setSelected
                     <Typography variant="h6" noWrap>
                         Storygram Explorer Beta
                     </Typography>
+                    <Divider orientation={"horizontal"} light/>
                     <Tabs
                         value={selectedTab}
                         onChange={(event, newValue) => setSelectedTab(newValue)}
-                        indicatorColor="secondary"
-                        textColor="secondary"
+                        //indicatorColor="secondary"
+                        //textColor="secondary"
                         centered
                     >
                         <Tab label="Storygram" />

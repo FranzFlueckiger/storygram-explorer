@@ -3,6 +3,9 @@ import Typography from '@material-ui/core/Typography';
 import {List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
 import {Event} from 'storygram/dist/Types';
 import { StoryGramMetadata } from '../../Util/storyGramHelpers';
+import CheckIcon from '@material-ui/icons/Check';
+import NotCheckIcon from '@material-ui/icons/Clear';
+import { isVisibleColumnWidth, entityColumnWidth, showRelatedEntitiesColumnWidth, dataColumnWidths } from '../../Util/constants';
 
 type EventListElementProps = {
     event: Event,
@@ -30,19 +33,19 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                 padding: 0,
             }}>
                 <ListItem>
-                    <Typography>
-                        <Checkbox disabled checked={!event.isHidden} inputProps={{'aria-label': 'disabled checked checkbox'}} />
+                    <Typography style={{ width: isVisibleColumnWidth }}>
+                        {event.isHidden ? <NotCheckIcon /> : <CheckIcon />}
                     </Typography>
                 </ListItem>
                 <Divider orientation="vertical" flexItem />
                 <ListItem>
-                    <Typography style={{width: '200px'}}>
+                    <Typography style={{ width: entityColumnWidth}}>
                         {event.eventValue}
                     </Typography>
                 </ListItem>
                 <Divider orientation="vertical" flexItem />
                 <ListItem>
-                    <Button onClick={toggleOpen}>Show actors</Button>
+                    <Button onClick={toggleOpen} style={{ width: showRelatedEntitiesColumnWidth }}>Show actors</Button>
                     <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={toggleOpen}>
                         <DialogTitle>Event actors</DialogTitle>
                         <DialogContent>
@@ -81,7 +84,7 @@ export const EventListElement: FC<EventListElementProps> = ({event, metaData, qu
                     <>
                         <Divider orientation="vertical" flexItem />
                         <ListItem>
-                            <Typography>
+                            <Typography style={{ width: dataColumnWidths }}>
                                 {entry[0] + ': ' + String(entry[1])}
                             </Typography>
                         </ListItem>

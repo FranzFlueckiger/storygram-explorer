@@ -7,3 +7,11 @@ export const dataSetNames = {
     blockbuster: "Blockbuster",
     bundesrat: "Bundesrat"
 }
+
+export const maxEvents = 35
+export const maxActors = 20
+
+export const isVisibleColumnWidth = '50px'
+export const entityColumnWidth = '150px'
+export const showRelatedEntitiesColumnWidth = '50px'
+export const dataColumnWidths = '100px'

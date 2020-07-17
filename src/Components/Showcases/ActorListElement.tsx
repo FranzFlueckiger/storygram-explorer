@@ -1,7 +1,10 @@
-import React, {FC, useState} from 'react';
+import React, { FC, useState } from 'react';
 import Typography from '@material-ui/core/Typography';
-import {List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions} from '@material-ui/core';
-import {Actor} from 'storygram/dist/Types';
+import { List, ListItem, Checkbox, Paper, Divider, Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@material-ui/core';
+import { Actor } from 'storygram/dist/Types';
+import CheckIcon from '@material-ui/icons/Check';
+import NotCheckIcon from '@material-ui/icons/Clear';
+import { isVisibleColumnWidth, entityColumnWidth, showRelatedEntitiesColumnWidth, dataColumnWidths } from '../../Util/constants';
 
 type ActorListElementProps = {
     actor: Actor
@@ -13,7 +16,7 @@ const flexContainer = {
     padding: 0,
 };
 
-export const ActorListElement: FC<ActorListElementProps> = ({actor}) => {
+export const ActorListElement: FC<ActorListElementProps> = ({ actor }) => {
 
     const [open, setOpen] = useState<boolean>(false)
 
@@ -27,19 +30,21 @@ export const ActorListElement: FC<ActorListElementProps> = ({actor}) => {
                 padding: 0,
             }}>
                 <ListItem>
-                    <Typography>
-                        <Checkbox disabled checked={actor.isHidden} inputProps={{'aria-label': 'disabled checked checkbox'}} />
+                    <Typography style={{ width: isVisibleColumnWidth }}>
+                        {actor.isHidden ? <CheckIcon /> : <NotCheckIcon />}
                     </Typography>
                 </ListItem>
                 <Divider orientation="vertical" flexItem />
                 <ListItem>
-                    <Typography style={{width: '200px'}}>
+                    <Typography style={{ width: entityColumnWidth }}>
                         {actor.actorID}
                     </Typography>
                 </ListItem>
                 <Divider orientation="vertical" flexItem />
                 <ListItem>
-                    <Button onClick={toggleOpen}>Show events</Button>
+                    <Button onClick={toggleOpen} style={{ width: showRelatedEntitiesColumnWidth }}>
+                        Show events
+                        </Button>
                     <Dialog disableBackdropClick disableEscapeKeyDown open={open} onClose={toggleOpen}>
                         <DialogTitle>Events of {actor.actorID}</DialogTitle>
                         <DialogContent>
@@ -74,7 +79,9 @@ export const ActorListElement: FC<ActorListElementProps> = ({actor}) => {
                     <>
                         <Divider orientation="vertical" flexItem />
                         <ListItem>
-                            {entry[0] + ': ' + entry[1]}
+                            <Typography style={{ width: dataColumnWidths }}>
+                                {entry[0] + ': ' + entry[1]}
+                            </Typography>
                         </ListItem>
                     </>
                 )}

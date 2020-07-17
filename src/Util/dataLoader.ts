@@ -40,7 +40,8 @@ export const loadData = (description: string, functors: Functors, setConfig?: Re
             ]) 
             return { config: WarConfig, data: WarData }
         
-        case dataSetNames.metason: 
+        case dataSetNames.metason:
+            functors.setActorSplitFunc(generateNoneSplitAccessor())
             functors.setEventDescs([
                 ['releaseName', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.data.releaseName],
                 [', ', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + ', '],
@@ -59,6 +60,7 @@ export const loadData = (description: string, functors: Functors, setConfig?: Re
             return { config: MetasonConfig, data: MetasonData }
         
         case dataSetNames.bundesrat:
+            functors.setActorSplitFunc(generateNoneSplitAccessor())
             functors.setEventDescs([
                 ['Bundesrat im Jahr ', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + 'Bundesrat im Jahr '],
                 ['EventValue', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.eventValue]
@@ -75,6 +77,29 @@ export const loadData = (description: string, functors: Functors, setConfig?: Re
                 ['EventValue', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.eventValue]
             ])
             return { config: BundesratConfig, data: BundesratData }
+        
+        case dataSetNames.blockbuster:
+            functors.setActorSplitFunc(generateNoneSplitAccessor())
+            functors.setEventDescs([
+                ['original_title', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.data.original_title],
+                [' (', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + ' ('],
+                ['vote_average', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.data.vote_average],
+                ['/10)', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + '/10)'],
+            ])
+            functors.setEventURLs([
+                ['https://www.google.ch/search?q=', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + 'https://www.google.ch/search?q='],
+                ['original_title', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.data.original_title],
+                ['+', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + '+'],
+                ['Eventvalue', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.eventValue],
+            ])
+            functors.setActorURLs([
+                ['https://www.google.ch/search?q=', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + 'https://www.google.ch/search?q='],
+                ['original_title', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.data.original_title],
+                ['+', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + '+'],
+                ['Eventvalue', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + event!.eventValue],
+                ['+', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + '+'],
+                ['Actor name', (text: string, event?: Event | undefined, actor?: Actor | undefined) => text + actor!.actorID],
+            ])
 
         default:
             return { config: ConfigBlockBuster, data: BlockBusterdata }

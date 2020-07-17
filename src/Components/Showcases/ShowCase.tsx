@@ -3,8 +3,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Config, Storygram } from 'storygram';
 import StorygramDrawer from '../../Util/sgWrapper';
 import { ActorList } from './ActorList';
-import { drawerWidth } from '../../Util/constants';
-import { StoryGramMetadata } from '../../Util/storyGramHelpers';
+import { drawerWidth, maxEvents, maxActors } from '../../Util/constants';
+import { StoryGramMetadata, getStoryGramMetadata } from '../../Util/storyGramHelpers';
 import { EventList } from './EventList';
 import { Button, ListItem, List } from '@material-ui/core';
 
@@ -63,7 +63,7 @@ const StoryGramViewer: FC<StoryGramViewerProps> = ({ storyGram, metaData }) => {
     const setNewStatus = () => {
         if (metaData.allEventsList.length === 0 || metaData.allActorsList.length === 0) return 'Broken'
         else if (metaData.visibleEventList.length === 0 || metaData.visibleActorsList.length === 0) return 'AllFiltered'
-        else if (metaData.visibleEventList.length > 35 || metaData.visibleActorsList.length > 20) return 'TooBig'
+        else if (metaData.visibleEventList.length > maxEvents || metaData.visibleActorsList.length > maxActors) return 'TooBig'
         else return 'OK'
     }
 

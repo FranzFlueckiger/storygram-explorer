@@ -63,7 +63,6 @@ export const MetasonConfig: Config = {
   eventDescription: (xLayer) => xLayer.data.releaseName + ", " + xLayer.data.year,
   url: (event, actor) => 'https://music.metason.net/artistinfo?name=' + String(actor.actorID),
   eventUrl: (event) => 'https://www.google.ch/search?q=' + event.data.release_title + " " + event.eventValue,
-  shouldContain: ['Luther Vandross'],
   marginRight: 230
 }
 
