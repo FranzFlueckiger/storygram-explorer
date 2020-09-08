@@ -20,6 +20,7 @@
     "autosuggest-highlight": "^3.1.1",
     "date-fns": "^1",
     "material-ui": "^0.20.2",
+    "node-rfc": "^1.2.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",
