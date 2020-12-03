@@ -81,13 +81,13 @@ export const getStoryGramMetadata = (storyGram: Storygram, data: any[]): StoryGr
     }
 }
 
-export const setNiceDefaults = (storyGram: Storygram, metaData: StoryGramMetadata, functors: Functors) => {
-    setNiceEventValueFilterDefaults(storyGram, metaData)
-    setNiceGroupAmountFilterDefaults(storyGram, metaData)
-    setNiceGroupSizeFilterDefaults(storyGram, metaData)
+export const setStoryGramDefaults = (storyGram: Storygram, metaData: StoryGramMetadata, functors: Functors) => {
+    setEventValueFilterDefaults(storyGram, metaData)
+    setGroupAmountFilterDefaults(storyGram, metaData)
+    setGroupSizeFilterDefaults(storyGram, metaData)
 }
 
-const setNiceEventValueFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
+const setEventValueFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
     if(storyGram.config.inferredEventType === 'datestring') {
         if(storyGram.config.filterEventValue[0] == null || storyGram.config.filterEventValue[0] === firstDate) {
             storyGram.config.filterEventValue[0] = millisToDateString(metaData.firstEvent?.eventXValue as number)
@@ -111,13 +111,13 @@ const setNiceEventValueFilterDefaults = (storyGram: Storygram, metaData: StoryGr
     }
 }
 
-const setNiceGroupAmountFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
+const setGroupAmountFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
     if(storyGram.config.filterGroupAmt[1] === Number.MAX_SAFE_INTEGER) {
         storyGram.config.filterGroupAmt[1] = metaData.maxGroupedActor
     }
 }
 
-const setNiceGroupSizeFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
+const setGroupSizeFilterDefaults = (storyGram: Storygram, metaData: StoryGramMetadata) => {
     if(storyGram.config.filterGroupSize[1] === Number.MAX_SAFE_INTEGER) {
         storyGram.config.filterGroupSize[1] = metaData.biggestGroup
     }

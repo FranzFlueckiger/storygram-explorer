@@ -31,6 +31,7 @@ export const WarConfig: Config = {
   eventUrl: (xLayer) => 'https://www.google.ch/search?q=War in ' + xLayer.data.Location + ', ' + String(xLayer.eventValue),
   url: (xLayer, actor) => 'https://www.google.ch/search?q=War in ' + xLayer.data.Location + ', ' + String(xLayer.eventValue) + '+' + actor.actorID,
   filterGroupAmt: [2, undefined],
+  //@ts-ignore
   actorSplitFunction: (ys: string) => ys.split(', '),
   shouldContain: ['Russia (Soviet Union)'],
   highlight: ['Afghanistan', 'Russia (Soviet Union)'],

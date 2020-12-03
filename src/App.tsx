@@ -5,7 +5,7 @@ import {MyShowCase} from './Components/Showcases/ShowCase';
 import {MyAppBar} from './Components/AppBar';
 import {MyDrawer} from './Components/Drawer/Drawer';
 import {Config, Storygram} from 'storygram';
-import {getStoryGramMetadata, setNiceDefaults} from './Util/storyGramHelpers';
+import {getStoryGramMetadata, setStoryGramDefaults} from './Util/storyGramHelpers';
 import {loadData} from './Util/dataLoader';
 import {ModFunction, SplitModFunction, generateNoneAccessor, generateNoneSplitAccessor} from './Components/Drawer/TextPart/TextPartGenerator';
 import { Actor, Event } from 'storygram/dist/Types';
@@ -71,7 +71,7 @@ function App() {
     isDrawable = false
   }
   const metaData = getStoryGramMetadata(storyGram, data)
-  setNiceDefaults(storyGram, metaData, functors)
+  setStoryGramDefaults(storyGram, metaData, functors)
 
   return (
     <div>

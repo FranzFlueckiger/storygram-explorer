@@ -56,6 +56,7 @@ export const SplitFunctionPicker: FC<SplitFunctionPickerProps> = ({setConfig, st
                         const key = event.target.value
                         const func: SplitModFunction = options.find(splitter => splitter[0] === key)!
                         const defFunc = (text: string) => func[1](text)
+                        //@ts-ignore
                         setConfig({...storyGram.config, actorSplitFunction: defFunc})
                         functors.setActorSplitFunc([func])
                     }}
